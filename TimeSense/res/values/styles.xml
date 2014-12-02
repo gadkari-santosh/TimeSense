@@ -1,0 +1,44 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light"></style>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+        <item name="android:fastScrollOverlayPosition">floating</item>
+        <item name="android:fastScrollPreviewBackgroundRight">@color/DeepSkyBlue</item>
+        <item name="android:fastScrollPreviewBackgroundLeft">@color/DeepSkyBlue</item>
+        <item name="android:icon">@android:color/transparent</item>
+        <item name="android:fastScrollTextColor">@color/White</item>
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+    </style>
+    
+    <style name="TimeZoneTheme" parent="Theme.AppCompat.Light">
+        <item name="android:fastScrollOverlayPosition">floating</item>
+        <item name="android:fastScrollPreviewBackgroundRight">@android:color/transparent</item>
+        <item name="android:fastScrollPreviewBackgroundLeft">@android:color/transparent</item>
+        <item name="android:icon">@android:color/transparent</item>
+        <item name="android:fastScrollTextColor">@color/White</item>
+        <item name="android:actionBarStyle">@style/NoIconActionBar</item>
+    </style>
+    
+     <style name="NoIconActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/DeepSkyBlue</item>
+        <item name="android:textColor">@color/White</item>
+        <item name="android:icon">@android:color/transparent</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+
+    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/DeepSkyBlue</item>
+        <item name="android:textColor">@color/White</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+    
+    <declare-styleable name="AnalogClock">
+        <attr name="dial" format="reference"/>
+        <attr name="hand_hour" format="reference"/>
+        <attr name="hand_minute" format="reference"/>
+    </declare-styleable>
+
+</resources>

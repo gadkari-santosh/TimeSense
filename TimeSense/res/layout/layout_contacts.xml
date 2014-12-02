@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/Black"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/searchLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@color/White"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/searchBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="0.9"
+            android:hint="search"
+            android:background="@xml/rounded_corner"
+            android:drawableLeft="@drawable/ic_action_search"
+            android:focusable="true" >
+        </EditText>
+
+        <ImageButton
+            android:id="@+id/alphabetSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/White"
+            android:src="@drawable/ic_action_view_as_grid" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/listViewLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/allButtonsLayout"
+        android:layout_weight="0.6"
+        android:gravity="top|top"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@color/DeepSkyBlue"
+            android:divider="@color/LightGrey"
+            android:dividerHeight="1dip"
+            android:fadingEdge="vertical"
+            android:fastScrollEnabled="true"
+            android:paddingRight="4dp"
+            android:scrollbars="vertical" />
+
+        <com.san.timesense.adapter.SideSelector
+            android:id="@+id/side_selector"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="top|top" />
+    </RelativeLayout>
+
+   
+</LinearLayout>

@@ -1,0 +1,63 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Black"
+    android:orientation="horizontal"
+    android:padding="5dp" >
+
+    <ImageView
+        android:id="@+id/imgVwFlag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.0"
+        android:padding="10dp"
+        android:src="@drawable/no_flag" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.7"
+        android:background="@color/Black"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/Black"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/txtViewCountry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:text="UNKNOWN"
+                android:textColor="@color/DeepSkyBlue"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtViewDialCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" (NO CODE)"
+                android:textColor="@color/Tomato" />
+            
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtViewTimeZone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NO TIME ZONE"
+            android:textColor="@color/White" />
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/chkBoxSelect"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:focusable="false"
+       style="@android:style/Widget.Holo.Light.CompoundButton.CheckBox"
+       android:text="" /> 
+
+</LinearLayout>

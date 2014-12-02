@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/White"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <LinearLayout
+        android:id="@+id/alphaLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/White"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/imgButDiscard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/White"
+            android:paddingLeft="10dp"
+            android:src="@drawable/ic_status"
+            android:textColor="@color/Black" />
+
+        <TextView
+            android:id="@+id/txtVwPrefix"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="5dp"
+            android:background="@color/White"
+            android:fontFamily="normal"
+            android:text="STATUS"
+            android:textColor="@color/DeepSkyBlue"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/primerdivisor"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@color/LightGrey" />
+
+    <View
+        android:id="@+id/primerdivisor"
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"
+        android:background="@color/White" />
+
+    <TextView
+        android:id="@+id/txtVwPrefix"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|center"
+        android:layout_marginLeft="5dp"
+        android:background="@color/White"
+        android:fontFamily="normal"
+        android:text="Call Status"
+        android:textColor="@color/DeepSkyBlue"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/primerdivisor"
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"
+        android:background="@color/White" />
+
+    <EditText
+        android:id="@+id/edTxtStatus"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@xml/rounded_corner"
+        android:hint="Call Status"
+        android:padding="10dp"
+        android:textColor="@color/Black" />
+    
+    <View
+        android:id="@+id/primerdivisor"
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"
+        android:background="@color/White" />
+
+    <LinearLayout
+        android:id="@+id/alphaLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/White"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <Button
+            android:id="@+id/butSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="5dp"
+            android:background="@xml/rect_corner"
+            android:fontFamily="normal"
+            android:text="SUBMIT"
+            android:textColor="@color/Black"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/butCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="5dp"
+            android:background="@xml/rect_corner"
+            android:fontFamily="normal"
+            android:text="CANCEL"
+            android:textColor="@color/Black"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/alphaLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/White"
+    android:layout_gravity="center|center"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <LinearLayout
+        android:id="@+id/alphaLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/White"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/imgButDiscard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/White"
+            android:layout_gravity="center"
+            android:paddingLeft="10dp"
+            android:src="@drawable/ic_call"
+            android:textColor="@color/Black" />
+
+        <TextView
+            android:id="@+id/txtVwPrefix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="5dp"
+            android:background="@color/White"
+            android:fontFamily="normal"
+            android:text="CALL PREFIX"
+            android:textColor="@color/DeepSkyBlue"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/primerdivisor"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@color/LightGrey" />
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/White"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp" >
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/White"
+            android:orientation="horizontal" >
+
+            <View
+                android:id="@+id/primerdivisor"
+                android:layout_width="fill_parent"
+                android:layout_height="20dp"
+                android:background="@color/White" />
+
+            <View
+                android:id="@+id/primerdivisor"
+                android:layout_width="fill_parent"
+                android:layout_height="20dp"
+                android:background="@color/White" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/White"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/txtVwPrefix"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center"
+                android:layout_marginLeft="5dp"
+                android:background="@color/White"
+                android:fontFamily="normal"
+                android:text="Prefix"
+                android:textColor="@color/DeepSkyBlue"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edTxtPrefix"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@xml/rounded_corner"
+                android:hint="Prefix e.g. 018"
+                android:padding="10dp"
+                android:textColor="@color/Black" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/White"
+            android:orientation="horizontal" >
+
+            <View
+                android:id="@+id/primerdivisor"
+                android:layout_width="fill_parent"
+                android:layout_height="20dp"
+                android:background="@color/White" />
+
+            <View
+                android:id="@+id/primerdivisor"
+                android:layout_width="fill_parent"
+                android:layout_height="20dp"
+                android:background="@color/White" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/White"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/txtVwPrefix"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center"
+                android:layout_marginLeft="5dp"
+                android:background="@color/White"
+                android:fontFamily="normal"
+                android:text="Comments"
+                android:textColor="@color/DeepSkyBlue"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edTxtComments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@xml/rounded_corner"
+                android:hint="Comment e.g. Singtel"
+                android:padding="10dp"
+                android:textColor="@color/Black" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/White"
+            android:orientation="horizontal" >
+
+            <View
+                android:id="@+id/primerdivisor"
+                android:layout_width="fill_parent"
+                android:layout_height="20dp"
+                android:background="@color/White" />
+
+            <View
+                android:id="@+id/primerdivisor"
+                android:layout_width="fill_parent"
+                android:layout_height="20dp"
+                android:background="@color/White" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/White"
+            android:layout_gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/butSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="left"
+                android:layout_marginLeft="5dp"
+                android:background="@xml/rect_corner"
+                android:fontFamily="normal"
+                android:text="SUBMIT"
+                android:textColor="@color/Black"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/butCancel"
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="left"
+                android:layout_marginLeft="5dp"
+                android:background="@xml/rect_corner"
+                android:fontFamily="normal"
+                android:text="CANCEL"
+                android:textColor="@color/Black"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

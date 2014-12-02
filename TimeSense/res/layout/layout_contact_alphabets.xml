@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/alphaLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/White"
+    android:layout_margin="20dp"
+    android:orientation="vertical"
+    android:textColor="@color/White" >
+
+    <TableLayout
+        android:id="@+id/alphaTableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TableRow
+            android:id="@+id/TableRow01"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1.0" >
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="A"
+                android:textColor="@color/White" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="B"
+                android:textColor="@color/White" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="C"
+                android:textColor="@color/White" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="D"
+                android:textColor="@color/White" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/TableRow01"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1" >
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="E"
+                android:textColor="@color/White" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="F"
+                android:textColor="@color/White" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="G"
+                android:textColor="@color/White" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="H"
+                android:textColor="@color/White" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/TableRow01"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1" >
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="I"
+                android:textColor="@color/White" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="J"
+                android:textColor="@color/White" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="K"
+                android:textColor="@color/White" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="L"
+                android:textColor="@color/White" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/TableRow01"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1" >
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="M"
+                android:textColor="@color/White" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="N"
+                android:textColor="@color/White" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="O"
+                android:textColor="@color/White" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="P"
+                android:textColor="@color/White" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/TableRow01"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1" >
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="Q"
+                android:textColor="@color/White" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="R"
+                android:textColor="@color/White" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="S"
+                android:textColor="@color/White" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="T"
+                android:textColor="@color/White" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/TableRow01"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1" >
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="U"
+                android:textColor="@color/White" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="V"
+                android:textColor="@color/White" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="W"
+                android:textColor="@color/White" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="X"
+                android:textColor="@color/White" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/TableRow01"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1" >
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="Y"
+                android:textColor="@color/White" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="Z"
+                android:textColor="@color/White" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.0"
+                android:background="@color/Gray"
+                android:onClick="onClick"
+                android:text="#"
+                android:textColor="@color/White" />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

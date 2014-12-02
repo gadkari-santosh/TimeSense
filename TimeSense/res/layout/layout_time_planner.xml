@@ -1,0 +1,376 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/Black"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/functions"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/White"
+        android:gravity="center|center"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <Button
+            android:id="@+id/butEditTimeZone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@xml/rect_corner"
+            android:drawableBottom="@drawable/world"
+            android:focusable="false"
+            android:text="TIME ZONE"
+            android:textColor="@color/Black"
+            android:textSize="12dp" />
+
+        <Button
+            android:layout_width="10dp"
+             android:background="@color/White"
+            android:layout_height="match_parent" />
+        
+        <Button
+            android:id="@+id/butEditTimeRange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@xml/rect_corner"
+            android:drawableBottom="@drawable/ic_range"
+            android:focusable="false"
+            android:text="TIME RANGE"
+            android:textColor="@color/Black"
+            android:textSize="12dp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+         android:background="@color/LightGrey"
+        android:layout_height="fill_parent" >
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent" >
+
+            <TableLayout
+                android:id="@+id/tableTimePlanner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/DeepSkyBlue"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="Time"
+                        android:textColor="@color/White" />
+
+                    <!--
+                         <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/DeepSkyBlue"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="SGT"
+                        android:textColor="@color/White" />
+                    -->
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="00:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="01:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="02:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="03:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="04:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="05:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="06:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="07:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="08:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="09:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="10:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="11:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="12:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="13:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="14:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="15:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="16:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="17:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="18:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="19:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="20:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="21:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="22:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+
+                <TableRow android:background="@color/White" >
+
+                    <TextView
+                        android:layout_margin="0.2dp"
+                        android:layout_weight="1"
+                        android:background="@color/Slate"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="23:00"
+                        android:textColor="@color/White" />
+                </TableRow>
+            </TableLayout>
+        </HorizontalScrollView>
+    </ScrollView>
+
+</LinearLayout>

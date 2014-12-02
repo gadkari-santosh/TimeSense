@@ -1,0 +1,54 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="end"
+    android:background="@color/Black"
+    android:orientation="horizontal"
+    android:paddingLeft="15dp"
+    android:paddingTop="5dp" >
+
+    <com.san.timesense.widget.Clock
+        android:id="@+id/analogTime"
+        android:layout_gravity="center"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"
+        android:background="@color/Black"
+        android:orientation="vertical" >
+
+        <TextClock
+            android:id="@+id/digitalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="@color/DeepSkyBlue"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtViewDate"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="DATE"
+            android:textColor="@color/Gray" />
+
+        <TextView
+            android:id="@+id/txtViewTimeZone"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="TZ"
+            android:textColor="@color/Gray" />
+        
+        <TextView
+            android:id="@+id/txtViewCountry"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="COUNTRY"
+            android:textColor="@color/Tomato" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,307 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White" >
+
+    <LinearLayout
+        android:id="@+id/fragmentLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.0"
+        android:background="@color/Black"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:id="@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0" >
+
+            <LinearLayout
+                android:id="@+id/fragmentLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom|bottom"
+                android:layout_weight="1.0"
+                android:background="@color/White"
+                android:orientation="vertical" >
+
+                <fragment
+                    android:id="@+id/fragment_place"
+                    android:name="com.san.timesense.fragment.ContactFragment"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/allButtonsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|bottom"
+            android:background="@color/DeepSkyBlue"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/butDialPad"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:background="@color/Black"
+                android:drawableTop="@drawable/ic_action"
+                android:paddingBottom="5dp"
+                android:text="DIAL"
+                android:textColor="@color/White"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/logs"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:background="@color/Black"
+                android:drawableTop="@drawable/ic_action_call"
+                android:paddingBottom="5dp"
+                android:text="LOG"
+                android:textColor="@color/White"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/contacts"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:background="@color/Black"
+                android:drawableTop="@drawable/ic_action_person"
+                android:paddingBottom="5dp"
+                android:text="CONTACT"
+                android:textColor="@color/White"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/clock"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:background="@color/Black"
+                android:drawableTop="@drawable/ic_action_web_site"
+                android:paddingBottom="5dp"
+                android:text="CLOCK"
+                android:textColor="@color/White"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/Black"
+        android:orientation="vertical" >
+
+        <View
+            android:id="@+id/primerdivisor"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:background="@color/Black" />
+
+        <Button
+            android:id="@+id/butSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/Black"
+            android:drawableLeft="@drawable/ic_settings"
+            android:fontFamily="normal"
+            android:padding="5dp"
+            android:text="    Settings"
+            android:textColor="@color/DeepSkyBlue"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/primerdivisor"
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/Gray" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/Black"
+            android:drawableLeft="@drawable/ic_help"
+            android:fontFamily="normal"
+            android:padding="5dp"
+            android:text="    Help"
+            android:textColor="@color/DeepSkyBlue"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/primerdivisor"
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/Gray" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/Black"
+            android:drawableLeft="@drawable/ic_about_us"
+            android:fontFamily="normal"
+            android:padding="5dp"
+            android:text="    About Us"
+            android:textColor="@color/DeepSkyBlue"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/primerdivisor"
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/Gray" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/Black"
+            android:drawableLeft="@drawable/ic_contact_us"
+            android:fontFamily="normal"
+            android:padding="5dp"
+            android:text="    Contact Us"
+            android:textColor="@color/DeepSkyBlue"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/primerdivisor"
+            android:layout_width="fill_parent"
+            android:layout_height="5dp"
+            android:background="@color/Gray" />
+
+        <Button
+            android:id="@+id/butDialPad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/Black"
+            android:drawableLeft="@drawable/ic_action"
+            android:padding="5dp"
+            android:text="      Dial Pad"
+            android:textColor="@color/DeepSkyBlue"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/primerdivisor"
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/Gray" />
+
+        <Button
+            android:id="@+id/logs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/Black"
+            android:drawableLeft="@drawable/ic_action_call"
+            android:padding="5dp"
+            android:text="      Log"
+            android:textColor="@color/DeepSkyBlue"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/primerdivisor"
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/Gray" />
+
+        <Button
+            android:id="@+id/contacts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/Black"
+            android:drawableLeft="@drawable/ic_action_person"
+            android:padding="5dp"
+            android:text="      Contact"
+            android:textColor="@color/DeepSkyBlue"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/primerdivisor"
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/Gray" />
+
+        <Button
+            android:id="@+id/buttonWorldClock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/Black"
+            android:drawableLeft="@drawable/ic_action_web_site"
+            android:padding="5dp"
+            android:text="      World Clock"
+            android:textColor="@color/DeepSkyBlue"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:background="@color/Black"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/Slate"
+            android:drawable="@drawable/ic_action_web_site"
+            android:gravity="center|center"
+            android:padding="5dp"
+            android:text="World Clock"
+            android:textColor="@color/White"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/listViewWLClock"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.9"
+            android:cacheColorHint="@color/DeepSkyBlue"
+            android:divider="@color/Slate"
+            android:dividerHeight="1dip"
+            android:fadingEdge="vertical"
+            android:fastScrollEnabled="true"
+            android:paddingRight="4dp"
+            android:scrollbars="vertical" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_weight="0"
+            android:background="@color/Black"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/buttonEdit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:background="@color/Slate"
+                android:text="   Add Clock"
+                android:drawableLeft="@drawable/ic_action_add"
+                android:gravity="left|center"
+                android:textColor="@color/White"
+                android:paddingLeft="10dp"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>
