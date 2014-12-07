@@ -3,6 +3,7 @@ package com.san.timesense.activity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -44,6 +45,14 @@ import com.san.timesense.service.TimeService;
 public class TimeSenseActivity extends Activity {
 
 	private ActionBarDrawerToggle mDrawerToggle;
+	final Stack<DialFragment> lastDialFragment = new Stack<DialFragment>();
+	
+	public void addToDialNumber(View numView) {
+		lastDialFragment.peek().addToDialNumber(numView);
+	}
+	public void delOneDigitOfDialNumber (View numView) {
+		lastDialFragment.peek().delOneDigitOfDialNumber(numView);
+	}
 	
 	@Override
 	public void onCreate(Bundle bundle) {
@@ -74,6 +83,7 @@ public class TimeSenseActivity extends Activity {
 		worldClockListView.setAdapter(new WorldClockListViewAdapter(TimeSenseActivity.this.getApplicationContext(), timezones));
 		
 		Button edit = (Button) findViewById(R.id.buttonEdit);
+		
 		
 		buttonWorldClock.setOnClickListener(new OnClickListener() {
 			
@@ -209,6 +219,8 @@ public class TimeSenseActivity extends Activity {
 				timePlaner.setPadding(0, 0, 0, padding_5dp);
 				
 				DialFragment dialFragment = new DialFragment();
+				lastDialFragment.clear();
+				lastDialFragment.add(dialFragment);
 				FragmentTransaction fragmentTransaction = fm.beginTransaction();
 				fragmentTransaction.add(R.id.fragment_place, dialFragment);
 				fragmentTransaction.commit();

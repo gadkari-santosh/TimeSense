@@ -79,6 +79,7 @@ public class TimerPlannerFragment extends Fragment {
 				ListView listView = (ListView) newView.findViewById(R.id.listViewTz);
 				Button ok = (Button) newView.findViewById(R.id.buttonOk);
 				Button cancel = (Button) newView.findViewById(R.id.buttonCancel);
+				Button clear = (Button) newView.findViewById(R.id.buttonClear);
 				
 				listView.setFastScrollEnabled(true);
 		        listView.setScrollingCacheEnabled(true);
@@ -91,6 +92,25 @@ public class TimerPlannerFragment extends Fragment {
 				listView.setAdapter(timeZoneViewAdapter);
 				
 				alertDialog.show();
+				
+				clear.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						
+						timezones.clear();
+						for (TimeCode timeCode : timeCodes) {
+							timeCode.setSelect(false);
+						}
+						
+						alertDialog.dismiss();
+						
+						settingService.getSettings().setTimePlanerTimeCodes(timezones);
+						settingService.saveSettings();
+						
+						createTimePlanner(timezones, view);
+					}
+				});
 				
 				ok.setOnClickListener(new OnClickListener() {
 					

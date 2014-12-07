@@ -3,205 +3,209 @@
     android:id="@+id/alphaLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/White"
     android:layout_gravity="center|center"
+    android:background="@color/Slate"
     android:orientation="vertical"
-    android:padding="10dp" >
+    android:padding="5dp" >
 
     <LinearLayout
         android:id="@+id/alphaLayout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/White"
-        android:layout_gravity="center"
-        android:orientation="horizontal"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center|center"
+        android:background="@color/Black"
+        android:orientation="vertical"
         android:padding="10dp" >
 
-        <ImageView
-            android:id="@+id/imgButDiscard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/White"
-            android:layout_gravity="center"
-            android:paddingLeft="10dp"
-            android:src="@drawable/ic_call"
-            android:textColor="@color/Black" />
-
-        <TextView
-            android:id="@+id/txtVwPrefix"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center"
-            android:layout_marginLeft="5dp"
-            android:background="@color/White"
-            android:fontFamily="normal"
-            android:text="CALL PREFIX"
-            android:textColor="@color/DeepSkyBlue"
-            android:textSize="15dp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <View
-        android:id="@+id/primerdivisor"
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:background="@color/LightGrey" />
-
-    <TableLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/White"
-        android:orientation="horizontal"
-        android:paddingLeft="10dp" >
-
-        <TableRow
+        <LinearLayout
+            android:id="@+id/alphaLayout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/White"
-            android:orientation="horizontal" >
-
-            <View
-                android:id="@+id/primerdivisor"
-                android:layout_width="fill_parent"
-                android:layout_height="20dp"
-                android:background="@color/White" />
-
-            <View
-                android:id="@+id/primerdivisor"
-                android:layout_width="fill_parent"
-                android:layout_height="20dp"
-                android:background="@color/White" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/White"
-            android:orientation="horizontal" >
+            android:background="@color/Black"
+            android:gravity="center|center"
+            android:orientation="horizontal"
+            android:padding="10dp" >
 
             <TextView
                 android:id="@+id/txtVwPrefix"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|center"
                 android:layout_marginLeft="5dp"
-                android:background="@color/White"
+                android:background="@color/Black"
                 android:fontFamily="normal"
-                android:text="Prefix"
+                android:gravity="center|center"
+                android:text="NEW PREFIX"
                 android:textColor="@color/DeepSkyBlue"
-                android:textSize="15dp"
+                android:textSize="18dp"
                 android:textStyle="bold" />
+        </LinearLayout>
 
-            <EditText
-                android:id="@+id/edTxtPrefix"
-                android:layout_width="match_parent"
+        <View
+            android:id="@+id/primerdivisor"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="@color/Slate" />
+
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/Black"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp" >
+
+            <TableRow
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@xml/rounded_corner"
-                android:hint="Prefix e.g. 018"
-                android:padding="10dp"
-                android:textColor="@color/Black" />
-        </TableRow>
+                android:background="@color/Black"
+                android:orientation="horizontal" >
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/White"
-            android:orientation="horizontal" >
+                <View
+                    android:id="@+id/primerdivisor"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:background="@color/Black" />
 
-            <View
-                android:id="@+id/primerdivisor"
+                <View
+                    android:id="@+id/primerdivisor"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:background="@color/Black" />
+            </TableRow>
+
+            <TableRow
                 android:layout_width="fill_parent"
-                android:layout_height="20dp"
-                android:background="@color/White" />
-
-            <View
-                android:id="@+id/primerdivisor"
-                android:layout_width="fill_parent"
-                android:layout_height="20dp"
-                android:background="@color/White" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/White"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/txtVwPrefix"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|center"
-                android:layout_marginLeft="5dp"
-                android:background="@color/White"
-                android:fontFamily="normal"
-                android:text="Comments"
-                android:textColor="@color/DeepSkyBlue"
-                android:textSize="15dp"
-                android:textStyle="bold" />
+                android:background="@color/Black"
+                android:orientation="horizontal" >
 
-            <EditText
-                android:id="@+id/edTxtComments"
-                android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/txtVwPrefix"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center"
+                    android:layout_marginLeft="5dp"
+                    android:background="@color/Black"
+                    android:fontFamily="normal"
+                    android:text="Prefix"
+                    android:textColor="@color/DeepSkyBlue"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edTxtPrefix"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/Black"
+                    android:hint="Prefix"
+                    android:padding="10dp"
+                    android:textColor="@color/White" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@xml/rounded_corner"
-                android:hint="Comment e.g. Singtel"
-                android:padding="10dp"
-                android:textColor="@color/Black" />
-        </TableRow>
+                android:background="@color/Black"
+                android:orientation="horizontal" >
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/White"
-            android:orientation="horizontal" >
+                <View
+                    android:id="@+id/primerdivisor"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:background="@color/Black" />
 
-            <View
-                android:id="@+id/primerdivisor"
+                <View
+                    android:id="@+id/primerdivisor"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:background="@color/Black" />
+            </TableRow>
+
+            <TableRow
                 android:layout_width="fill_parent"
-                android:layout_height="20dp"
-                android:background="@color/White" />
+                android:layout_height="wrap_content"
+                android:background="@color/Black"
+                android:orientation="horizontal" >
 
-            <View
-                android:id="@+id/primerdivisor"
+                <TextView
+                    android:id="@+id/txtVwPrefix"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center"
+                    android:layout_marginLeft="5dp"
+                    android:background="@color/Black"
+                    android:fontFamily="normal"
+                    android:text="Comments"
+                    android:textColor="@color/DeepSkyBlue"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edTxtComments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/Black"
+                    android:hint="Comment"
+                    android:padding="10dp"
+                    android:textColor="@color/White" />
+            </TableRow>
+
+            <TableRow
                 android:layout_width="fill_parent"
-                android:layout_height="20dp"
-                android:background="@color/White" />
-        </TableRow>
+                android:layout_height="wrap_content"
+                android:background="@color/Black"
+                android:orientation="horizontal" >
 
-        <TableRow
+                <View
+                    android:id="@+id/primerdivisor"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:background="@color/Black" />
+
+                <View
+                    android:id="@+id/primerdivisor"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:background="@color/Black" />
+            </TableRow>
+        </TableLayout>
+
+        <LinearLayout
+            android:id="@+id/alphaLayout"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/White"
-            android:layout_gravity="center"
-            android:orientation="horizontal" >
+            android:layout_height="fill_parent"
+            android:layout_gravity="center|center"
+            android:background="@color/Black"
+            android:orientation="horizontal"
+            android:padding="10dp" >
 
             <Button
                 android:id="@+id/butSubmit"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
+                android:layout_weight="1.0"
                 android:layout_gravity="left"
                 android:layout_marginLeft="5dp"
-                android:background="@xml/rect_corner"
+                android:background="@color/Slate"
                 android:fontFamily="normal"
                 android:text="SUBMIT"
-                android:textColor="@color/Black"
+                android:textColor="@color/DeepSkyBlue"
                 android:textSize="15dp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/butCancel"
-                android:layout_width="fill_parent"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
                 android:layout_gravity="left"
+                android:layout_weight="1.0"
                 android:layout_marginLeft="5dp"
-                android:background="@xml/rect_corner"
+                android:background="@color/Slate"
                 android:fontFamily="normal"
                 android:text="CANCEL"
-                android:textColor="@color/Black"
+                android:textColor="@color/DeepSkyBlue"
                 android:textSize="15dp"
                 android:textStyle="bold" />
-        </TableRow>
-    </TableLayout>
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

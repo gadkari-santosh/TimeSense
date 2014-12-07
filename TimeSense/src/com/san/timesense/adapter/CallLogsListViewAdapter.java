@@ -86,13 +86,13 @@ public class CallLogsListViewAdapter extends ArrayAdapter<CallInfo> {
 			
 			TimeCode timeCode = tService.getTimeCodeByPhoneNumber(callInfo.getPhoneNumber());
 			
-			String country = timeCode.getCountry();
-			
-			if (country != null && !"".equals(country.trim())) {
-				phNumber.setText(callInfo.getPhoneNumber()+","+country);
-			}
-			
 			if (timeCode != null) {
+				String country = timeCode.getCountry();
+				
+				if (country != null && !"".equals(country.trim())) {
+					phNumber.setText(callInfo.getPhoneNumber()+","+country);
+				}
+				
 				globImage.setVisibility(ImageView.VISIBLE);
 				
 				remoteDate.setText(tService.getDate(timeCode, callInfo.getLocalTime()));

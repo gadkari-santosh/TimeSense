@@ -129,32 +129,31 @@
         android:gravity="bottom"
         android:orientation="vertical" >
 
-        <Button
+        <ImageButton
             android:id="@+id/ok"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_margin="1dp"
             android:layout_weight="0.06"
             android:background="@color/DeepSkyBlue"
             android:fontFamily="normal"
             android:layout_alignParentBottom="true"
-            android:drawableTop="@drawable/ic_action_call"
+            android:src="@drawable/ic_action_call"
             android:layout_gravity="center"
             android:text=""
             android:textSize="10dp"
             android:textColor="@color/White" />
 
-        <Button
+        <ImageButton
             android:id="@+id/cancel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_below="@+id/ok"
             android:layout_margin="1dp"
             android:layout_weight="0.03"
             android:background="@color/Gray"
-            android:drawableTop="@drawable/ic_action_end_call"
+            android:src="@drawable/ic_action_end_call"
             android:fontFamily="normal"
-            android:text="End Call"
             android:textColor="@color/White"
             android:textSize="10dp"
             android:textStyle="bold" />

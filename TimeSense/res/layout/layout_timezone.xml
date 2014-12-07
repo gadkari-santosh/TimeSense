@@ -5,22 +5,23 @@
     android:background="@color/Black"
     android:orientation="vertical" >
 
- 	<ListView
+    <ListView
         android:id="@+id/listViewTz"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/butSubmit"
+        android:layout_weight="0.8"
         android:cacheColorHint="@color/DeepSkyBlue"
         android:divider="@color/Slate"
-        android:layout_weight="0.8"
-        android:dividerHeight="1dip" />
-     
+        android:dividerHeight="1dip"
+        android:scrollbars="none" />
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/Black"
-        android:layout_weight="0"
         android:layout_marginTop="20dp"
+        android:layout_weight="0"
+        android:background="@color/Black"
         android:orientation="horizontal" >
 
         <Button
@@ -31,26 +32,38 @@
             android:background="@color/Slate"
             android:text="Ok"
             android:textColor="@color/DeepSkyBlue" />
-        
-        <View android:layout_width="10dp"
-            android:background="@color/Black"
-            android:layout_height="match_parent"/>
-        
+
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@color/Black" />
+
         <Button
             android:id="@+id/buttonCancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-             android:layout_weight="1.0"
-            android:max="23"
+            android:layout_weight="1.0"
             android:background="@color/Slate"
-            android:textColor="@color/DeepSkyBlue"
+            android:max="23"
+            android:progress="20"
             android:text="Cancel"
-            android:progress="20" />
-        
-    </LinearLayout>
-    
-   
+            android:textColor="@color/DeepSkyBlue" />
 
-    
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@color/Black" />
+
+        <Button
+            android:id="@+id/buttonClear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:background="@color/Slate"
+            android:max="23"
+            android:progress="20"
+            android:text="Clear"
+            android:textColor="@color/DeepSkyBlue" />
+    </LinearLayout>
 
 </LinearLayout>

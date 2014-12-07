@@ -56,6 +56,4 @@ public class SettingsService {
 	public Settings getSettings() {
 		return this.settings;
 	}
-	
-	
 }

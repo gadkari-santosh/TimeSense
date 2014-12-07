@@ -5,8 +5,10 @@ import java.util.List;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.san.timesense.R;
@@ -31,10 +33,22 @@ public class CallPrefixListViewAdapter extends ArrayAdapter<CallPrefix> {
 			view = vi.inflate(R.layout.listview_call_prefix, null);
 		}
 		
-		CallPrefix callPrefix = callPrefixes.get(position);
+		final CallPrefix callPrefix = callPrefixes.get(position);
 		
 		TextView txtVwPrefix = (TextView) view.findViewById(R.id.txtVwPrefix);
 		TextView txtVwPrefixComment = (TextView) view.findViewById(R.id.txtVwPrefixComment);
+		
+		ImageButton buttonClose = (ImageButton) view.findViewById(R.id.buttonDiscardPrefix);
+		
+		buttonClose.setOnClickListener( new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				callPrefixes.remove(callPrefix);
+				
+				CallPrefixListViewAdapter.this.notifyDataSetChanged();
+			}
+		});
 		
 		txtVwPrefix.setText(callPrefix.getPrefix());
 		txtVwPrefixComment.setText(callPrefix.getComment());

@@ -184,11 +184,13 @@ public class TimeService {
 		
 		if (phoneNumber.startsWith("+")) {
 			phoneNumber = phoneNumber.replace("+", "");
-		}
+		} 
 		
 		TimeCode timeCode = null;
 		
-		for (int i=4; i>=1; i--) {
+		int maxCount = phoneNumber.length() > 4 ? 4 : phoneNumber.length();
+		
+		for (int i=maxCount; i>=1; i--) {
 			
 			String code = phoneNumber.substring(0,i);
 			
@@ -403,6 +405,11 @@ public class TimeService {
 		} else {
 			return null;
 		}
+	}
+	
+	public void setKaalPic(ImageView imageView, TimeCode code) {
+		
+		setKaalPic(imageView, this.getKaal(code));
 	}
 	
 	public void setKaalPic(ImageView imageView, Kaal kaal) {

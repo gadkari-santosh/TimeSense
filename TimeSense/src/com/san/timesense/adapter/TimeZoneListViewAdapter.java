@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.san.timesense.R;
@@ -39,6 +40,15 @@ public class TimeZoneListViewAdapter extends ArrayAdapter<TimeCode> {
 			return null;
 		
 		final TimeCode timeCode = timeCodes.get(position);
+		
+		final LinearLayout layout = (LinearLayout) view;
+		layout.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				((CheckBox)layout.findViewById(R.id.chkBoxSelect)).performClick();
+			}
+		});
 		
 		TextView txtVwCountry = (TextView) view.findViewById(R.id.txtViewCountry);
 		TextView txtVwTz      = (TextView) view.findViewById(R.id.txtViewTimeZone);
