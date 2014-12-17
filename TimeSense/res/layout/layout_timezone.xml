@@ -44,8 +44,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:background="@color/Slate"
-            android:max="23"
-            android:progress="20"
             android:text="Cancel"
             android:textColor="@color/DeepSkyBlue" />
 
@@ -60,8 +58,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:background="@color/Slate"
-            android:max="23"
-            android:progress="20"
             android:text="Clear"
             android:textColor="@color/DeepSkyBlue" />
     </LinearLayout>
