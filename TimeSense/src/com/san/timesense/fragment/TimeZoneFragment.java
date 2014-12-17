@@ -35,8 +35,11 @@ public class TimeZoneFragment extends Activity {
         
 //        getActionBar().setTitle("TimeZone");
         
-		Map<String, TimeCode> allTimeZoneInfo = TimeService.getInstance().getAllTimeZoneInfo();
-		List<TimeCode> timeCodes = new ArrayList<TimeCode>(allTimeZoneInfo.values());
+		Map<String, List<TimeCode>> allTimeZoneInfo = TimeService.getInstance().getAllTimeZoneInfo();
+		List<TimeCode> timeCodes = new ArrayList<TimeCode>();
+		for (List<TimeCode> individualCodes : allTimeZoneInfo.values()) {
+			timeCodes.addAll(individualCodes);
+		}
 		
 		final TimeZoneListViewAdapter timeZoneViewAdapter 
 					= new TimeZoneListViewAdapter(this,timeCodes);

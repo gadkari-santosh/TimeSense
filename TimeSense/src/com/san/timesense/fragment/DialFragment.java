@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Contacts;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -16,11 +17,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.san.timesense.R;
-import com.san.timesense.call.AlertActivity;
 import com.san.timesense.dto.TimeCode;
 import com.san.timesense.service.TimeService;
 
@@ -55,6 +54,17 @@ public class DialFragment  extends Fragment {
 		imgViewKaal.setVisibility(ImageView.INVISIBLE);
 		
 		final ImageButton imageButtonCall = (ImageButton) view.findViewById(R.id.imgViewCall);
+		final ImageButton buttonSaveContact = (ImageButton) view.findViewById(R.id.buttonSaveContact);
+		
+		buttonSaveContact.setOnClickListener( new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent addContactIntent = new Intent(Contacts.Intents.Insert.ACTION, Contacts.People.CONTENT_URI);
+				addContactIntent.putExtra(Contacts.Intents.Insert.PHONE, txtViewPhoneNumber.getText()); // an example, there is other data available
+				startActivity(addContactIntent);
+			}
+		});
 		
 		imageButtonCall.setOnClickListener( new OnClickListener() {
 			
@@ -104,7 +114,7 @@ public class DialFragment  extends Fragment {
 	}
 	
 	public void addToDialNumber(View numView) {
-		String num = (String) ((TextView) numView).getText();
+		String num = (String) ((View) numView).getTag().toString();
 		
 		TextView phoneNumber = (TextView) view.findViewById(R.id.txtViewPhoneNumber);
 		

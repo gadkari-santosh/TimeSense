@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -80,7 +81,10 @@ public class TimeSenseActivity extends Activity {
 		final List<TimeCode> timezones = settingService.getSettings().getWorldClockTimeCodes();
 		
 		final ListView worldClockListView = (ListView) findViewById(R.id.listViewWLClock);
-		worldClockListView.setAdapter(new WorldClockListViewAdapter(TimeSenseActivity.this.getApplicationContext(), timezones));
+		
+		final WorldClockListViewAdapter worldClockListViewAdapter = new WorldClockListViewAdapter(TimeSenseActivity.this.getApplicationContext(), timezones);
+		
+		worldClockListView.setAdapter(worldClockListViewAdapter);
 		
 		Button edit = (Button) findViewById(R.id.buttonEdit);
 		
@@ -109,21 +113,52 @@ public class TimeSenseActivity extends Activity {
 				alertDialog.setContentView(newView);
 				
 				ListView listView = (ListView) newView.findViewById(R.id.listViewTz);
-				Button ok = (Button) newView.findViewById(R.id.buttonOk);
-				Button cancel = (Button) newView.findViewById(R.id.buttonCancel);
+				Button ok = (Button) alertDialog.findViewById(R.id.buttonOk);
+				Button clear = (Button) alertDialog.findViewById(R.id.buttonClear);
+				Button cancel = (Button) alertDialog.findViewById(R.id.buttonCancel);
 				
 				listView.setFastScrollEnabled(true);
 		        listView.setScrollingCacheEnabled(true);
 		        
-				final Map<String, TimeCode> allTimeZoneInfo = TimeService.getInstance().getAllTimeZoneInfo();
-				final List<TimeCode> timeCodes = new ArrayList<TimeCode>(allTimeZoneInfo.values());
+				final Map<String, List<TimeCode>> allTimeZoneInfo = TimeService.getInstance().getAllTimeZoneInfo();
+				final List<TimeCode> timeCodes = new ArrayList<TimeCode>();
+				for (List<TimeCode> individualCodes : allTimeZoneInfo.values()) {
+					timeCodes.addAll(individualCodes);
+					
+					for (TimeCode individualCode : individualCodes) {
+						
+						if (settingService.getSettings().getWorldClockTimeCodes().contains(individualCode)) {
+							individualCode.setSelect(true);
+						} else {
+							individualCode.setSelect(false);
+						}
+					}
+				}
 				
 				final TimeZoneListViewAdapter timeZoneViewAdapter 
 							= new TimeZoneListViewAdapter(TimeSenseActivity.this,timeCodes);
 				listView.setAdapter(timeZoneViewAdapter);
 				
-				alertDialog.show();
-				
+				clear.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						
+						timezones.clear();
+						for (TimeCode timeCode : timeCodes) {
+							timeCode.setSelect(false);
+						}
+						
+						alertDialog.dismiss();
+						settingService.getSettings().setWorldClockTimeCodes(new ArrayList<TimeCode>());
+						settingService.saveSettings();
+						
+						final ListView worldClockListView = (ListView) findViewById(R.id.listViewWLClock);
+						((ArrayAdapter) worldClockListView.getAdapter()).clear();
+						((ArrayAdapter) worldClockListView.getAdapter()).notifyDataSetChanged();
+					}
+				});
+
 				ok.setOnClickListener(new OnClickListener() {
 					
 					@Override
@@ -153,6 +188,7 @@ public class TimeSenseActivity extends Activity {
 					}
 				});
 				
+				alertDialog.show();
 			}
 		});
 		

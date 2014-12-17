@@ -22,6 +22,16 @@ public class Settings {
 	private List<TimeCode> timePlanerTimeCodes = new ArrayList<TimeCode>();
 	private List<TimeCode> worldClockTimeCodes = new ArrayList<TimeCode>();
 	
+	private int timePlannerRangeFrom = 8;
+	
+	private int timePlannerRangeTo = 20;
+	
+	private String callSenseFrom = "0800";
+	
+	private String callSenseTo = "2000";
+	
+	private boolean enableCallSense = false;
+	
 	private Settings() {}
 	
 	private static final Settings INSTANCE = new Settings();
@@ -37,6 +47,46 @@ public class Settings {
 		interceptCall = ResourceUtils.getBool(conext, R.string.default_pref_interrupt_call);
 	}
 	
+	public String getCallSenseFrom() {
+		return callSenseFrom;
+	}
+
+	public void setCallSenseFrom(String callSenseFrom) {
+		this.callSenseFrom = callSenseFrom;
+	}
+
+	public String getCallSenseTo() {
+		return callSenseTo;
+	}
+
+	public void setCallSenseTo(String callSenseTo) {
+		this.callSenseTo = callSenseTo;
+	}
+
+	public boolean isEnableCallSense() {
+		return enableCallSense;
+	}
+
+	public void setEnableCallSense(boolean enableCallSense) {
+		this.enableCallSense = enableCallSense;
+	}
+
+	public int getTimePlannerRangeFrom() {
+		return timePlannerRangeFrom;
+	}
+
+	public void setTimePlannerRangeFrom(int timePlannerRangeFrom) {
+		this.timePlannerRangeFrom = timePlannerRangeFrom;
+	}
+
+	public int getTimePlannerRangeTo() {
+		return timePlannerRangeTo;
+	}
+
+	public void setTimePlannerRangeTo(int timePlannerRangeTo) {
+		this.timePlannerRangeTo = timePlannerRangeTo;
+	}
+
 	public List<TimeCode> getTimePlanerTimeCodes() {
 		return timePlanerTimeCodes;
 	}

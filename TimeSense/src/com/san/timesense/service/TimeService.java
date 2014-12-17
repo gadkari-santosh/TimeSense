@@ -2,6 +2,7 @@ package com.san.timesense.service;
 
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -32,7 +33,7 @@ public class TimeService {
 	private SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
 	private SimpleDateFormat dayFormat = new SimpleDateFormat("MMM dd''yy");
 	
-	private static Map<String, TimeCode> TIME_CACHE = new LinkedHashMap<String, TimeCode>();
+	private static Map<String, List<TimeCode>> TIME_CACHE = new LinkedHashMap<String, List<TimeCode>>();
 	
 	Context context = null;
 	
@@ -54,8 +55,21 @@ public class TimeService {
         
         Collections.sort(timeCodes);
         
+        List<TimeCode> perDialCode = null;
+        
+        String dialCode = null;
         for (TimeCode timeCode : timeCodes) {
-        	TIME_CACHE.put(timeCode.getDialCode(), timeCode);
+        	
+        	dialCode = timeCode.getDialCode();
+        	if (TIME_CACHE.containsKey(dialCode)) {
+        		perDialCode = TIME_CACHE.get(dialCode);
+        	} else {
+        		perDialCode = new ArrayList<TimeCode>();
+        	}
+        	
+        	perDialCode.add(timeCode);
+        	
+        	TIME_CACHE.put(timeCode.getDialCode(), perDialCode);
         }
 	}
 	
@@ -138,8 +152,6 @@ public class TimeService {
 	}
 	
 	public TimeCode getTimeCodeByPhoneNumber(String phoneNumber) {
-		getTime(phoneNumber);
-		
 		int prefixLength = 0;
 		String prefix = null;
 		
@@ -178,15 +190,18 @@ public class TimeService {
 	
 	public TimeCode getTimeCode(String phoneNumber) {
 		
+		TimeCode timeCode = null;
+		
 		if (TIME_CACHE.size() == 0) {
 			init(context);
 		}
 		
 		if (phoneNumber.startsWith("+")) {
 			phoneNumber = phoneNumber.replace("+", "");
+			phoneNumber = phoneNumber.replace(" ", "");
 		} 
 		
-		TimeCode timeCode = null;
+		List<TimeCode> timeCodes = null;
 		
 		int maxCount = phoneNumber.length() > 4 ? 4 : phoneNumber.length();
 		
@@ -194,10 +209,28 @@ public class TimeService {
 			
 			String code = phoneNumber.substring(0,i);
 			
-			timeCode = TIME_CACHE.get(code);
+			timeCodes = TIME_CACHE.get(code);
 			
-			if (timeCode != null)
+			if (timeCodes != null)
 				break;
+		}
+		
+		if (timeCodes != null && timeCodes.size() > 0) {
+			for (TimeCode code : timeCodes) {
+				List<String> areaCodes = code.getAreaCodes();
+				
+				if (areaCodes != null) {
+					for (String areaCode : areaCodes) {
+						
+						if (phoneNumber.startsWith(code.getDialCode()+areaCode)) {
+							timeCode = code;
+							break;
+						}
+					}
+				} else {
+					timeCode = code;
+				}
+			}
 		}
 		
 		return timeCode;
@@ -246,33 +279,6 @@ public class TimeService {
 		return code;
 	}
 	
-	public String getCountry(String code) {
-		
-		TimeCode timeCode = TIME_CACHE.get(code);
-		
-		if (timeCode != null) {
-			
-			return timeCode.getCountry();
-		} else {
-			return null;
-		}
-	}
-	
-	public String getTime(String code) {
-		TimeCode timeCode = TIME_CACHE.get(code);
-		
-		if (timeCode != null) {
-			Calendar.getInstance().clear();
-			Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timeCode.getTimeZone()));
-			calendar.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
-			format.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
-			
-			return format.format(calendar.getTime());
-		}
-		
-		return null;
-	}
-	
 	public String getTime(TimeCode timeCode) {
 		
 		if (timeCode != null) {
@@ -282,20 +288,6 @@ public class TimeService {
 			format.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
 			
 			return format.format(calendar.getTime());
-		}
-		
-		return null;
-	}
-	
-	public Kaal getKaal(String code) {
-		TimeCode timeCode = TIME_CACHE.get(code);
-		
-		if (timeCode != null) {
-			Calendar.getInstance().clear();
-			Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timeCode.getTimeZone()));
-			calendar.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
-			
-			return getKaal(calendar.get(Calendar.HOUR_OF_DAY));
 		}
 		
 		return null;
@@ -314,23 +306,6 @@ public class TimeService {
 		return null;
 	}
 	
-	public String getTime(String code, Date date) {
-		
-		TimeCode timeCode = TIME_CACHE.get(code);
-		
-		if (timeCode != null) {
-			Calendar.getInstance().clear();
-			Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timeCode.getTimeZone()));
-			calendar.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
-			calendar.setTime(date);
-			format.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
-			
-			return format.format(calendar.getTime());
-		} else {
-			return null;
-		}
-	}
-	
 	public String getTime(TimeCode timeCode, Date date) {
 		
 		if (timeCode != null) {
@@ -346,23 +321,6 @@ public class TimeService {
 		}
 	}
 	
-	public String getDate(String code, Date date) {
-		
-		TimeCode timeCode = TIME_CACHE.get(code);
-		
-		if (timeCode != null) {
-			Calendar.getInstance().clear();
-			Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timeCode.getTimeZone()));
-			calendar.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
-			calendar.setTime(date);
-			dayFormat.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
-			
-			return dayFormat.format(calendar.getTime());
-		} else {
-			return null;
-		}
-	}
-	
 	public String getDate(TimeCode timeCode, Date date) {
 		
 		if (timeCode != null) {
@@ -370,21 +328,6 @@ public class TimeService {
 			Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timeCode.getTimeZone()));
 			calendar.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
 			calendar.setTime(date);
-			dayFormat.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
-			
-			return dayFormat.format(calendar.getTime());
-		} else {
-			return null;
-		}
-	}
-	
-	public String getDate(String code) {
-		TimeCode timeCode = TIME_CACHE.get(code);
-		
-		if (timeCode != null) {
-			Calendar.getInstance().clear();
-			Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timeCode.getTimeZone()));
-			calendar.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
 			dayFormat.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
 			
 			return dayFormat.format(calendar.getTime());
@@ -456,7 +399,7 @@ public class TimeService {
 		setKaalPic(imageView, getKaal(hourOftheDay));
 	}
 	
-	public Map<String, TimeCode> getAllTimeZoneInfo() {
+	public Map<String, List<TimeCode>> getAllTimeZoneInfo() {
 		return TIME_CACHE;
 	}
 }

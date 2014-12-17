@@ -1,10 +1,15 @@
 package com.san.timesense.dto;
 
+import java.util.List;
+
 public class TimeCode implements Comparable<TimeCode>{
 	
 	private String dialCode;
 	private String timeZone;
 	private String country;
+	private String shortCountryName;
+	private List<String> areaCodes;
+	
 	private boolean select;
 	
 	public boolean isSelect() {
@@ -12,6 +17,18 @@ public class TimeCode implements Comparable<TimeCode>{
 	}
 	public void setSelect(boolean select) {
 		this.select = select;
+	}
+	public String getShortCountryName() {
+		return shortCountryName;
+	}
+	public void setShortCountryName(String shortCountryName) {
+		this.shortCountryName = shortCountryName;
+	}
+	public List<String> getAreaCodes() {
+		return areaCodes;
+	}
+	public void setAreaCodes(List<String> areaCodes) {
+		this.areaCodes = areaCodes;
 	}
 	public String getDialCode() {
 		return dialCode;
@@ -36,7 +53,10 @@ public class TimeCode implements Comparable<TimeCode>{
 	public boolean equals(Object obj) {
 		if (obj instanceof TimeCode) {
 			
-			if (this.getCountry().equalsIgnoreCase( ((TimeCode)obj).getCountry() )) {
+			if (this.getCountry().equalsIgnoreCase( ((TimeCode)obj).getCountry() ) 
+				&& this.getDialCode().equalsIgnoreCase( ((TimeCode)obj).getDialCode())
+				&& this.getTimeZone().equalsIgnoreCase( ((TimeCode)obj).getTimeZone())
+				){
 				return true;
 			}
 		}

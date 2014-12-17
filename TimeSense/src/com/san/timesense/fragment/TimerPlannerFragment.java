@@ -16,16 +16,19 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.format.Time;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -33,6 +36,7 @@ import android.widget.Toast;
 
 import com.san.timesense.R;
 import com.san.timesense.adapter.TimeZoneListViewAdapter;
+import com.san.timesense.dto.Settings;
 import com.san.timesense.dto.TimeCode;
 import com.san.timesense.service.SettingsService;
 import com.san.timesense.service.TimeService;
@@ -70,11 +74,14 @@ public class TimerPlannerFragment extends Fragment {
 				
 				final Dialog alertDialog = new Dialog(TimerPlannerFragment.this.getActivity());
 				alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+				alertDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 				
 				LayoutInflater vi = (LayoutInflater) TimerPlannerFragment.this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				View newView = vi.inflate(R.layout.layout_timezone, null);
-				
+
+				alertDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 				alertDialog.setContentView(newView);
+				alertDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 				
 				ListView listView = (ListView) newView.findViewById(R.id.listViewTz);
 				Button ok = (Button) newView.findViewById(R.id.buttonOk);
@@ -84,8 +91,20 @@ public class TimerPlannerFragment extends Fragment {
 				listView.setFastScrollEnabled(true);
 		        listView.setScrollingCacheEnabled(true);
 		        
-				final Map<String, TimeCode> allTimeZoneInfo = TimeService.getInstance().getAllTimeZoneInfo();
-				final List<TimeCode> timeCodes = new ArrayList<TimeCode>(allTimeZoneInfo.values());
+				final Map<String, List<TimeCode>> allTimeZoneInfo = TimeService.getInstance().getAllTimeZoneInfo();
+				final List<TimeCode> timeCodes = new ArrayList<TimeCode>();
+				for (List<TimeCode> individualCodes : allTimeZoneInfo.values()) {
+					
+					for (TimeCode individualCode : individualCodes) {
+						
+						if (settingService.getSettings().getTimePlanerTimeCodes().contains(individualCode)) {
+							individualCode.setSelect(true);
+						} else {
+							individualCode.setSelect(false);
+						}
+					}
+					timeCodes.addAll(individualCodes);
+				}
 				
 				final TimeZoneListViewAdapter timeZoneViewAdapter 
 							= new TimeZoneListViewAdapter(TimerPlannerFragment.this.getActivity(),timeCodes);
@@ -149,20 +168,102 @@ public class TimerPlannerFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
+				
 				final Dialog alertDialog = new Dialog(TimerPlannerFragment.this.getActivity());
 				alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 				alertDialog.setContentView(R.layout.layout_range_selector);
 				alertDialog.getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 				alertDialog.show();	
 				
-//				TimeZoneFragment settingsFragment = new TimeZoneFragment();
-//				FragmentTransaction fragmentTransaction = fm.beginTransaction();
-//				fragmentTransaction.add(R.id.fragment_place, settingsFragment);
-//				fragmentTransaction.commit();
+				Button ok = (Button) alertDialog.findViewById(R.id.buttonOk);
+				Button cancel = (Button) alertDialog.findViewById(R.id.buttonCancel);
+				
+				final TextView txtViewFrom = (TextView) alertDialog.findViewById(R.id.txtViewRangeFrom);
+				final TextView txtViewRangeTo = (TextView) alertDialog.findViewById(R.id.txtViewRangeTo);
+				
+				final SeekBar seekFrom = (SeekBar) alertDialog.findViewById(R.id.seekFrom);
+				final SeekBar seekTo = (SeekBar) alertDialog.findViewById(R.id.seekTo);
+				
+				seekFrom.setProgress(settingService.getSettings().getTimePlannerRangeFrom());
+				seekTo.setProgress(settingService.getSettings().getTimePlannerRangeTo());
+				
+				seekFrom.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+					
+					@Override
+					public void onStopTrackingTouch(SeekBar seekBar) {
+						// NOP
+					}
+					
+					@Override
+					public void onStartTrackingTouch(SeekBar seekBar) {
+						// NOP
+					}
+					
+					@Override
+					public void onProgressChanged(SeekBar seekBar, int progress,
+							boolean fromUser) {
+						txtViewFrom.setText(String.format("Time From %s:00",progress));
+					}
+				});
+				
+				seekTo.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+					
+					@Override
+					public void onStopTrackingTouch(SeekBar seekBar) {
+						if (seekFrom.getProgress() > seekBar.getProgress()) {
+							Toast makeText = Toast.makeText(TimerPlannerFragment.this.getActivity(),
+									"The value should be greater than lower range.", Toast.LENGTH_SHORT);
+							makeText.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+							makeText.show();
+						} else {
+							txtViewRangeTo.setText(String.format("Time From %s:00",seekBar.getProgress()));
+						}
+					}
+					
+					@Override
+					public void onStartTrackingTouch(SeekBar seekBar) {
+						// NOP
+					}
+					
+					@Override
+					public void onProgressChanged(SeekBar seekBar, int progress,
+							boolean fromUser) {
+						
+						
+					}
+				});
+				
+				ok.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						
+						if (seekFrom.getProgress() > seekTo.getProgress()) {
+							Toast makeText = Toast.makeText(TimerPlannerFragment.this.getActivity(),
+									"The value should be greater than lower range.", Toast.LENGTH_SHORT);
+							makeText.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+							makeText.show();
+						} else {
+							settingService.getSettings().setTimePlannerRangeFrom(seekFrom.getProgress());
+							settingService.getSettings().setTimePlannerRangeTo(seekTo.getProgress());
+							settingService.saveSettings();
+							
+							alertDialog.dismiss();
+							
+							createTimePlanner(timezones, view);
+						}
+					}
+				});
+				
+				cancel.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						alertDialog.dismiss();
+					}
+				});
 			}
 		});
-		
-		//createTimePlanner(timezones, view);
 		
 		return view;
 	}
@@ -172,6 +273,7 @@ public class TimerPlannerFragment extends Fragment {
 		
 		final TableLayout timePlannerMatrix = (TableLayout) view.findViewById(R.id.tableTimePlanner);
 
+		final Settings settings = SettingsService.getInstance().getSettings();
 		
 		try {
 			DisplayMetrics metrics = new DisplayMetrics();
@@ -244,7 +346,9 @@ public class TimerPlannerFragment extends Fragment {
 							
 							asia.setTextColor(Color.WHITE);
 							
-							if (hour >= 8 && hour <= 20 && day == 0)
+							if (hour >= settings.getTimePlannerRangeFrom() 
+									&& hour <= settings.getTimePlannerRangeTo() 
+									&& day == 0)
 								asia.setBackgroundColor(ResourceUtils.getColor(getActivity(), R.color.Green));
 							else 
 								asia.setBackgroundColor(ResourceUtils.getColor(getActivity(), R.color.Gray));

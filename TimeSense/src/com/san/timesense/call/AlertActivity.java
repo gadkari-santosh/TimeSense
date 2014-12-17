@@ -6,15 +6,14 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -68,7 +67,7 @@ public class AlertActivity extends Activity {
 			TimeService.getInstance().setKaalPic(kaal, TimeService.getInstance().getKaal(timeCode));
 		}
 		
-		Button dialogButton = (Button) dialog.findViewById(R.id.cancel);
+		ImageButton dialogButton = (ImageButton) dialog.findViewById(R.id.cancel);
 		// if button is clicked, close the custom dialog
 		dialogButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -79,7 +78,7 @@ public class AlertActivity extends Activity {
 			}
 		});
 		
-		Button okButton = (Button) dialog.findViewById(R.id.ok);
+		ImageButton okButton = (ImageButton) dialog.findViewById(R.id.ok);
 		// if button is clicked, close the custom dialog
 		okButton.setOnClickListener(new OnClickListener() {
 			@Override

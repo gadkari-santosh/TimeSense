@@ -11,17 +11,24 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.Html;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.san.timesense.R;
 import com.san.timesense.adapter.CallPrefixListViewAdapter;
@@ -40,6 +47,8 @@ public class SettingsFragment extends Fragment {
 			container.removeAllViews();
 		
 		final Settings settings = SettingsService.getInstance().getSettings();
+		
+		final SettingsService settingService = SettingsService.getInstance();
 	
 		View view = inflater.inflate(R.layout.layout_settings, null);
 		
@@ -66,6 +75,14 @@ public class SettingsFragment extends Fragment {
 		TextView txtViewMobileCarrier = (TextView) view.findViewById(R.id.txtViewMobileCarrier);
 		TextView txtViewTimeZone = (TextView) view.findViewById(R.id.txtViewTimeZone);
 		
+		Switch switchCallSense = (Switch) view.findViewById(R.id.toggleInterruptCall);
+		
+		if (settingService.getSettings().isEnableCallSense()) {
+			switchCallSense.setChecked(true);
+		} else {
+			switchCallSense.setChecked(false);
+		}
+		
 		NetworkInfo activeNetworkInfo = connMgr.getActiveNetworkInfo();
 		 
 		if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
@@ -87,10 +104,24 @@ public class SettingsFragment extends Fragment {
 		
 		txtViewTimeZone.setText( TimeZone.getDefault().getDisplayName() );
 		
-		
 		LinearLayout buttonCallPrefix = (LinearLayout) view.findViewById(R.id.buttonCallPrefix);
-		
 		LinearLayout buttonCallSense = (LinearLayout) view.findViewById(R.id.buttonCallSense);
+		
+		switchCallSense.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			 
+			   @Override
+			   public void onCheckedChanged(CompoundButton buttonView,
+			     boolean isChecked) {
+			 
+				    if(isChecked){
+				    	settingService.getSettings().setEnableCallSense(true);
+				    	settingService.saveSettings();
+				    }else{
+				    	settingService.getSettings().setEnableCallSense(false);
+				    	settingService.saveSettings();
+				    }
+			   }
+		});
 		
 		buttonCallSense.setOnClickListener(new OnClickListener() {
 			
@@ -102,10 +133,92 @@ public class SettingsFragment extends Fragment {
 				alertDialog.getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 				alertDialog.show();	
 				
-//				TimeZoneFragment settingsFragment = new TimeZoneFragment();
-//				FragmentTransaction fragmentTransaction = fm.beginTransaction();
-//				fragmentTransaction.add(R.id.fragment_place, settingsFragment);
-//				fragmentTransaction.commit();
+
+				final TextView txtViewFrom = (TextView) alertDialog.findViewById(R.id.txtViewRangeFrom);
+				final TextView txtViewRangeTo = (TextView) alertDialog.findViewById(R.id.txtViewRangeTo);
+				
+				final SeekBar seekFrom = (SeekBar) alertDialog.findViewById(R.id.seekFrom);
+				final SeekBar seekTo = (SeekBar) alertDialog.findViewById(R.id.seekTo);
+				
+				seekFrom.setProgress(settingService.getSettings().getTimePlannerRangeFrom());
+				seekTo.setProgress(settingService.getSettings().getTimePlannerRangeTo());
+				
+				Button ok = (Button) alertDialog.findViewById(R.id.buttonOk);
+				Button cancel = (Button) alertDialog.findViewById(R.id.buttonCancel);
+				
+				seekFrom.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+					
+					@Override
+					public void onStopTrackingTouch(SeekBar seekBar) {
+						// NOP
+					}
+					
+					@Override
+					public void onStartTrackingTouch(SeekBar seekBar) {
+						// NOP
+					}
+					
+					@Override
+					public void onProgressChanged(SeekBar seekBar, int progress,
+							boolean fromUser) {
+						txtViewFrom.setText(String.format("Time From %s:00",progress));
+					}
+				});
+				
+				seekTo.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+					
+					@Override
+					public void onStopTrackingTouch(SeekBar seekBar) {
+						if (seekFrom.getProgress() > seekBar.getProgress()) {
+							Toast makeText = Toast.makeText(SettingsFragment.this.getActivity(),
+									"The value should be greater than lower range.", Toast.LENGTH_SHORT);
+							makeText.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+							makeText.show();
+						} else {
+							txtViewRangeTo.setText(String.format("Time From %s:00",seekBar.getProgress()));
+						}
+					}
+					
+					@Override
+					public void onStartTrackingTouch(SeekBar seekBar) {
+						// NOP
+					}
+					
+					@Override
+					public void onProgressChanged(SeekBar seekBar, int progress,
+							boolean fromUser) {
+						
+						
+					}
+				});
+				
+				ok.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						
+						if (seekFrom.getProgress() > seekTo.getProgress()) {
+							Toast makeText = Toast.makeText(SettingsFragment.this.getActivity(),
+									"The value should be greater than lower range.", Toast.LENGTH_SHORT);
+							makeText.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+							makeText.show();
+						} else {
+							settingService.getSettings().setTimePlannerRangeFrom(seekFrom.getProgress());
+							settingService.getSettings().setTimePlannerRangeTo(seekTo.getProgress());
+							settingService.saveSettings();
+							
+							alertDialog.dismiss();
+						}
+					}
+				});
+				
+				cancel.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						alertDialog.dismiss();
+					}
+				});
 			}
 		});
 

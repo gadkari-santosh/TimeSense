@@ -28,7 +28,7 @@ public class ToastService {
 		TextView name = (TextView) layout.findViewById(R.id.name);
 		TextView phone = (TextView) layout.findViewById(R.id.phoneNumber);
 		
-		String code = TimeService.getInstance().getCountryCode(phoneNumber);
+		TimeCode code = TimeService.getInstance().getTimeCode(phoneNumber);
 		
 		phone.setText(phoneNumber);
 		
@@ -37,16 +37,14 @@ public class ToastService {
 			time.setText( TimeService.getInstance().getTime(code) );
 			date.setText( TimeService.getInstance().getDate(code) );
 			
-			TimeService.getInstance().getCountry(code);
 		}
 		
+		Toast toast = new Toast(context.getApplicationContext());
+		toast.setGravity(Gravity.BOTTOM, 0, 0);
+		toast.setDuration(Toast.LENGTH_LONG);
 		
-			Toast toast = new Toast(context.getApplicationContext());
-			toast.setGravity(Gravity.BOTTOM, 0, 0);
-			toast.setDuration(Toast.LENGTH_LONG);
-			
-			toast.setView(layout);
-			toast.show();
+		toast.setView(layout);
+		toast.show();
 	}
 	
 	@SuppressLint("NewApi")
@@ -68,16 +66,16 @@ public class ToastService {
 		TimeCode timeCode = timeService.getTimeCode(phoneNumber);
 		
 		if (code != null && !"".equals(code.trim())) {
-			String time2 = timeService.getTime(code);
+			String time2 = timeService.getTime(timeCode);
 			
 			if (time2 != null && !"".equalsIgnoreCase(time2)) {
 				time.setText( time2 );
-				date.setText( timeService.getDate(code) );
+				date.setText( timeService.getDate(timeCode) );
 				
 				tz.setText(timeCode.getTimeZone());
 				country.setText(timeCode.getCountry());
 				
-				TimeService.getInstance().setKaalPic(kaal, timeService.getKaal(code));
+				TimeService.getInstance().setKaalPic(kaal, timeService.getKaal(timeCode));
 				DisplayMetrics dimension = new DisplayMetrics();
 				
 				DisplayMetrics metrics = context.getResources().getDisplayMetrics();
