@@ -18,7 +18,7 @@
             android:scrollbars="vertical"
             />
 
-    <com.san.timesense.adapter.SideSelector
+    <com.handyapps.timesense.adapter.SideSelector
             android:id="@+id/side_selector"
             android:layout_width="30dp"
             android:layout_height="match_parent"

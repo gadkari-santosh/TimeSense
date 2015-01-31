@@ -13,4 +13,8 @@
     <string name="default_pref_to_time">2000</string>
     <string name="default_pref_interrupt_call">true</string>
     <string name="default_pref_status">Available</string>
+    
+    <string name="time_sense_rest_ws">http://192.169.227.84:2784/TimeSenseServer</string>
+    
+    <string name="gcm_code">969393679073</string>
 </resources>

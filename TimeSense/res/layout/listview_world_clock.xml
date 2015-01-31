@@ -7,7 +7,7 @@
     android:paddingLeft="15dp"
     android:paddingTop="5dp" >
 
-    <com.san.timesense.widget.Clock
+    <com.handyapps.timesense.widget.Clock
         android:id="@+id/analogTime"
         android:layout_gravity="center"
         android:layout_width="70dp"
