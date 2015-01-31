@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/DeepSkyBlue"
+    android:gravity="center|center"
+    android:orientation="vertical" >
+
+    <TextView 
+        android:id="@+id/txtViewWarning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/White"
+        android:textSize="20dp"
+        android:fontFamily="sans-serif-condensed"
+        android:layout_margin="20dp"
+        android:text="By not signing in you will not able to avail many server related features. Please check out www.timesense.com for more information." />
+
+    <Button
+        android:id="@+id/buttonDismiss"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@color/White"
+        android:textColor="@color/DeepSkyBlue"
+        android:text="Dismiss" />
+    
+</LinearLayout>

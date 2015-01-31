@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/DeepSkyBlue"
+    android:keepScreenOn="true"
+    android:gravity="center|center"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/imgViewLogo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:src="@drawable/img_cloud" />
+
+    <TextView
+        android:id="@+id/txtViewEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_action_email"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center|center"
+        android:text=" gadkari.santosh@gmail.com"
+        android:textColor="@color/White"
+        android:visibility="invisible"
+        android:textSize="15dp" />
+
+    <EditText
+        android:id="@+id/editTextPhoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_action_call"
+        android:fontFamily="sans-serif-condensed"
+        android:hint="Your Number"
+        android:textColorHint="@color/WhiteSmoke"
+        android:inputType="phone"
+        android:text=""
+        android:textColor="@color/White"
+        android:textSize="30dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/DeepSkyBlue"
+        android:gravity="center|center"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/code1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:hint="-"
+            android:inputType="number"
+            android:text=""
+            android:maxLength="1"
+            android:visibility="invisible"
+            android:enabled="false"
+            android:textColor="@color/White"
+            android:textColorHint="@color/WhiteSmoke"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@+id/code2"
+            android:textSize="25dp" />
+
+        <EditText
+            android:id="@+id/code2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:hint="-"
+             android:maxLength="1"
+            android:enabled="false"
+            android:inputType="number"
+            android:text=""
+            android:visibility="invisible"
+            android:textColor="@color/White"
+            android:textColorHint="@color/WhiteSmoke"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@+id/code3"
+            android:textSize="25dp" />
+
+        <EditText
+            android:id="@+id/code3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:hint="-"
+             android:maxLength="1"
+            android:enabled="false"
+            android:inputType="number"
+            android:text=""
+            android:visibility="invisible"
+            android:textColor="@color/White"
+            android:imeOptions="actionNext"
+            android:textColorHint="@color/WhiteSmoke"
+            android:nextFocusForward="@+id/code4"
+            android:textSize="25dp" />
+
+        <EditText
+            android:id="@+id/code4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:hint="-"
+             android:maxLength="1"
+            android:enabled="false"
+            android:inputType="number"
+            android:text=""
+            android:visibility="invisible"
+            android:textColor="@color/White"
+            android:textColorHint="@color/WhiteSmoke"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@+id/code5"
+            android:textSize="25dp" />
+
+        <EditText
+            android:id="@+id/code5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:hint="-"
+             android:maxLength="1"
+            android:enabled="false"
+            android:visibility="invisible"
+            android:inputType="number"
+            android:text=""
+            android:textColor="@color/White"
+            android:textColorHint="@color/WhiteSmoke"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@+id/code6"
+            android:textSize="25dp" />
+        
+         <EditText
+            android:id="@+id/code6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:hint="-"
+             android:maxLength="1"
+            android:enabled="false"
+            android:visibility="invisible"
+            android:inputType="number"
+            android:text=""
+            android:textColor="@color/White"
+            android:textColorHint="@color/WhiteSmoke"
+            android:onClick="addCode"
+            android:textSize="25dp" />
+         
+    </LinearLayout>
+    
+     <Button
+        android:id="@+id/buttonSignIn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@color/WhiteSmoke"
+        android:text="Verify"
+        android:focusable="true"
+        android:textColor="@color/DeepSkyBlue" />
+     
+      <Button
+        android:id="@+id/buttonSkip"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@color/DeepSkyBlue"
+        android:textColor="@color/White"
+        android:text="Skip" />
+    
+</LinearLayout>

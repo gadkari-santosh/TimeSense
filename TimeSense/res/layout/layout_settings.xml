@@ -1,0 +1,393 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/Black" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/Black"
+        android:orientation="vertical" >
+
+      
+       
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/Slate"
+            android:gravity="left|center"
+            android:paddingTop="5dp"
+            android:text="   PHONE"
+            android:textColor="@color/White"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/primerdivisor"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/Slate"
+            android:padding="5dp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:background="@color/Black"
+            android:gravity="left|center"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_action_call" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:background="@color/Black"
+                android:gravity="left|center"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/Black"
+                    android:gravity="left"
+                    android:paddingLeft="10dp"
+                    android:text="Call Sense"
+                    android:textColor="@color/DeepSkyBlue"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/Black"
+                    android:gravity="left"
+                    android:paddingLeft="10dp"
+                    android:text="Interrupt every outgoing call and show callee&apos;s time details"
+                    android:textColor="@color/Gray" />
+            </LinearLayout>
+
+            <Switch
+                android:id="@+id/toggleInterruptCall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:textColor="@color/Black"
+                android:textOff="NO"
+                android:textOn="YES" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/primerdivisor"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/Slate"
+            android:padding="5dp" />
+
+        <LinearLayout
+            android:id="@+id/buttonCallSense"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:background="@color/Black"
+            android:gravity="left|center"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_action_call" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:background="@color/Black"
+                android:gravity="left|center"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/Black"
+                    android:gravity="left"
+                    android:paddingLeft="10dp"
+                    android:text="Call Sense Time"
+                    android:textColor="@color/DeepSkyBlue"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="223dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/Black"
+                    android:gravity="left"
+                    android:paddingLeft="10dp"
+                    android:text="Provide time range to interupt outgoing call."
+                    android:textColor="@color/Gray" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="right"
+                android:src="@drawable/ic_action_next_item" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/primerdivisor"
+            android:layout_width="fill_parent"
+            android:layout_height="10dp"
+            android:background="@color/Black" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@color/Slate"
+            android:gravity="left|center"
+            android:padding="1dp"
+            android:text="   CALL"
+            android:textColor="@color/White"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/buttonCallPrefix"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:background="@color/Black"
+            android:gravity="left|center"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_action_edit" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.13"
+                android:background="@color/Black"
+                android:gravity="left|center"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/Black"
+                    android:gravity="left"
+                    android:paddingLeft="10dp"
+                    android:text="Call Prefix"
+                    android:textColor="@color/DeepSkyBlue"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="223dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/Black"
+                    android:gravity="left"
+                    android:paddingLeft="10dp"
+                    android:text="Edit call prefix"
+                    android:textColor="@color/Gray" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                 android:layout_gravity="right"
+                android:src="@drawable/ic_action_next_item" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/primerdivisor"
+            android:layout_width="fill_parent"
+            android:layout_height="10dp"
+            android:background="@color/Black" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@color/Slate"
+            android:gravity="left|center"
+            android:padding="1dp"
+            android:text="   GENERAL"
+            android:textColor="@color/White"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/Black"
+            android:gravity="left|center"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_action_web_site" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/Black"
+                android:gravity="left|center"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/Black"
+                    android:gravity="left"
+                    android:paddingLeft="10dp"
+                    android:text="Local Time Zone"
+                    android:textColor="@color/DeepSkyBlue"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtViewTimeZone"
+                    android:layout_width="223dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/Black"
+                    android:gravity="left"
+                    android:paddingLeft="10dp"
+                    android:text="Don't Know"
+                    android:textColor="@color/Gray" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/primerdivisor"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/Slate"
+            android:padding="3dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/Black"
+            android:gravity="left|center"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_action_network_wifi" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/Black"
+                android:gravity="left|center"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/Black"
+                    android:gravity="left"
+                    android:paddingLeft="10dp"
+                    android:text="Connection"
+                    android:textColor="@color/DeepSkyBlue"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtViewConnection"
+                    android:layout_width="223dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/Black"
+                    android:gravity="left"
+                    android:paddingLeft="10dp"
+                    android:text="Don't Know"
+                    android:textColor="@color/Gray" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/primerdivisor"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/Slate"
+            android:padding="3dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/Black"
+            android:gravity="left|center"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_action_network_cell" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/Black"
+                android:gravity="left|center"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/Black"
+                    android:gravity="left"
+                    android:paddingLeft="10dp"
+                    android:text="Mobile Carrier"
+                    android:textColor="@color/DeepSkyBlue"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtViewMobileCarrier"
+                    android:layout_width="223dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/Black"
+                    android:gravity="left"
+                    android:paddingLeft="10dp"
+                    android:text="Don't know"
+                    android:textColor="@color/Gray" />
+                
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
