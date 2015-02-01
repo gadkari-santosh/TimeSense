@@ -276,7 +276,7 @@ class Task extends AsyncTask<Void, String, String> {
 			
 			new AsyncContact(ctx).execute();
 			
-			Intent intent = new Intent(ctx, TimeSenseActivity.class);
+			Intent intent = new Intent(ctx, SplashScreenActivity.class);
 			ctx.startActivity(intent);	
 		}
 		

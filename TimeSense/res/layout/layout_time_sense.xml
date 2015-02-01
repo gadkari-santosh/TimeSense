@@ -57,7 +57,7 @@
                 android:textSize="12sp" />
 
             <Button
-                android:id="@+id/logs"
+                android:id="@+id/butLogs"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
@@ -81,14 +81,14 @@
                 android:textSize="12sp" />
 
             <Button
-                android:id="@+id/clock"
+                android:id="@+id/butPlanner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:background="@color/Black"
                 android:drawableTop="@drawable/ic_action_web_site"
                 android:paddingBottom="5dp"
-                android:text="CLOCK"
+                android:text="PLANNER"
                 android:textColor="@color/White"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -127,6 +127,7 @@
             android:background="@color/Gray" />
 
         <Button
+            android:id="@+id/butHelp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/Black"
@@ -145,6 +146,7 @@
             android:background="@color/Gray" />
 
         <Button
+            android:id="@+id/butAboutUs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/Black"
@@ -163,6 +165,7 @@
             android:background="@color/Gray" />
 
         <Button
+            android:id="@+id/butContactUs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/Black"
@@ -181,7 +184,7 @@
             android:background="@color/Gray" />
 
         <Button
-            android:id="@+id/butDialPad"
+            android:id="@+id/butLeftDialPad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/Black"
@@ -199,7 +202,7 @@
             android:background="@color/Gray" />
 
         <Button
-            android:id="@+id/logs"
+            android:id="@+id/butLeftlogs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/Black"
@@ -217,7 +220,7 @@
             android:background="@color/Gray" />
 
         <Button
-            android:id="@+id/contacts"
+            android:id="@+id/butLeftcontacts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/Black"
@@ -235,13 +238,30 @@
             android:background="@color/Gray" />
 
         <Button
-            android:id="@+id/buttonWorldClock"
+            android:id="@+id/butLeftWorldClock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/Black"
+            android:drawableLeft="@drawable/ic_action_time"
+            android:padding="5dp"
+            android:text="      World Clock"
+            android:textColor="@color/DeepSkyBlue"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+         <View
+            android:id="@+id/primerdivisor"
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/Gray" />
+
+        <Button
+            android:id="@+id/butLeftPlanner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/Black"
             android:drawableLeft="@drawable/ic_action_web_site"
             android:padding="5dp"
-            android:text="      World Clock"
+            android:text="      Planner"
             android:textColor="@color/DeepSkyBlue"
             android:textSize="15dp"
             android:textStyle="bold" />

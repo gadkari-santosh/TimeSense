@@ -46,7 +46,6 @@ public class SettingsFragment extends Fragment {
 		if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-            System.out.println("*** My thread is now configured to allow connection");
 	    }
 		 
 		if (container != null)
@@ -65,8 +64,7 @@ public class SettingsFragment extends Fragment {
 		
 		getActivity().getActionBar().setTitle("SETTINGS");
 		
-		ConnectivityManager connMgr = (ConnectivityManager) 
-		        getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+		ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 		
 		TelephonyManager manager = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
 		String carrierName = manager.getNetworkOperatorName();
@@ -82,50 +80,6 @@ public class SettingsFragment extends Fragment {
 		TextView txtViewTimeZone = (TextView) view.findViewById(R.id.txtViewTimeZone);
 		
 		Switch switchCallSense = (Switch) view.findViewById(R.id.toggleInterruptCall);
-		
-//		Button send = (Button) view.findViewById(R.id.buttonSend);
-//		send.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				DefaultHttpClient httpClient = new DefaultHttpClient();
-//		        
-//			     // Create new getRequest with below mentioned URL
-//			        HttpPost post = new HttpPost("https://android.googleapis.com/gcm/send");
-//			        post.setHeader("Authorization", "key=AIzaSyCJoBtvp4xa6dPtub576cF9_IYW8Ukm3ME");
-//			        post.setHeader("Content-Type",
-//			                "application/x-www-form-urlencoded;charset=UTF-8");
-//			        
-//			        List<NameValuePair> formparams = new ArrayList<NameValuePair>();
-//
-//			        formparams.add(new BasicNameValuePair("registration_id","APA91bG1l2Ers1H8mzJJs5P3t7guK5ZD3cpU1NvOhLj80IS6h0ao1T5DjZ5BILAdZ3nqlrsy98HX8e9IMWshrfkJn-t7wzoaiiIL381cY88CxNNCWCZaCnzqqhp4Z3vo9W0DhS_ir44s4yWGB8ytatNyUNry_RR_iQ"));
-//			        formparams.add(new BasicNameValuePair("data.message", "Message Test - Time Zone Updated"));
-//			        formparams.add(new BasicNameValuePair("data", "Message Data"));
-//			        
-//			        String payload = "{ \"data\": { \"score\": \"5x1\",	\"time\": \"15:10\"	},\"registration_ids\": [\"%s\"]}";
-//			        
-//			        try {
-//						//post.setEntity(new StringEntity(String.format(payload, Cache.getInstance().getFirst())));
-//			        	post.setEntity(new UrlEncodedFormEntity(formparams, "utf-8"));
-//						
-//						HttpResponse response = httpClient.execute(post);
-//						
-//						BufferedReader rd = new BufferedReader(
-//				                new InputStreamReader(response.getEntity().getContent()));
-//				 
-//					StringBuffer result = new StringBuffer();
-//					String line = "";
-//					while ((line = rd.readLine()) != null) {
-//						result.append(line);
-//					}
-//					
-//					System.out.println(result);
-//					} catch (Exception e) {
-//						e.printStackTrace();
-//					}
-//			}
-//		});
-
 		
 		if (settingService.getSettings().isEnableCallSense()) {
 			switchCallSense.setChecked(true);
@@ -237,8 +191,7 @@ public class SettingsFragment extends Fragment {
 					@Override
 					public void onProgressChanged(SeekBar seekBar, int progress,
 							boolean fromUser) {
-						
-						
+						// NOP
 					}
 				});
 				

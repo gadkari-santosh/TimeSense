@@ -85,10 +85,12 @@ public class Clock extends View {
     		mCalendar = new Time(timeZone);
     }
     
-    public void setUpdateTextView(TextView textView) {
+    public synchronized void setUpdateTextView(TextView textView, String timeZone) {
     	this.textView = textView;
     	
-    	this.textView.setText( mCalendar.format("%Y-%m-%d") );
+    	Time calendar = new Time(timeZone);
+    	
+    	this.textView.setText( calendar.format("%Y-%m-%d") );
     }
     
 

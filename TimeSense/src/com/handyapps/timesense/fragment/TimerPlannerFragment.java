@@ -1,10 +1,11 @@
 package com.handyapps.timesense.fragment;
 
+import static com.handyapps.timesense.constant.AppContant.*;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -12,7 +13,7 @@ import org.joda.time.DateTimeZone;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -24,9 +25,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TableLayout;
@@ -35,11 +34,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.handyapps.timesense.R;
-import com.handyapps.timesense.adapter.TimeZoneListViewAdapter;
+import com.handyapps.timesense.activity.TimeSenseActivity;
+import com.handyapps.timesense.activity.TimeZoneActivity;
 import com.handyapps.timesense.dataobjects.Settings;
 import com.handyapps.timesense.dataobjects.TimeCode;
 import com.handyapps.timesense.service.SettingsService;
-import com.handyapps.timesense.service.TimeService;
 import com.handyapps.timesense.util.ResourceUtils;
 
 public class TimerPlannerFragment extends Fragment {
@@ -70,97 +69,108 @@ public class TimerPlannerFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				TimeZoneFragment settingsFragment = new TimeZoneFragment();
 				
-				final Dialog alertDialog = new Dialog(TimerPlannerFragment.this.getActivity());
-				alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-				alertDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+				Intent intent = new Intent(TimerPlannerFragment.this.getActivity(), TimeZoneActivity.class);
+				intent.putExtra(INTENT_PROP_REQUESTER, INTENT_VAL_TIME_SENSE_PLANNER_TAB);
+				intent.putExtra(INTENT_PROP_TIMECODES, new ArrayList(settingService.getSettings().getTimePlanerTimeCodes()));
+				TimerPlannerFragment.this.startActivity(intent);
 				
-				LayoutInflater vi = (LayoutInflater) TimerPlannerFragment.this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				View newView = vi.inflate(R.layout.layout_timezone, null);
-
-				alertDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-				alertDialog.setContentView(newView);
-				alertDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-				
-				ListView listView = (ListView) newView.findViewById(R.id.listViewTz);
-				Button ok = (Button) newView.findViewById(R.id.buttonOk);
-				Button cancel = (Button) newView.findViewById(R.id.buttonCancel);
-				Button clear = (Button) newView.findViewById(R.id.buttonClear);
-				
-				listView.setFastScrollEnabled(true);
-		        listView.setScrollingCacheEnabled(true);
-		        
-				final Map<String, List<TimeCode>> allTimeZoneInfo = TimeService.getInstance().getAllTimeZoneInfo();
-				final List<TimeCode> timeCodes = new ArrayList<TimeCode>();
-				for (List<TimeCode> individualCodes : allTimeZoneInfo.values()) {
-					
-					for (TimeCode individualCode : individualCodes) {
-						
-						if (settingService.getSettings().getTimePlanerTimeCodes().contains(individualCode)) {
-							individualCode.setSelect(true);
-						} else {
-							individualCode.setSelect(false);
-						}
-					}
-					timeCodes.addAll(individualCodes);
-				}
-				
-				final TimeZoneListViewAdapter timeZoneViewAdapter 
-							= new TimeZoneListViewAdapter(TimerPlannerFragment.this.getActivity(),timeCodes);
-				listView.setAdapter(timeZoneViewAdapter);
-				
-				alertDialog.show();
-				
-				clear.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						
-						timezones.clear();
-						for (TimeCode timeCode : timeCodes) {
-							timeCode.setSelect(false);
-						}
-						
-						alertDialog.dismiss();
-						
-						settingService.getSettings().setTimePlanerTimeCodes(timezones);
-						settingService.saveSettings();
-						
-						createTimePlanner(timezones, view);
-					}
-				});
-				
-				ok.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						
-						timezones.clear();
-						for (TimeCode timeCode : timeCodes) {
-							if (timeCode.isSelect()){
-								timezones.add(timeCode);
-							}
-						}
-						
-						alertDialog.dismiss();
-						
-						settingService.getSettings().setTimePlanerTimeCodes(timezones);
-						settingService.saveSettings();
-						
-						createTimePlanner(timezones, view);
-					}
-				});
-				
-				cancel.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-					
-						alertDialog.dismiss();
-					}
-				});
-				
+//				 List<TimeCode> newTimeZones = settingService.getSettings().getTimePlanerTimeCodes();
+//				
+//				createTimePlanner(newTimeZones, view);
+//				TimeZoneFragment settingsFragment = new TimeZoneFragment();
+//				
+//				final Dialog alertDialog = new Dialog(TimerPlannerFragment.this.getActivity());
+//				alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//				alertDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//				
+//				LayoutInflater vi = (LayoutInflater) TimerPlannerFragment.this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//				View newView = vi.inflate(R.layout.layout_timezone, null);
+//
+//				alertDialog.getWindow().setLayout(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
+//				alertDialog.setContentView(newView);
+//				alertDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//				
+//				ListView listView = (ListView) newView.findViewById(R.id.listViewTz);
+//				Button ok = (Button) newView.findViewById(R.id.buttonOk);
+//				Button cancel = (Button) newView.findViewById(R.id.buttonCancel);
+//				Button clear = (Button) newView.findViewById(R.id.buttonClear);
+//				
+//				listView.setFastScrollEnabled(true);
+//		        listView.setScrollingCacheEnabled(true);
+//		        
+//				final Map<String, List<TimeCode>> allTimeZoneInfo = TimeService.getInstance().getAllTimeZoneInfo();
+//				final List<TimeCode> timeCodes = new ArrayList<TimeCode>();
+//				for (List<TimeCode> individualCodes : allTimeZoneInfo.values()) {
+//					
+//					for (TimeCode individualCode : individualCodes) {
+//						
+//						if (settingService.getSettings().getTimePlanerTimeCodes().contains(individualCode)) {
+//							individualCode.setSelect(true);
+//						} else {
+//							individualCode.setSelect(false);
+//						}
+//					}
+//					timeCodes.addAll(individualCodes);
+//				}
+//				
+//				final TimeZoneListViewAdapter timeZoneViewAdapter 
+//							= new TimeZoneListViewAdapter(TimerPlannerFragment.this.getActivity(),timeCodes);
+//				listView.setAdapter(timeZoneViewAdapter);
+//				
+//				alertDialog.show();
+//				
+//				clear.setOnClickListener(new OnClickListener() {
+//					
+//					@Override
+//					public void onClick(View v) {
+//						
+////						timezones.clear();
+//						for (TimeCode timeCode : timeCodes) {
+//							timeCode.setSelect(false);
+//						}
+//						
+////						alertDialog.dismiss();
+////						settingService.getSettings().setTimePlanerTimeCodes(timezones);
+////						settingService.saveSettings();
+////						
+////						createTimePlanner(timezones, view);
+//						
+//						timeZoneViewAdapter.setNotifyOnChange(true);
+//						
+//					}
+//				});
+//				
+//				ok.setOnClickListener(new OnClickListener() {
+//					
+//					@Override
+//					public void onClick(View v) {
+//						
+//						timezones.clear();
+//						for (TimeCode timeCode : timeCodes) {
+//							if (timeCode.isSelect()){
+//								if (!timezones.contains(timeCode))
+//									timezones.add(timeCode);
+//							}
+//						}
+//						
+//						alertDialog.dismiss();
+//						
+//						settingService.getSettings().setTimePlanerTimeCodes(timezones);
+//						settingService.saveSettings();
+//						
+//						createTimePlanner(timezones, view);
+//					}
+//				});
+//				
+//				cancel.setOnClickListener(new OnClickListener() {
+//					
+//					@Override
+//					public void onClick(View v) {
+//						alertDialog.dismiss();
+//					}
+//				});
+//				
 			}
 		});
 

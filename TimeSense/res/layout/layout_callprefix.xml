@@ -110,7 +110,7 @@
                 android:layout_weight="1.0"
                 android:background="@color/Slate"
                 android:fontFamily="normal"
-                android:text="SUBMIT"
+                android:text="ADD PREFIX"
                 android:textColor="@color/DeepSkyBlue"
                 android:textSize="15dp"
                 android:textStyle="bold" />
@@ -124,7 +124,7 @@
                 android:layout_weight="1.0"
                 android:background="@color/Slate"
                 android:fontFamily="normal"
-                android:text="CANCEL"
+                android:text="CLOSE"
                 android:textColor="@color/DeepSkyBlue"
                 android:textSize="15dp"
                 android:textStyle="bold" />

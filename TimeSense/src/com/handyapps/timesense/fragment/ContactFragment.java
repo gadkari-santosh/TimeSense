@@ -29,6 +29,11 @@ import com.handyapps.timesense.R;
 public class ContactFragment extends Fragment {
 
 	@Override
+	public void onSaveInstanceState(Bundle savedState) {
+		super.onSaveInstanceState(savedState);
+	}
+	
+	@Override
 	public View onCreateView(LayoutInflater inflater, 
 							 ViewGroup container,
 							 Bundle savedInstanceState) {
@@ -80,24 +85,21 @@ public class ContactFragment extends Fragment {
 			
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				ArrayList<Contact> newList = new ArrayList<Contact>();
-				if ("".equals(s.toString()))
-					newList.addAll(contacts);
-				
-				for (Contact contact :  backup) {
-					if (contact.getDisplayName().toLowerCase().startsWith(s.toString().toLowerCase())) {
-						newList.add(contact);
-					}
-				}
-				contactListViewAdapter.clear();
-				contactListViewAdapter.addAll(newList);
-				contactListViewAdapter.setNotifyOnChange(true);
+				textChange(s);
 			}
 			
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
-				
+				textChange(s);
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				textChange(s);		
+			}
+			
+			private void textChange(Object s) {
 				ArrayList<Contact> newList = new ArrayList<Contact>();
 				if ("".equals(s.toString()))
 					newList.addAll(contacts);
@@ -111,21 +113,6 @@ public class ContactFragment extends Fragment {
 				contactListViewAdapter.addAll(newList);
 				contactListViewAdapter.setNotifyOnChange(true);
 			}
-			
-			@Override
-			public void afterTextChanged(Editable s) {
-				ArrayList<Contact> newList = new ArrayList<Contact>();
-				if ("".equals(s.toString()))
-					newList.addAll(contacts);
-				
-				for (Contact contact :  backup) {
-					if (contact.getDisplayName().toLowerCase().startsWith(s.toString().toLowerCase())) {
-						newList.add(contact);
-					}
-				}
-				contactListViewAdapter.clear();
-				contactListViewAdapter.addAll(newList);
-				contactListViewAdapter.setNotifyOnChange(true);			}
 		});
         
 		return view;

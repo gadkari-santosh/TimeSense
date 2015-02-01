@@ -1,5 +1,7 @@
 package com.handyapps.timesense.activity;
 
+import static com.handyapps.timesense.constant.AppContant.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +12,7 @@ import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -34,14 +37,17 @@ import com.handyapps.timesense.R;
 import com.handyapps.timesense.adapter.TimeZoneListViewAdapter;
 import com.handyapps.timesense.adapter.WorldClockListViewAdapter;
 import com.handyapps.timesense.dataobjects.TimeCode;
+import com.handyapps.timesense.fragment.AboutUsFragment;
 import com.handyapps.timesense.fragment.ContactFragment;
 import com.handyapps.timesense.fragment.ContactLogsFragment;
 import com.handyapps.timesense.fragment.DialFragment;
+import com.handyapps.timesense.fragment.HelpFragment;
 import com.handyapps.timesense.fragment.SettingsFragment;
 import com.handyapps.timesense.fragment.TimeZoneFragment;
 import com.handyapps.timesense.fragment.TimerPlannerFragment;
 import com.handyapps.timesense.service.SettingsService;
 import com.handyapps.timesense.service.TimeService;
+import com.handyapps.timesense.util.ResourceUtils;
 
 public class TimeSenseActivity extends Activity {
 
@@ -61,16 +67,38 @@ public class TimeSenseActivity extends Activity {
 
 		setContentView(R.layout.layout_time_sense);
 
+		String redirectFragment = null;
+		final List<TimeCode> intentTimeCodes = new ArrayList<TimeCode>();
+		
+		if (getIntent().getExtras() != null) {
+			redirectFragment = (String) getIntent().getExtras().get(INTENT_PROP_REQUESTER);
+			try {
+				List<TimeCode> object = (List<TimeCode>) getIntent().getExtras().get(INTENT_PROP_USER_SELECTED_TIME_CODE);
+				if (object != null) 
+					intentTimeCodes.addAll(object);
+			} catch (Exception exp) {
+				; // ignore
+			}
+		}
+		
 		float scale = getResources().getDisplayMetrics().density;
 		final int padding_5dp = (int) (4 * scale + 0.5f);
 
 		final Button butContacts = (Button) findViewById(R.id.contacts);
-		final Button logs = (Button) findViewById(R.id.logs);
-		final Button timePlaner = (Button) findViewById(R.id.clock);
-		final Button butSettings = (Button) findViewById(R.id.butSettings);
-		final Button butDialPad = (Button) findViewById(R.id.butDialPad);
+		final Button butLogs = (Button) findViewById(R.id.butLogs);
+		final Button butTimePlaner = (Button) findViewById(R.id.butPlanner);
+		final Button butTimePlanerLeft = (Button) findViewById(R.id.butLeftPlanner);
 		
-		final Button buttonWorldClock = (Button) findViewById(R.id.buttonWorldClock);
+		final Button butSettings = (Button) findViewById(R.id.butSettings);
+		final Button buttonContactUs = (Button) findViewById(R.id.butContactUs);
+		final Button butDialPad = (Button) findViewById(R.id.butDialPad);
+		final Button butAboutUs = (Button) findViewById(R.id.butAboutUs);
+		final Button butHelp = (Button) findViewById(R.id.butHelp);
+		
+		final Button buttonWorldClock = (Button) findViewById(R.id.butLeftWorldClock);
+		final Button butLeftDialPad = (Button) findViewById(R.id.butLeftDialPad);
+		final Button butLeftLog = (Button) findViewById(R.id.butLeftlogs);
+		final Button butLeftContact = (Button) findViewById(R.id.butLeftcontacts);
 
 		final FragmentManager fm = getFragmentManager();
 
@@ -88,6 +116,127 @@ public class TimeSenseActivity extends Activity {
 		
 		Button edit = (Button) findViewById(R.id.buttonEdit);
 		
+		if (INTENT_VAL_TIME_SENSE_PLANNER_TAB.equalsIgnoreCase(redirectFragment)) {
+			
+			if (intentTimeCodes != null) {
+				settingService.getSettings().setTimePlanerTimeCodes(intentTimeCodes);
+				SettingsService.getInstance().saveSettings();
+			}
+			
+			butTimePlaner.callOnClick();
+			butContacts.setPadding(0, 0, 0, padding_5dp);
+			butDialPad.setPadding(0, 0, 0, padding_5dp);
+			butLogs.setPadding(0, 0, 0, padding_5dp);
+			butTimePlaner.setPadding(0, 0, 0, 0);
+			
+			FragmentTransaction transaction = fm.beginTransaction();
+			TimerPlannerFragment timerPlannerFragment = new TimerPlannerFragment();
+			transaction.replace(R.id.fragment_place, timerPlannerFragment);
+			transaction.commit();
+		} else if (INTENT_VAL_WORLD_CLOCK_TAB.equalsIgnoreCase(redirectFragment)) {
+			
+			if (intentTimeCodes != null) {
+				settingService.getSettings().setWorldClockTimeCodes(intentTimeCodes);
+				SettingsService.getInstance().saveSettings();
+				
+				worldClockListViewAdapter.clear();
+				worldClockListViewAdapter.addAll(intentTimeCodes);
+				worldClockListViewAdapter.setNotifyOnChange(true);
+			}
+			
+			drawerLayout.closeDrawer(Gravity.START);
+			drawerLayout.openDrawer(Gravity.END);
+			
+			buttonWorldClock.callOnClick();
+		} else {
+			butContacts.setPadding(0, 0, 0, 0);
+			butDialPad.setPadding(0, 0, 0, padding_5dp);
+			butLogs.setPadding(0, 0, 0, padding_5dp);
+			butTimePlaner.setPadding(0, 0, 0, padding_5dp);
+		}
+		
+		butTimePlanerLeft.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				drawerLayout.closeDrawer(Gravity.START);
+				drawerLayout.closeDrawer(Gravity.END);
+				butTimePlaner.callOnClick();				
+			}
+		});
+		
+		butHelp.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				HelpFragment helpFragment = new HelpFragment();
+				FragmentTransaction fragmentTransaction = fm.beginTransaction();
+				fragmentTransaction.add(R.id.fragment_place, helpFragment);
+				fragmentTransaction.commit();
+				
+				drawerLayout.closeDrawer(Gravity.START);
+			}
+		});
+		
+		butAboutUs.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AboutUsFragment aboutUsFragment = new AboutUsFragment();
+				FragmentTransaction fragmentTransaction = fm.beginTransaction();
+				fragmentTransaction.add(R.id.fragment_place, aboutUsFragment);
+				fragmentTransaction.commit();
+				
+				drawerLayout.closeDrawer(Gravity.START);
+			}
+		});
+		
+		butLeftDialPad.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				drawerLayout.closeDrawer(Gravity.START);
+				drawerLayout.closeDrawer(Gravity.END);
+				butDialPad.callOnClick();
+			}
+		});
+		
+		butLeftLog.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				drawerLayout.closeDrawer(Gravity.START);
+				drawerLayout.closeDrawer(Gravity.END);
+				butLogs.callOnClick();
+			}
+		});
+		
+		butLeftContact.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				drawerLayout.closeDrawer(Gravity.START);
+				drawerLayout.closeDrawer(Gravity.END);
+				butContacts.callOnClick();
+			}
+		});
+		
+		buttonContactUs.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				String email = ResourceUtils.getString(TimeSenseActivity.this, R.string.contact_us_email);
+				String subject = ResourceUtils.getString(TimeSenseActivity.this, R.string.contact_us_email_subject);
+				
+				Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+				emailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				emailIntent.setType("vnd.android.cursor.item/email");
+				emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] {email});
+				emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
+				TimeSenseActivity.this.startActivity(Intent.createChooser(emailIntent, "Send mail using..."));
+			}
+		});
 		
 		buttonWorldClock.setOnClickListener(new OnClickListener() {
 			
@@ -102,93 +251,10 @@ public class TimeSenseActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				TimeZoneFragment settingsFragment = new TimeZoneFragment();
-				
-				final Dialog alertDialog = new Dialog(TimeSenseActivity.this);
-				alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-				
-				LayoutInflater vi = (LayoutInflater) TimeSenseActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				View newView = vi.inflate(R.layout.layout_timezone, null);
-				
-				alertDialog.setContentView(newView);
-				
-				ListView listView = (ListView) newView.findViewById(R.id.listViewTz);
-				Button ok = (Button) alertDialog.findViewById(R.id.buttonOk);
-				Button clear = (Button) alertDialog.findViewById(R.id.buttonClear);
-				Button cancel = (Button) alertDialog.findViewById(R.id.buttonCancel);
-				
-				listView.setFastScrollEnabled(true);
-		        listView.setScrollingCacheEnabled(true);
-		        
-				final Map<String, List<TimeCode>> allTimeZoneInfo = TimeService.getInstance().getAllTimeZoneInfo();
-				final List<TimeCode> timeCodes = new ArrayList<TimeCode>();
-				for (List<TimeCode> individualCodes : allTimeZoneInfo.values()) {
-					timeCodes.addAll(individualCodes);
-					
-					for (TimeCode individualCode : individualCodes) {
-						
-						if (settingService.getSettings().getWorldClockTimeCodes().contains(individualCode)) {
-							individualCode.setSelect(true);
-						} else {
-							individualCode.setSelect(false);
-						}
-					}
-				}
-				
-				final TimeZoneListViewAdapter timeZoneViewAdapter 
-							= new TimeZoneListViewAdapter(TimeSenseActivity.this,timeCodes);
-				listView.setAdapter(timeZoneViewAdapter);
-				
-				clear.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						
-						timezones.clear();
-						for (TimeCode timeCode : timeCodes) {
-							timeCode.setSelect(false);
-						}
-						
-						alertDialog.dismiss();
-						settingService.getSettings().setWorldClockTimeCodes(new ArrayList<TimeCode>());
-						settingService.saveSettings();
-						
-						final ListView worldClockListView = (ListView) findViewById(R.id.listViewWLClock);
-						((ArrayAdapter) worldClockListView.getAdapter()).clear();
-						((ArrayAdapter) worldClockListView.getAdapter()).notifyDataSetChanged();
-					}
-				});
-
-				ok.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						
-						for (TimeCode timeCode : timeCodes) {
-							if (timeCode.isSelect()){
-								timezones.add(timeCode);
-							}
-						}
-						
-						alertDialog.dismiss();
-						settingService.getSettings().setWorldClockTimeCodes(timezones);
-						settingService.saveSettings();
-						
-						final ListView worldClockListView = (ListView) findViewById(R.id.listViewWLClock);
-						worldClockListView.setAdapter(new WorldClockListViewAdapter(TimeSenseActivity.this.getApplicationContext(), timezones));
-					}
-				});
-				
-				cancel.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-					
-						alertDialog.dismiss();
-					}
-				});
-				
-				alertDialog.show();
+				Intent intent = new Intent(TimeSenseActivity.this, TimeZoneActivity.class);
+				intent.putExtra(INTENT_PROP_REQUESTER, INTENT_VAL_WORLD_CLOCK_TAB);
+				intent.putExtra(INTENT_PROP_TIMECODES, new ArrayList(settingService.getSettings().getWorldClockTimeCodes()));
+				TimeSenseActivity.this.startActivity(intent);
 			}
 		});
 		
@@ -198,8 +264,8 @@ public class TimeSenseActivity extends Activity {
 			public void onClick(View v) {
 				butContacts.setPadding(0, 0, 0, padding_5dp);
 				butDialPad.setPadding(0, 0, 0, padding_5dp);
-				logs.setPadding(0, 0, 0, padding_5dp);
-				timePlaner.setPadding(0, 0, 0, padding_5dp);
+				butLogs.setPadding(0, 0, 0, padding_5dp);
+				butTimePlaner.setPadding(0, 0, 0, padding_5dp);
 				
 				SettingsFragment settingsFragment = new SettingsFragment();
 				FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -240,19 +306,14 @@ public class TimeSenseActivity extends Activity {
 	            }
 	        }
 	        
-		butContacts.setPadding(0, 0, 0, 0);
-		butDialPad.setPadding(0, 0, 0, padding_5dp);
-		logs.setPadding(0, 0, 0, padding_5dp);
-		timePlaner.setPadding(0, 0, 0, padding_5dp);
-
 		butDialPad.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				butContacts.setPadding(0, 0, 0, padding_5dp);
 				butDialPad.setPadding(0, 0, 0, 0);
-				logs.setPadding(0, 0, 0, padding_5dp);
-				timePlaner.setPadding(0, 0, 0, padding_5dp);
+				butLogs.setPadding(0, 0, 0, padding_5dp);
+				butTimePlaner.setPadding(0, 0, 0, padding_5dp);
 				
 				DialFragment dialFragment = new DialFragment();
 				lastDialFragment.clear();
@@ -269,8 +330,8 @@ public class TimeSenseActivity extends Activity {
 			public void onClick(View v) {
 				butContacts.setPadding(0, 0, 0, 0);
 				butDialPad.setPadding(0, 0, 0, padding_5dp);
-				logs.setPadding(0, 0, 0, padding_5dp);
-				timePlaner.setPadding(0, 0, 0, padding_5dp);
+				butLogs.setPadding(0, 0, 0, padding_5dp);
+				butTimePlaner.setPadding(0, 0, 0, padding_5dp);
 				
 				ContactFragment contactFragment = new ContactFragment();
 				FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -279,14 +340,14 @@ public class TimeSenseActivity extends Activity {
 			}
 		});
 
-		logs.setOnClickListener(new OnClickListener() {
+		butLogs.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				butContacts.setPadding(0, 0, 0, padding_5dp);
 				butDialPad.setPadding(0, 0, 0, padding_5dp);
-				logs.setPadding(0, 0, 0, 0);
-				timePlaner.setPadding(0, 0, 0, padding_5dp);
+				butLogs.setPadding(0, 0, 0, 0);
+				butTimePlaner.setPadding(0, 0, 0, padding_5dp);
 
 				FragmentTransaction transaction = fm.beginTransaction();
 				ContactLogsFragment contactLogsFragment = new ContactLogsFragment();
@@ -295,14 +356,14 @@ public class TimeSenseActivity extends Activity {
 			}
 		});
 
-		timePlaner.setOnClickListener(new OnClickListener() {
+		butTimePlaner.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				butContacts.setPadding(0, 0, 0, padding_5dp);
 				butDialPad.setPadding(0, 0, 0, padding_5dp);
-				logs.setPadding(0, 0, 0, padding_5dp);
-				timePlaner.setPadding(0, 0, 0, 0);
+				butLogs.setPadding(0, 0, 0, padding_5dp);
+				butTimePlaner.setPadding(0, 0, 0, 0);
 				
 				FragmentTransaction transaction = fm.beginTransaction();
 				TimerPlannerFragment timerPlannerFragment = new TimerPlannerFragment();

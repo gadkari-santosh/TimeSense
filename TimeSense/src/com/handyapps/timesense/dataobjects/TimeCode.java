@@ -1,8 +1,9 @@
 package com.handyapps.timesense.dataobjects;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class TimeCode implements Comparable<TimeCode>{
+public class TimeCode implements Comparable<TimeCode>, Serializable {
 	
 	private String dialCode;
 	private String timeZone;

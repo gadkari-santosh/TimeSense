@@ -17,4 +17,10 @@
     <string name="time_sense_rest_ws">http://192.169.227.84:2784/TimeSenseServer</string>
     
     <string name="gcm_code">969393679073</string>
+    
+    <string name="contact_us_email">timesense@gmail.com</string>
+    <string name="contact_us_email_subject">feedback</string>
+    
+    <string name="about_us_birds_eye">Time sense is all about recognizing time in every way.</string>
+    <string name="about_us_our_story">Santosh, kuch to story bana :)</string>
 </resources>

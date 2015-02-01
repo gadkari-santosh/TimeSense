@@ -98,6 +98,7 @@
                     android:background="@color/Black"
                     android:hint="Prefix"
                     android:padding="10dp"
+                    android:inputType="numberSigned"
                     android:textColor="@color/White" />
             </TableRow>
 
@@ -187,7 +188,7 @@
                 android:layout_marginLeft="5dp"
                 android:background="@color/Slate"
                 android:fontFamily="normal"
-                android:text="SUBMIT"
+                android:text="ADD"
                 android:textColor="@color/DeepSkyBlue"
                 android:textSize="15dp"
                 android:textStyle="bold" />
@@ -201,7 +202,7 @@
                 android:layout_marginLeft="5dp"
                 android:background="@color/Slate"
                 android:fontFamily="normal"
-                android:text="CANCEL"
+                android:text="CLOSE"
                 android:textColor="@color/DeepSkyBlue"
                 android:textSize="15dp"
                 android:textStyle="bold" />

@@ -1,3 +1,11 @@
+<!-- 
+
+This layout is only for testing side menu. please dont update this file to 
+take effect.
+
+The same xml is embedded in layout_time_sense.xml.
+ -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -74,6 +82,7 @@
             android:background="@color/Gray" />
 
         <Button
+            android:id="@+id/butContactUs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/Black"

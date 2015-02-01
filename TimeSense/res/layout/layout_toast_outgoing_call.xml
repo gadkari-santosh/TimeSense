@@ -5,13 +5,13 @@
     android:layout_height="fill_parent"
     android:layout_gravity="center"
     android:background="@color/White"
-    android:paddingTop="20dp"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingTop="20dp" >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp" 
+        android:layout_margin="10dp"
         android:orientation="vertical" >
 
         <TextView
@@ -23,7 +23,7 @@
             android:text="NO CALL ID"
             android:textColor="@color/Black"
             android:textSize="35dp" />
-        
+
         <TextView
             android:id="@+id/name"
             android:layout_width="match_parent"
@@ -34,7 +34,6 @@
             android:textColor="@color/Gray"
             android:textSize="25dp"
             android:textStyle="bold" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -42,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-         android:gravity="center|center"
+        android:gravity="center|center"
         android:orientation="horizontal" >
 
         <ImageView
@@ -80,10 +79,10 @@
                 android:background="@color/White"
                 android:fontFamily="normal"
                 android:text="DATE"
-                android:textStyle="bold"
                 android:textColor="@color/Gray"
-                android:textSize="15dp" />
-            
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/country"
                 android:layout_width="wrap_content"
@@ -92,8 +91,8 @@
                 android:fontFamily="normal"
                 android:text="COUNTRY"
                 android:textColor="@color/Gray"
-                android:textStyle="bold"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/CountryAndTz"
@@ -112,52 +111,56 @@
         android:id="@+id/message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="40dp"
         android:background="@color/White"
         android:fontFamily="normal"
         android:gravity="center"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:text=""
-        android:textColor="@color/Gray"
-        android:textSize="18dp"
-        android:textStyle="normal" />
+        android:text="Do you want to continue with call ?"
+        android:textColor="@color/DeepSkyBlue"
+        android:textSize="25dp"
+        android:textStyle="bold" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
         android:gravity="bottom"
-        android:orientation="vertical" >
+        android:orientation="horizontal" >
 
-        <ImageButton
-            android:id="@+id/ok"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_margin="1dp"
-            android:layout_weight="0.06"
-            android:background="@color/DeepSkyBlue"
-            android:fontFamily="normal"
-            android:layout_alignParentBottom="true"
-            android:src="@drawable/ic_action_call"
-            android:layout_gravity="center"
-            android:text=""
-            android:textSize="10dp"
-            android:textColor="@color/White" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal" >
 
-        <ImageButton
-            android:id="@+id/cancel"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@+id/ok"
-            android:layout_margin="1dp"
-            android:layout_weight="0.03"
-            android:background="@color/Gray"
-            android:src="@drawable/ic_action_end_call"
-            android:fontFamily="normal"
-            android:textColor="@color/White"
-            android:textSize="10dp"
-            android:textStyle="bold" />
+            <ImageButton
+                android:id="@+id/ok"
+                android:layout_width="0dip"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@color/DeepSkyBlue"
+                android:fontFamily="normal"
+                android:src="@drawable/ic_action_call"
+                android:text=""
+                android:textColor="@color/White"
+                android:textSize="10dp" />
 
+            <ImageButton
+                android:id="@+id/cancel"
+                android:layout_width="0dip"
+                android:layout_height="50dp"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@color/Tomato"
+                android:fontFamily="normal"
+                android:src="@drawable/ic_action_end_call"
+                android:textColor="@color/White"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </RelativeLayout>
 
 </LinearLayout>

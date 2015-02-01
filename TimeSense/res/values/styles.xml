@@ -1,7 +1,17 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light"></style>
+    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light"/>
+    <style name="AppBaseThemeNoActionBar" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar"/>
 
+    <style name="AppThemeNoActionBar" parent="AppBaseThemeNoActionBar">
+        <item name="android:fastScrollOverlayPosition">floating</item>
+        <item name="android:fastScrollPreviewBackgroundRight">@color/DeepSkyBlue</item>
+        <item name="android:fastScrollPreviewBackgroundLeft">@color/DeepSkyBlue</item>
+        <item name="android:icon">@android:color/transparent</item>
+        <item name="android:fastScrollTextColor">@color/White</item>
+        <item name="android:textColorPrimary">@style/MyActionBar</item>
+    </style>
+    
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="android:fastScrollOverlayPosition">floating</item>
         <item name="android:fastScrollPreviewBackgroundRight">@color/DeepSkyBlue</item>
@@ -9,6 +19,7 @@
         <item name="android:icon">@android:color/transparent</item>
         <item name="android:fastScrollTextColor">@color/White</item>
         <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:textColor">@color/White</item>
     </style>
     
     <style name="TimeZoneTheme" parent="Theme.AppCompat.Light">

@@ -1,6 +1,12 @@
 package com.handyapps.timesense.adapter;
 
 import java.util.List;
+import java.util.TimeZone;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -48,7 +54,11 @@ public class WorldClockListViewAdapter extends ArrayAdapter<TimeCode> {
 		
 		com.handyapps.timesense.widget.Clock analogClock = (com.handyapps.timesense.widget.Clock) view.findViewById(R.id.analogTime);
 		analogClock.setTimeZone(clock.getTimeZone());
-		analogClock.setUpdateTextView(date);
+		
+		DateTime currentTime = DateTime.now ( DateTimeZone.forTimeZone( TimeZone.getTimeZone(clock.getTimeZone() ) ));
+				
+		DateTimeFormatter dateFormat = DateTimeFormat.forPattern("EEEE, dd, MMM, yyyy");
+		date.setText(currentTime.toString(dateFormat));
 		
 		TextClock textClock = (TextClock) view.findViewById(R.id.digitalTime);
 		textClock.setTimeZone(clock.getTimeZone());

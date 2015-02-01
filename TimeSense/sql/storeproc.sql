@@ -21,7 +21,6 @@ INSERT INTO authentication
 VALUES (p_in_user_id, 'Success', sysdate()); 
 
 END$$
-DELIMITER ;
 
 -- Second
 
@@ -39,4 +38,3 @@ VALUES (p_in_phone, p_in_pin, p_in_status, sysdate());
 
 
 END$$
-DELIMITER ;
