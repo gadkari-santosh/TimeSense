@@ -1,0 +1,39 @@
+<project basedir=".">
+
+	<property name="build.dir" value="${basedir}/build"/>
+	<property name="web.inf.dir" value="${basedir}/WEB-INF"/>
+	<property name="classes.dir" value="${build.dir}/WEB-INF/classes"/>
+	<property name="lib.dir" value="${basedir}/lib"/>
+	<property name="app" value="${basedir}/TimeSenseServer.war"/>
+	
+	<target name="init">
+		<delete dir="${build.dir}"/>
+		<delete file="${basedir}/RwebService.war"></delete>
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${build.dir}/WEB-INF"/>
+		<mkdir dir="${build.dir}/WEB-INF/lib"/>
+		<mkdir dir="${classes.dir}"/>
+	</target>
+	
+	<path id="classpath">
+		<fileset dir="${lib.dir}" />
+	</path>
+	
+	<target name="compile">
+		<javac debug="true" srcdir="${basedir}/src" destdir="${classes.dir}/" classpathref="classpath" />
+	</target>
+	
+	<target name="package" depends="init,compile">
+		<mkdir dir="${basedir}/build"/>
+		
+		<copydir dest="${build.dir}/WEB-INF/lib" src="${basedir}/lib"/>
+		
+		<copydir dest="${build.dir}/WEB-INF" src="${basedir}/WEB-INF"/>
+				
+		<war destfile="${app}">
+			<fileset dir="${build.dir}" id="id">
+			</fileset>
+		</war>
+	</target>
+
+</project>

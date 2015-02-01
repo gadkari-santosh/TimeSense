@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.7.0_45"/>
+	<classpathentry kind="lib" path="lib/jersey-bundle-1.1.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/jsr311-api-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/google-play-services.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.6.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.1.3.jar"/>
+	<classpathentry kind="lib" path="lib/fluent-hc-4.3.4.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient-cache-4.3.4.jar"/>
+	<classpathentry kind="lib" path="lib/httpmime-4.3.4.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.0.8-bin.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="lib/nexmo-sdk.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="lib/gson-2.2.4.jar"/>
+	<classpathentry kind="lib" path="lib/annotations-api.jar"/>
+	<classpathentry kind="lib" path="lib/asm-3.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/guava-18.0.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient-4.3.4.jar"/>
+	<classpathentry kind="lib" path="lib/httpcore-4.3.2.jar"/>
+	<classpathentry kind="lib" path="lib/jersey-client.jar"/>
+	<classpathentry kind="lib" path="lib/jersey-common.jar"/>
+	<classpathentry kind="lib" path="lib/jersey-container-servlet-core.jar"/>
+	<classpathentry kind="lib" path="lib/jersey-container-servlet.jar"/>
+	<classpathentry kind="lib" path="lib/jersey-server.jar"/>
+	<classpathentry kind="lib" path="lib/jsp-api.jar"/>
+	<classpathentry kind="lib" path="lib/servlet-api-2.5.jar"/>
+	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="lib/sipactivator.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
