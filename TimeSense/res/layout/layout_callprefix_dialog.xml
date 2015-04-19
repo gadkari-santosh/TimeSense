@@ -97,6 +97,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/Black"
                     android:hint="Prefix"
+                    android:focusable="true"
                     android:padding="10dp"
                     android:inputType="numberSigned"
                     android:textColor="@color/White" />

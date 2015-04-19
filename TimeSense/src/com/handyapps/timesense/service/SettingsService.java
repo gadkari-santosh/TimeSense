@@ -2,7 +2,6 @@ package com.handyapps.timesense.service;
 
 import static com.handyapps.timesense.constant.AppContant.PREFERENCES_FILE;
 import android.content.Context;
-import android.widget.Toast;
 
 import com.handyapps.timesense.dataobjects.Settings;
 import com.handyapps.timesense.util.FileUtil;
@@ -26,18 +25,27 @@ public class SettingsService {
 		loadSettings();
 	}
 	
-	private Settings loadSettings() {
+	private synchronized Settings loadSettings() {
+		
 		try {
 			String settingsJson = FileUtil.getFile(context, PREFERENCES_FILE);
 			if (settingsJson == null){
 				settings = Settings.getInstance();
 				settings.init(context);
+				saveSettings();
 			} else {
 				settings = GsonUtil.getObject(settingsJson, Settings.class);
 			}
 		} catch (Exception exp) {
 			exp.printStackTrace();
+			
 //			Toast.makeText(context, "Unable to load settings. "+exp.toString(), 100).show();
+		}
+		
+		if (settings == null) {
+			settings = Settings.getInstance();
+			settings.init(context);
+			saveSettings();
 		}
 		
 		return settings;

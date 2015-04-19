@@ -1,17 +1,19 @@
 package com.handyapps.timesense.service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Type;
+import java.util.HashSet;
+import java.util.Set;
 
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.handyapps.timesense.R;
-import com.handyapps.timesense.dataobjects.RelationRequest;
-import com.handyapps.timesense.dataobjects.Status;
-import com.handyapps.timesense.dataobjects.StatusCode;
-import com.handyapps.timesense.dataobjects.TimeZoneUpdate;
 import com.handyapps.timesense.dataobjects.User;
+import com.handyapps.timesense.dataobjects.request.FindTimeSenseUserRequest;
+import com.handyapps.timesense.dataobjects.request.TimeZoneUpdateRequest;
+import com.handyapps.timesense.dataobjects.response.Status;
+import com.handyapps.timesense.dataobjects.response.StatusCode;
 import com.handyapps.timesense.util.ResourceUtils;
 import com.handyapps.timesense.util.RestUtil;
 
@@ -33,12 +35,14 @@ public class TimeSenseRestClient {
 		
 		Gson gson = new Gson();
 		
+		String response = null;
 		try {
-			String response = RestUtil.executeGet(codeURL);
+			response = RestUtil.executeGet(codeURL);
 			
 			return gson.fromJson(response, Status.class);
 		} catch (Exception e) {
-			return new Status (StatusCode.Error, e.toString());
+			e.printStackTrace();
+			return new Status (StatusCode.Error, response);
 		}
 
 	}
@@ -68,28 +72,32 @@ public class TimeSenseRestClient {
 		}
 	}
 	
-	public List<String> findTimeSenseUsers(RelationRequest relationRequest) {
+	public Set<User> findTimeSenseUsers(FindTimeSenseUserRequest findTimeSenseUserRequest) {
 		
 		String codeURL = String.format("%s/find", url);
 		
 		Gson gson = new Gson();
 		
 		try {
-			String response = RestUtil.executePost(codeURL, gson.toJson(relationRequest));
-			
-			return gson.fromJson(response, ArrayList.class);
+			Type typeOfObjectsList = new TypeToken<HashSet<User>>() {}.getType();
+			String response = RestUtil.executePost(codeURL, gson.toJson(findTimeSenseUserRequest));
+			return gson.fromJson(response, typeOfObjectsList);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
-		
 	}
 	
 	public Status sendTimeZoneUpdateMessage(String phone, String timeZone) {
 		
-		TimeZoneUpdate update = new TimeZoneUpdate();
-		update.setUserId("+919158663983");
+		SettingsService settingsService = SettingsService.getInstance();
+		
+		TimeZoneUpdateRequest update = new TimeZoneUpdateRequest();
+		update.setOwnerId(settingsService.getSettings().getUserId());
+		
+		TimeSenseUsersService service = TimeSenseUsersService.getInstance();
 		update.setTimeZone(timeZone);
+		update.setContactNumbers( service.getTimeSenseNumbers() );
 		
 		Gson gson = new Gson();
 		
@@ -100,7 +108,8 @@ public class TimeSenseRestClient {
 			
 			return gson.fromJson(response, Status.class);
 		} catch (Exception e) {
-			return new Status (StatusCode.Error, e.toString());
+			e.printStackTrace();
+			return new Status(StatusCode.FATAL, "Unable to notify time zone change. Please check your internet connection");
 		}
 	}
 }

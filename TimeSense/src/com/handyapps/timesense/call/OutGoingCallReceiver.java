@@ -1,39 +1,55 @@
 package com.handyapps.timesense.call;
 
-import static com.handyapps.timesense.constant.AppContant.SHARED_PREF_NAME;
+import static com.handyapps.timesense.constant.AppContant.*;
 
-import java.io.InputStream;
+import java.util.Map;
 
-import com.handyapps.timesense.dataobjects.TimeCode;
-import com.handyapps.timesense.service.TimeService;
-
-import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Data;
 import android.provider.ContactsContract.PhoneLookup;
 
-public class OutGoingCallReceiver extends BroadcastReceiver {
+import com.google.gson.Gson;
+import com.handyapps.timesense.dataobjects.Settings;
+import com.handyapps.timesense.dataobjects.TimeCode;
+import com.handyapps.timesense.dataobjects.User;
+import com.handyapps.timesense.service.SettingsService;
+import com.handyapps.timesense.service.TimeSenseUsersService;
+import com.handyapps.timesense.service.TimeService;
 
-	@SuppressLint("NewApi")
-	@Override
-	public void onReceive(Context context, Intent intent) {
+public class OutGoingCallReceiver extends CallReceiver {
+
+	public void processCall(Context context, Intent intent) {
 		
-		final String phoneNumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
+		Gson gson = new Gson();
+		
+		final String phoneNumber = callInfo.getPhoneNumber();
 
+		boolean isCustomCall = false;
+		
 		SharedPreferences settings = context.getSharedPreferences(SHARED_PREF_NAME, 1);
 		
-		boolean isCustomCall = false;
+		SettingsService.getInstance().init(context);
+		TimeService.getInstance().init(context);
+		
+		Settings timeSenseSettings = SettingsService.getInstance().getSettings();
+		TimeSenseUsersService service = TimeSenseUsersService.getInstance();
+		service.init(context);
+		
+		User user = service.getTimeSenseUser(phoneNumber);
+		String timeZone = null;
+		if (user != null)
+			timeZone = user.getTimeZone();
+		
+		if (timeSenseSettings != null && !timeSenseSettings.isEnableCallSense()) {
+			call(phoneNumber);
+			return;
+		}
 		
 		if (settings != null) {
 			isCustomCall = settings.getBoolean("CustomCall:"+phoneNumber, false);
@@ -47,58 +63,55 @@ public class OutGoingCallReceiver extends BroadcastReceiver {
 			
 		} else {
 			
-			TimeCode timeCodeByPhoneNumber = TimeService.getInstance().getTimeCodeByPhoneNumber(phoneNumber);
+			TimeCode timeCode = null;
 			
-			// We are not interested if the phone number doesn't start with +.
-			if (timeCodeByPhoneNumber == null) {
-				OutGoingCallReceiver.this.setResultData(phoneNumber);
+			if (timeZone != null && !"".equalsIgnoreCase(timeZone)) {
+				timeCode = TimeService.getInstance().getTimeCodeByTimeZone(timeZone);
+			} else {
+				timeCode = TimeService.getInstance().getTimeCodeByPhoneNumber(phoneNumber);
+			}
+			
+			// We are not interested if we are not able to find number's country code.
+			if (timeCode == null) {
+				call(phoneNumber);
+				return;
+			}
+			
+			int hour = TimeService.getInstance().getHour(timeCode);
+			if ( timeSenseSettings.isCallAllowed(hour) ) {
+				call(phoneNumber);
 				return;
 			}
 			
 			OutGoingCallReceiver.this.setResultData(null);
-			Intent intent2 = new Intent(context, AlertActivity.class);
+			Intent intent2 = new Intent(context, OutGoingCallActivity.class);
 			intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			intent2.putExtra("Phone", phoneNumber);
 			
+			if (timeCode != null)
+				intent2.putExtra("TimeCode", timeCode);
+			
 			Uri lookupUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
 			
-			Cursor c = context.getContentResolver().query(
-					lookupUri, 
-					new String[]{Data.DISPLAY_NAME,Data.PHOTO_THUMBNAIL_URI},
-					Data.CONTACT_ID + " LIKE '%?' " , new String[]{phoneNumber}, null);
+			try {
+				Cursor c = context.getContentResolver().query(
+						lookupUri, 
+						new String[]{Data.DISPLAY_NAME,Data.PHOTO_THUMBNAIL_URI},
+						Data.CONTACT_ID + " LIKE '%?' " , new String[]{phoneNumber}, null);
+				
+				if (c.moveToNext()) {
+					String name = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+					intent2.putExtra("Name", name);
+				}
+			} catch (Throwable th) {}
 			
-			if (c.moveToNext()) {
-				String name = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-				intent2.putExtra("Name", name);
-			}
+			intent2.putExtra(SHARED_CALL_INFO, gson.toJson(callInfo));
+			
 			context.startActivity(intent2);
-			
 		}
-		
-//		OutGoingCallReceiver.this.setResultData(phoneNumber);
-		
-//		String message = String.format("%s, %s\n%s", callInfo.getCountry(), callInfo.getTimeZone(),callInfo.getTime());
-//		
-//		Notification n  = new Notification.Builder(context)
-//					        .setContentTitle(phoneNumber)
-//					        .setContentText(message)
-//					        .setSmallIcon(R.drawable.ic_app)
-//					        .setAutoCancel(true).build();
-//		
-//		NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-//		
-//		notificationManager.notify(0, n); 
-		
-		
 	}
 	
-	public static Bitmap loadContactPhoto(ContentResolver cr, long id) {
-	    Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id);
-	    InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(cr, uri);
-	    if (input == null) {
-	         return null;
-	     }
-	    return BitmapFactory.decodeStream(input);
+	private void call(String phoneNumber) {
+		OutGoingCallReceiver.this.setResultData(phoneNumber);
 	}
-
 }

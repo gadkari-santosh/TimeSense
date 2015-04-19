@@ -1,5 +1,7 @@
 package com.handyapps.timesense.dataobjects;
 
+import com.google.android.gms.internal.an;
+
 public class CallPrefix {
 	
 	private String comment;
@@ -23,5 +25,24 @@ public class CallPrefix {
 	}
 	public void setPrefix(String prefix) {
 		this.prefix = prefix;
+	}
+	
+	@Override
+	public int hashCode() {
+		return this.prefix.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object another) {
+		if (another instanceof CallPrefix) {
+			
+			CallPrefix prefix = (CallPrefix) another;
+			
+			if (this.getPrefix().equalsIgnoreCase(prefix.getPrefix())) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

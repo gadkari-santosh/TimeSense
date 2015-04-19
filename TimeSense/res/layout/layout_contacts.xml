@@ -14,7 +14,7 @@
         android:gravity="center"
         android:orientation="horizontal" >
 
-        <EditText
+        <com.handyapps.timesense.widget.MyEditText
             android:id="@+id/searchBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,9 +24,11 @@
             android:inputType="text"
             android:background="@xml/rounded_corner"
             android:drawableLeft="@drawable/ic_action_search"
+            android:drawableRight="@android:drawable/ic_menu_close_clear_cancel"
             android:singleLine="true"
+            android:paddingRight="10dp"
             android:focusable="true" >
-        </EditText>
+        </com.handyapps.timesense.widget.MyEditText>
 
         <ImageButton
             android:id="@+id/alphabetSelect"

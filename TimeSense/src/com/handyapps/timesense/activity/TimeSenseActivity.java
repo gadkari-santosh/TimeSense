@@ -1,17 +1,18 @@
 package com.handyapps.timesense.activity;
 
 import static com.handyapps.timesense.constant.AppContant.*;
+import static com.handyapps.timesense.constant.AppContant.INTENT_PROP_TIMECODES;
+import static com.handyapps.timesense.constant.AppContant.INTENT_PROP_USER_SELECTED_TIME_CODE;
+import static com.handyapps.timesense.constant.AppContant.INTENT_VAL_TIME_SENSE_PLANNER_TAB;
+import static com.handyapps.timesense.constant.AppContant.INTENT_VAL_WORLD_CLOCK_TAB;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -21,21 +22,16 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.handyapps.timesense.R;
-import com.handyapps.timesense.adapter.TimeZoneListViewAdapter;
 import com.handyapps.timesense.adapter.WorldClockListViewAdapter;
+import com.handyapps.timesense.dataobjects.Settings;
 import com.handyapps.timesense.dataobjects.TimeCode;
 import com.handyapps.timesense.fragment.AboutUsFragment;
 import com.handyapps.timesense.fragment.ContactFragment;
@@ -43,10 +39,10 @@ import com.handyapps.timesense.fragment.ContactLogsFragment;
 import com.handyapps.timesense.fragment.DialFragment;
 import com.handyapps.timesense.fragment.HelpFragment;
 import com.handyapps.timesense.fragment.SettingsFragment;
-import com.handyapps.timesense.fragment.TimeZoneFragment;
 import com.handyapps.timesense.fragment.TimerPlannerFragment;
 import com.handyapps.timesense.service.SettingsService;
-import com.handyapps.timesense.service.TimeService;
+import com.handyapps.timesense.task.AsyncContactLoading;
+import com.handyapps.timesense.util.ICallback;
 import com.handyapps.timesense.util.ResourceUtils;
 
 public class TimeSenseActivity extends Activity {
@@ -59,6 +55,12 @@ public class TimeSenseActivity extends Activity {
 	}
 	public void delOneDigitOfDialNumber (View numView) {
 		lastDialFragment.peek().delOneDigitOfDialNumber(numView);
+	}
+	
+	public void onRestart()
+	{
+	    super.onRestart();
+	    new AsyncContactLoading(this).execute();
 	}
 	
 	@Override
@@ -93,12 +95,13 @@ public class TimeSenseActivity extends Activity {
 		final Button buttonContactUs = (Button) findViewById(R.id.butContactUs);
 		final Button butDialPad = (Button) findViewById(R.id.butDialPad);
 		final Button butAboutUs = (Button) findViewById(R.id.butAboutUs);
-		final Button butHelp = (Button) findViewById(R.id.butHelp);
+//		final Button butHelp = (Button) findViewById(R.id.butHelp);
 		
 		final Button buttonWorldClock = (Button) findViewById(R.id.butLeftWorldClock);
 		final Button butLeftDialPad = (Button) findViewById(R.id.butLeftDialPad);
 		final Button butLeftLog = (Button) findViewById(R.id.butLeftlogs);
 		final Button butLeftContact = (Button) findViewById(R.id.butLeftcontacts);
+		final Button butSignOut = (Button) findViewById(R.id.butSignOut);
 
 		final FragmentManager fm = getFragmentManager();
 
@@ -133,6 +136,16 @@ public class TimeSenseActivity extends Activity {
 			TimerPlannerFragment timerPlannerFragment = new TimerPlannerFragment();
 			transaction.replace(R.id.fragment_place, timerPlannerFragment);
 			transaction.commit();
+		} else if (INTENT_VAL_FRAGMENT_CALL_LOG.equalsIgnoreCase(redirectFragment)) {
+			butContacts.setPadding(0, 0, 0, padding_5dp);
+			butDialPad.setPadding(0, 0, 0, padding_5dp);
+			butLogs.setPadding(0, 0, 0, 0);
+			butTimePlaner.setPadding(0, 0, 0, padding_5dp);
+
+			FragmentTransaction transaction = fm.beginTransaction();
+			ContactLogsFragment contactLogsFragment = new ContactLogsFragment();
+			transaction.replace(R.id.fragment_place, contactLogsFragment);
+			transaction.commit();
 		} else if (INTENT_VAL_WORLD_CLOCK_TAB.equalsIgnoreCase(redirectFragment)) {
 			
 			if (intentTimeCodes != null) {
@@ -155,6 +168,35 @@ public class TimeSenseActivity extends Activity {
 			butTimePlaner.setPadding(0, 0, 0, padding_5dp);
 		}
 		
+		butSignOut.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				com.handyapps.timesense.util.Dialog.show(TimeSenseActivity.this, "Are you sure to signout? It will delete all your application settings.", "Sign Out", 
+						new ICallback() {
+							
+							@Override
+							public void call(Object object) {
+								SettingsService service = SettingsService.getInstance();
+								Settings settings = service.getSettings();
+								
+								settings.setSignOnSuccess(false);
+								settings.setEmail(null);
+								settings.setGcm(null);
+								settings.setUserId(null);
+								service.saveSettings();
+								
+								Intent intent = new Intent(TimeSenseActivity.this, SplashScreenActivity.class);
+								TimeSenseActivity.this.startActivity(intent);
+								
+								finish();
+								
+							}
+						}, true);
+			}
+		});
+		
 		butTimePlanerLeft.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -165,7 +207,7 @@ public class TimeSenseActivity extends Activity {
 			}
 		});
 		
-		butHelp.setOnClickListener(new OnClickListener() {
+		/*butHelp.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -176,7 +218,7 @@ public class TimeSenseActivity extends Activity {
 				
 				drawerLayout.closeDrawer(Gravity.START);
 			}
-		});
+		});*/
 		
 		butAboutUs.setOnClickListener(new OnClickListener() {
 			
@@ -373,13 +415,13 @@ public class TimeSenseActivity extends Activity {
 		});
 	}
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    // Inflate the menu items for use in the action bar
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.time_sense, menu);
-	    return super.onCreateOptionsMenu(menu);
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//	    // Inflate the menu items for use in the action bar
+//	    MenuInflater inflater = getMenuInflater();
+//	    inflater.inflate(R.menu.time_sense, menu);
+//	    return super.onCreateOptionsMenu(menu);
+//	}
 	
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -388,15 +430,15 @@ public class TimeSenseActivity extends Activity {
             return true;
         }
         // Handle action bar actions click
-        switch (item.getItemId()) {
-        	case R.id.action_settings:
-        		return true;
-        	case R.id.action_new:
-        		return true;
-        	
-        default:
+//        switch (item.getItemId()) {
+//        	case R.id.action_settings:
+//        		return true;
+//        	case R.id.action_new:
+//        		return true;
+//        	
+//        default:
             return super.onOptionsItemSelected(item);
-        }
+//        }
     }
  
     /**

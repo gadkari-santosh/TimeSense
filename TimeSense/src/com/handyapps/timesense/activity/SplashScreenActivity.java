@@ -1,20 +1,20 @@
 package com.handyapps.timesense.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.StrictMode;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.handyapps.timesense.R;
 import com.handyapps.timesense.dataobjects.Settings;
-import com.handyapps.timesense.service.ContactService;
 import com.handyapps.timesense.service.SettingsService;
-import com.handyapps.timesense.service.TimeService;
-import com.handyapps.timesense.task.AsyncContact;
+import com.handyapps.timesense.task.AsyncInitialLoading;
+import com.handyapps.timesense.task.PostCallBack;
 
 public class SplashScreenActivity extends Activity {
 	
@@ -29,35 +29,53 @@ public class SplashScreenActivity extends Activity {
             StrictMode.setThreadPolicy(policy);
         }
 		
-		// Lets initialize while user enjoy slash screen :)
-		init();
-		
 		Button signon = (Button) findViewById(R.id.buttonSignOn);
 		Button skip = (Button) findViewById(R.id.buttonSkip);
+		final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progBarLoading);
+		
+		progressBar.setEnabled(false);
+		progressBar.setVisibility(ProgressBar.INVISIBLE);
 		
 		SettingsService service = SettingsService.getInstance();
+		service.init(getApplicationContext());
 		Settings settings = service.getSettings();
 		
 		if (settings.isSignOnSuccess()) {
 			signon.setVisibility(Button.INVISIBLE);
 			skip.setVisibility(Button.INVISIBLE);
+
+			progressBar.setEnabled(true);
+			progressBar.setVisibility(ProgressBar.VISIBLE);
 			
-			new Handler().postDelayed(new Runnable() {
-	           public void run() {
-	                Intent intent = new Intent(SplashScreenActivity.this, TimeSenseActivity.class);
-	                SplashScreenActivity.this.startActivity(intent);
-	                finish();
-	           }
-	       }, 2000);
+			new AsyncInitialLoading(SplashScreenActivity.this, progressBar, new PostCallBack() {
+				
+				@Override
+				public void execute(Context context) {
+			        Intent intent = new Intent(context, TimeSenseActivity.class);
+			        context.startActivity(intent);
+			        
+			        finish();
+				}
+			}).execute();
+			
 		}
-		
+
 		skip.setOnClickListener( new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(SplashScreenActivity.this, NoSignInActivity.class);
-                SplashScreenActivity.this.startActivity(intent);
-                finish();
+				progressBar.setEnabled(true);
+				progressBar.setVisibility(ProgressBar.VISIBLE);
+				new AsyncInitialLoading(SplashScreenActivity.this, progressBar, new PostCallBack() {
+					
+					@Override
+					public void execute(Context context) {
+				        Intent intent = new Intent(context, NoSignInActivity.class);
+				        context.startActivity(intent);
+				        
+				        finish();
+					}
+				}).execute();
 			}
 		});
 		
@@ -65,25 +83,20 @@ public class SplashScreenActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(SplashScreenActivity.this, RegisterActivity.class);
-                SplashScreenActivity.this.startActivity(intent);
-                finish();
+				progressBar.setEnabled(true);
+				progressBar.setVisibility(ProgressBar.VISIBLE);
+				
+				new AsyncInitialLoading(SplashScreenActivity.this, progressBar, new PostCallBack() {
+					
+					@Override
+					public void execute(Context context) {
+						Intent intent = new Intent(context, RegisterActivity.class);
+				        context.startActivity(intent);
+				        
+				        finish();
+					}
+				}).execute();
 			}
 		});
-		
-		new AsyncContact(this).execute();
-	}
-	
-	// Santosh, it may happen that the init may take little longer than splash screen.
-	// handle this scenario.
-	private void init() {
-		
-		SettingsService.getInstance().init(this);
-		
-		TimeService.getInstance().init(this);
-		
-		ContactService.getInstance().init(this);
 	}
 }
-
-

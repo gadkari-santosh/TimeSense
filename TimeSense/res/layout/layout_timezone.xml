@@ -14,7 +14,7 @@
         android:gravity="center"
         android:orientation="horizontal" >
 
-        <EditText
+        <com.handyapps.timesense.widget.MyEditText
             android:id="@+id/searchBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,10 +24,11 @@
             android:inputType="text"
             android:background="@xml/rounded_corner"
             android:drawableLeft="@drawable/ic_action_search"
+            android:paddingRight="10dp"
             android:singleLine="true"
-            android:focusable="true" >
-        </EditText>
-    </LinearLayout>
+            android:focusable="true" />
+
+        </LinearLayout>
 
     <ListView
         android:id="@+id/listViewTz"

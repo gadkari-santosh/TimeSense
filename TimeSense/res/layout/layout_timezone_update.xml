@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center|center"
-    android:background="@color/LightDeepSkyBlue"
+    android:background="@color/Black"
     android:orientation="vertical"
     android:padding="5dp" >
 
@@ -12,7 +12,7 @@
         android:id="@+id/alphaLayout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/DeepSkyBlue"
+        android:background="@color/WhiteSmoke"
         android:gravity="center|center"
         android:orientation="vertical"
         android:padding="10dp" >
@@ -27,7 +27,7 @@
             android:padding="10dp" >
 
             <TextView
-                android:id="@+id/txtVwPrefix"
+                android:id="@+id/txtViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -53,18 +53,19 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_weight="0.09"
-            android:background="@color/DeepSkyBlue"
-            android:fontFamily="normal"
+            android:background="@color/WhiteSmoke"
             android:gravity="center|center"
-            android:text="Time zone has updated to GMT. Do you want to notify your friends about your travel."
-            android:textColor="@color/White"
+            android:fontFamily="sans-serif-condensed"
+            android:text="Time zone has updated to %s.Do you want to notify your friends about your travel."
+            android:textColor="@color/DeepSkyBlue"
+             android:textSize="20dp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:id="@+id/alphaLayout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/DeepSkyBlue"
+            android:background="@color/WhiteSmoke"
             android:gravity="bottom|bottom"
             android:orientation="horizontal"
             android:padding="10dp" >
@@ -76,10 +77,10 @@
                 android:layout_gravity="left"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1.0"
-                android:background="@color/White"
+                android:background="@color/DeepSkyBlue"
                 android:fontFamily="normal"
-                android:text="Notify"
-                android:textColor="@color/DeepSkyBlue"
+                android:text="NOTIFY"
+                android:textColor="@color/White"
                 android:textSize="15dp"
                 android:textStyle="bold" />
 
@@ -90,10 +91,10 @@
                 android:layout_gravity="left"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1.0"
-                android:background="@color/White"
+                android:background="@color/DeepSkyBlue"
                 android:fontFamily="normal"
-                android:text="Ignore"
-                android:textColor="@color/DeepSkyBlue"
+                android:text="CLOSE"
+                android:textColor="@color/White"
                 android:textSize="15dp"
                 android:textStyle="bold" />
         </LinearLayout>

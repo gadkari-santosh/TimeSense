@@ -25,6 +25,7 @@ import com.handyapps.timesense.R;
 import com.handyapps.timesense.constant.Contact;
 import com.handyapps.timesense.constant.Kaal;
 import com.handyapps.timesense.service.ContactService;
+import com.handyapps.timesense.service.SettingsService;
 import com.handyapps.timesense.service.TimeService;
 import com.handyapps.timesense.util.ResourceUtils;
 
@@ -74,6 +75,7 @@ public class ContactListViewAdapter extends ArrayAdapter<Contact> implements Sec
 		ImageView pic = (ImageView) view.findViewById(R.id.pic);
 		
 		ImageView imgViewTimeSense = (ImageView) view.findViewById(R.id.imgViewTimeSense);
+		ImageView imageViewContactType = (ImageView) view.findViewById(R.id.imgContactType);
 		
 		TextView justTime = (TextView) view.findViewById(R.id.time);
 		TextView number = (TextView) view.findViewById(R.id.number);
@@ -84,12 +86,13 @@ public class ContactListViewAdapter extends ArrayAdapter<Contact> implements Sec
 		if (contact == null)
 			return view;
 		
+		
 		if (contact.isAwayFromHome()) {
 			txtViewStatus.setTextColor(Color.RED);
-			txtViewStatus.setText(String.format("Moved to %s", contact.getTimeZone()));
+			txtViewStatus.setText(String.format("%s Moved to %s", contact.getStatus(), contact.getParkTimeZone()));
 		} else {
 			txtViewStatus.setTextColor(Color.GRAY);
-			txtViewStatus.setText("Available");
+			txtViewStatus.setText(contact.getStatus());
 		}
 		
 		displayName.setText(contact.getDisplayName());
@@ -105,6 +108,8 @@ public class ContactListViewAdapter extends ArrayAdapter<Contact> implements Sec
 		} else {
 			imgViewTimeSense.setImageResource(R.drawable.ic_action_time_sense_disabled);
 		}
+		
+		imageViewContactType.setImageResource(contact.getContactType());
 		
 		return view;
 	}
@@ -145,5 +150,10 @@ public class ContactListViewAdapter extends ArrayAdapter<Contact> implements Sec
 	public void addAll(Collection<? extends Contact> collection) {
 		Collections.sort( (List<Contact>)collection );
 		super.addAll( collection );
+	}
+	
+	public void clear() {
+		if (contacts != null)
+			contacts.clear();
 	}
 }

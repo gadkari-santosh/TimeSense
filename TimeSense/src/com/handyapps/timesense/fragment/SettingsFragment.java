@@ -6,18 +6,19 @@ import java.util.TimeZone;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.telephony.TelephonyManager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -31,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.handyapps.timesense.R;
+import com.handyapps.timesense.activity.TimeZoneUpdateActivity;
 import com.handyapps.timesense.adapter.CallPrefixListViewAdapter;
 import com.handyapps.timesense.dataobjects.CallPrefix;
 import com.handyapps.timesense.dataobjects.Settings;
@@ -110,6 +112,7 @@ public class SettingsFragment extends Fragment {
 		
 		LinearLayout buttonCallPrefix = (LinearLayout) view.findViewById(R.id.buttonCallPrefix);
 		LinearLayout buttonCallSense = (LinearLayout) view.findViewById(R.id.buttonCallSense);
+		LinearLayout butTimeZoneUpdate = (LinearLayout) view.findViewById(R.id.butTimeZoneUpdate);
 		
 		switchCallSense.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			 
@@ -125,6 +128,17 @@ public class SettingsFragment extends Fragment {
 				    	settingService.saveSettings();
 				    }
 			   }
+		});
+		
+		butTimeZoneUpdate.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(SettingsFragment.this.getActivity(), TimeZoneUpdateActivity.class);
+				intent.putExtra("time_zone", TimeZone.getDefault().getDisplayName());
+				
+				SettingsFragment.this.getActivity().startActivity(intent);
+			}
 		});
 		
 		buttonCallSense.setOnClickListener(new OnClickListener() {
@@ -144,8 +158,11 @@ public class SettingsFragment extends Fragment {
 				final SeekBar seekFrom = (SeekBar) alertDialog.findViewById(R.id.seekFrom);
 				final SeekBar seekTo = (SeekBar) alertDialog.findViewById(R.id.seekTo);
 				
-				seekFrom.setProgress(settingService.getSettings().getTimePlannerRangeFrom());
-				seekTo.setProgress(settingService.getSettings().getTimePlannerRangeTo());
+				seekFrom.setProgress(settingService.getSettings().getCallSenseFrom());
+				seekTo.setProgress(settingService.getSettings().getCallSenseTo());
+				
+				txtViewRangeTo.setText(String.format("Time(24HR) To %s:00",seekTo.getProgress()));
+				txtViewFrom.setText(String.format("Time(24HR) From %s:00",seekFrom.getProgress()));
 				
 				Button ok = (Button) alertDialog.findViewById(R.id.buttonOk);
 				Button cancel = (Button) alertDialog.findViewById(R.id.buttonCancel);
@@ -154,7 +171,9 @@ public class SettingsFragment extends Fragment {
 					
 					@Override
 					public void onStopTrackingTouch(SeekBar seekBar) {
-						// NOP
+						txtViewFrom.setText(String.format("Time(24HR) From %s:00",seekBar.getProgress()));
+						settings.setCallSenseFrom(seekBar.getProgress());
+						settingService.saveSettings();
 					}
 					
 					@Override
@@ -165,7 +184,7 @@ public class SettingsFragment extends Fragment {
 					@Override
 					public void onProgressChanged(SeekBar seekBar, int progress,
 							boolean fromUser) {
-						txtViewFrom.setText(String.format("Time From %s:00",progress));
+						txtViewFrom.setText(String.format("Time(24HR) From %s:00",seekBar.getProgress()));
 					}
 				});
 				
@@ -173,14 +192,9 @@ public class SettingsFragment extends Fragment {
 					
 					@Override
 					public void onStopTrackingTouch(SeekBar seekBar) {
-						if (seekFrom.getProgress() > seekBar.getProgress()) {
-							Toast makeText = Toast.makeText(SettingsFragment.this.getActivity(),
-									"The value should be greater than lower range.", Toast.LENGTH_SHORT);
-							makeText.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-							makeText.show();
-						} else {
-							txtViewRangeTo.setText(String.format("Time From %s:00",seekBar.getProgress()));
-						}
+						txtViewRangeTo.setText(String.format("Time(24HR) To %s:00",seekBar.getProgress()));
+						settingService.getSettings().setCallSenseTo(seekBar.getProgress());
+						settingService.saveSettings();
 					}
 					
 					@Override
@@ -191,7 +205,7 @@ public class SettingsFragment extends Fragment {
 					@Override
 					public void onProgressChanged(SeekBar seekBar, int progress,
 							boolean fromUser) {
-						// NOP
+						txtViewRangeTo.setText(String.format("Time(24HR) To %s:00",seekBar.getProgress()));
 					}
 				});
 				
@@ -200,18 +214,11 @@ public class SettingsFragment extends Fragment {
 					@Override
 					public void onClick(View v) {
 						
-						if (seekFrom.getProgress() > seekTo.getProgress()) {
-							Toast makeText = Toast.makeText(SettingsFragment.this.getActivity(),
-									"The value should be greater than lower range.", Toast.LENGTH_SHORT);
-							makeText.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-							makeText.show();
-						} else {
-							settingService.getSettings().setTimePlannerRangeFrom(seekFrom.getProgress());
-							settingService.getSettings().setTimePlannerRangeTo(seekTo.getProgress());
-							settingService.saveSettings();
+						settingService.getSettings().setCallSenseFrom(seekFrom.getProgress());
+						settingService.getSettings().setCallSenseTo(seekTo.getProgress());
+						settingService.saveSettings();
 							
-							alertDialog.dismiss();
-						}
+						alertDialog.dismiss();
 					}
 				});
 				
@@ -265,9 +272,13 @@ public class SettingsFragment extends Fragment {
 						alertDialog.setContentView(R.layout.layout_callprefix_dialog);
 						alertDialog.show();
 						
-						
 						final Button butSumbit = (Button) alertDialog.findViewById(R.id.butSubmit);
 						final Button butCancel = (Button) alertDialog.findViewById(R.id.butCancel);
+						
+						EditText edTxtPrefix = (EditText) alertDialog.findViewById(R.id.edTxtPrefix);
+						edTxtPrefix.requestFocus();
+						alertDialog.getWindow().setSoftInputMode (WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+						
 						
 						butCancel.setOnClickListener(new OnClickListener() {
 							
@@ -286,6 +297,11 @@ public class SettingsFragment extends Fragment {
 								
 								String prefix = edTxtPrefix.getText().toString();
 								String comments = edTxtComments.getText().toString();
+								
+								if ("".equalsIgnoreCase(prefix.trim()) || "".equalsIgnoreCase(comments.trim())) {
+									Toast.makeText(getActivity(), "Can not add empty prefix or comment", Toast.LENGTH_LONG).show();
+									return;
+								}
 								
 								callPrefixs.add(new CallPrefix(comments,prefix));
 								callPrefixListViewAdapter.notifyDataSetChanged();

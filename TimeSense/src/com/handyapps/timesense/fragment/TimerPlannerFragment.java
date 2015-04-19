@@ -1,6 +1,8 @@
 package com.handyapps.timesense.fragment;
 
-import static com.handyapps.timesense.constant.AppContant.*;
+import static com.handyapps.timesense.constant.AppContant.INTENT_PROP_REQUESTER;
+import static com.handyapps.timesense.constant.AppContant.INTENT_PROP_TIMECODES;
+import static com.handyapps.timesense.constant.AppContant.INTENT_VAL_TIME_SENSE_PLANNER_TAB;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,7 +36,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.handyapps.timesense.R;
-import com.handyapps.timesense.activity.TimeSenseActivity;
 import com.handyapps.timesense.activity.TimeZoneActivity;
 import com.handyapps.timesense.dataobjects.Settings;
 import com.handyapps.timesense.dataobjects.TimeCode;
@@ -74,103 +75,6 @@ public class TimerPlannerFragment extends Fragment {
 				intent.putExtra(INTENT_PROP_REQUESTER, INTENT_VAL_TIME_SENSE_PLANNER_TAB);
 				intent.putExtra(INTENT_PROP_TIMECODES, new ArrayList(settingService.getSettings().getTimePlanerTimeCodes()));
 				TimerPlannerFragment.this.startActivity(intent);
-				
-//				 List<TimeCode> newTimeZones = settingService.getSettings().getTimePlanerTimeCodes();
-//				
-//				createTimePlanner(newTimeZones, view);
-//				TimeZoneFragment settingsFragment = new TimeZoneFragment();
-//				
-//				final Dialog alertDialog = new Dialog(TimerPlannerFragment.this.getActivity());
-//				alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//				alertDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//				
-//				LayoutInflater vi = (LayoutInflater) TimerPlannerFragment.this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//				View newView = vi.inflate(R.layout.layout_timezone, null);
-//
-//				alertDialog.getWindow().setLayout(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
-//				alertDialog.setContentView(newView);
-//				alertDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//				
-//				ListView listView = (ListView) newView.findViewById(R.id.listViewTz);
-//				Button ok = (Button) newView.findViewById(R.id.buttonOk);
-//				Button cancel = (Button) newView.findViewById(R.id.buttonCancel);
-//				Button clear = (Button) newView.findViewById(R.id.buttonClear);
-//				
-//				listView.setFastScrollEnabled(true);
-//		        listView.setScrollingCacheEnabled(true);
-//		        
-//				final Map<String, List<TimeCode>> allTimeZoneInfo = TimeService.getInstance().getAllTimeZoneInfo();
-//				final List<TimeCode> timeCodes = new ArrayList<TimeCode>();
-//				for (List<TimeCode> individualCodes : allTimeZoneInfo.values()) {
-//					
-//					for (TimeCode individualCode : individualCodes) {
-//						
-//						if (settingService.getSettings().getTimePlanerTimeCodes().contains(individualCode)) {
-//							individualCode.setSelect(true);
-//						} else {
-//							individualCode.setSelect(false);
-//						}
-//					}
-//					timeCodes.addAll(individualCodes);
-//				}
-//				
-//				final TimeZoneListViewAdapter timeZoneViewAdapter 
-//							= new TimeZoneListViewAdapter(TimerPlannerFragment.this.getActivity(),timeCodes);
-//				listView.setAdapter(timeZoneViewAdapter);
-//				
-//				alertDialog.show();
-//				
-//				clear.setOnClickListener(new OnClickListener() {
-//					
-//					@Override
-//					public void onClick(View v) {
-//						
-////						timezones.clear();
-//						for (TimeCode timeCode : timeCodes) {
-//							timeCode.setSelect(false);
-//						}
-//						
-////						alertDialog.dismiss();
-////						settingService.getSettings().setTimePlanerTimeCodes(timezones);
-////						settingService.saveSettings();
-////						
-////						createTimePlanner(timezones, view);
-//						
-//						timeZoneViewAdapter.setNotifyOnChange(true);
-//						
-//					}
-//				});
-//				
-//				ok.setOnClickListener(new OnClickListener() {
-//					
-//					@Override
-//					public void onClick(View v) {
-//						
-//						timezones.clear();
-//						for (TimeCode timeCode : timeCodes) {
-//							if (timeCode.isSelect()){
-//								if (!timezones.contains(timeCode))
-//									timezones.add(timeCode);
-//							}
-//						}
-//						
-//						alertDialog.dismiss();
-//						
-//						settingService.getSettings().setTimePlanerTimeCodes(timezones);
-//						settingService.saveSettings();
-//						
-//						createTimePlanner(timezones, view);
-//					}
-//				});
-//				
-//				cancel.setOnClickListener(new OnClickListener() {
-//					
-//					@Override
-//					public void onClick(View v) {
-//						alertDialog.dismiss();
-//					}
-//				});
-//				
 			}
 		});
 
@@ -197,11 +101,16 @@ public class TimerPlannerFragment extends Fragment {
 				seekFrom.setProgress(settingService.getSettings().getTimePlannerRangeFrom());
 				seekTo.setProgress(settingService.getSettings().getTimePlannerRangeTo());
 				
+				txtViewRangeTo.setText(String.format("Time(24HR) To %s:00",seekTo.getProgress()));
+				txtViewFrom.setText(String.format("Time(24HR) From %s:00",seekFrom.getProgress()));
+				
 				seekFrom.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 					
 					@Override
 					public void onStopTrackingTouch(SeekBar seekBar) {
-						// NOP
+						txtViewFrom.setText(String.format("Time(24HR) To %s:00",seekBar.getProgress()));
+						settingService.getSettings().setTimePlannerRangeFrom(seekBar.getProgress());
+						settingService.saveSettings();
 					}
 					
 					@Override
@@ -212,7 +121,7 @@ public class TimerPlannerFragment extends Fragment {
 					@Override
 					public void onProgressChanged(SeekBar seekBar, int progress,
 							boolean fromUser) {
-						txtViewFrom.setText(String.format("Time From %s:00",progress));
+						txtViewFrom.setText(String.format("Time(24HR) From %s:00",progress));
 					}
 				});
 				
@@ -226,7 +135,9 @@ public class TimerPlannerFragment extends Fragment {
 							makeText.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
 							makeText.show();
 						} else {
-							txtViewRangeTo.setText(String.format("Time From %s:00",seekBar.getProgress()));
+							txtViewRangeTo.setText(String.format("Time(24HR) To %s:00",seekBar.getProgress()));
+							settingService.getSettings().setTimePlannerRangeTo(seekBar.getProgress());
+							settingService.saveSettings();
 						}
 					}
 					
@@ -238,8 +149,7 @@ public class TimerPlannerFragment extends Fragment {
 					@Override
 					public void onProgressChanged(SeekBar seekBar, int progress,
 							boolean fromUser) {
-						
-						
+						txtViewRangeTo.setText(String.format("Time(24HR) To %s:00",progress));
 					}
 				});
 				
@@ -317,13 +227,10 @@ public class TimerPlannerFragment extends Fragment {
 					
 					TextView txtView = (TextView) tableRow.getChildAt(0);
 					
-					System.out.println(txtView.getText());
-					
 					totalCount = tableRow.getChildCount() - 1;
 					for (int childCount=totalCount; childCount>0; childCount--) {
 						tableRow.removeViewAt( childCount );
 					}
-					System.out.println(tableRow.getChildCount());
 					
 					for (TimeCode tz : timezones) {
 				        day = calendar.get(Calendar.DATE);
@@ -340,8 +247,21 @@ public class TimerPlannerFragment extends Fragment {
 						day = (int) (newTime.getMillis() - calendar.getTime().getTime()) / 86400000;
 						
 				        if (i == 0) {
-				        	asia.setText(tz.getCountry());
-							asia.setTextColor(Color.WHITE);
+				        	String country = tz.getTimeZone();
+				        	if (country != null) {
+				        		String[] split = country.split("/");
+				        		if (split != null && split.length > 0)
+				        			country = split[1];
+				        	}
+				        	
+				        	if (tz.getCountry().equalsIgnoreCase(country))
+				        		country = "";
+				        	else
+				        		country = "\n" + country;
+				        	
+				        	asia.setText(tz.getCountry()+country);
+							
+				        	asia.setTextColor(Color.WHITE);
 							
 							asia.setBackgroundColor(ResourceUtils.getColor(getActivity(), R.color.DeepSkyBlue));
 							

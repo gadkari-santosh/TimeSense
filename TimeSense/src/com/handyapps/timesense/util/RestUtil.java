@@ -14,8 +14,8 @@ public class RestUtil {
 	public static String executePost(String url, String item) throws Exception {
 		// create default HTTP Client
         DefaultHttpClient httpClient = new DefaultHttpClient();
-        httpClient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 60000);
-        httpClient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 60000);
+        httpClient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 5000);
+        httpClient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 5000);
         
         // Create new getRequest with below mentioned URL
         HttpPost post = new HttpPost(url);
@@ -29,16 +29,19 @@ public class RestUtil {
 	public static String executeGet(String url) throws Exception {
 		// create default HTTP Client
         DefaultHttpClient httpClient = new DefaultHttpClient();
-        httpClient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 30000);
-        httpClient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 60000);
+        httpClient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 5000);
+        httpClient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 5000);
 
         // Create new getRequest with below mentioned URL
         HttpGet get = new HttpGet(url);
       
         // Execute your request and catch response
-        HttpResponse response = httpClient.execute(get);
-         
-        return EntityUtils.toString(response.getEntity());
+        try {
+        	HttpResponse response = httpClient.execute(get);
+        	return EntityUtils.toString(response.getEntity());
+        } catch (Throwable th) {
+        	th.printStackTrace();
+        	return "Unable to connect. Please check your internet connection";
+        }
 	}
-	
 }

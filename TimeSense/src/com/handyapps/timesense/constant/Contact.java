@@ -10,13 +10,24 @@ public class Contact implements Comparable<Contact>{
 	private String time;
 	private String date;
 	private String timeZone;
-	private Kaal kaal;
 	private String prefix;
+	private int contactType;
+	private String status;
+	
+	private Kaal kaal;
 	
 	private boolean timeSense;
 	
 	private String parkTimeZone;
 	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public boolean isAwayFromHome() {
 		if (parkTimeZone != null && !parkTimeZone.equalsIgnoreCase(timeZone)) {
 			return true;
@@ -103,6 +114,13 @@ public class Contact implements Comparable<Contact>{
 	public void setDate(String date) {
 		this.date = date;
 	}
+	public int getContactType() {
+		return contactType;
+	}
+	public void setContactType(int contactType) {
+		this.contactType = contactType;
+	}
+
 	@Override
 	public int compareTo(Contact another) {
 		if (this.displayName != null && another.displayName != null)

@@ -20,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.handyapps.timesense.R;
 import com.handyapps.timesense.adapter.TimeZoneListViewAdapter;
@@ -124,6 +125,8 @@ public class TimeZoneActivity extends Activity {
 				timeZoneViewAdapter.addAll(timeCodesBkup);
 				
 				timeZoneViewAdapter.setNotifyOnChange(true);
+				
+				Toast.makeText(getApplicationContext(), "Clear All", Toast.LENGTH_LONG).show();
 			}
 		});
 		

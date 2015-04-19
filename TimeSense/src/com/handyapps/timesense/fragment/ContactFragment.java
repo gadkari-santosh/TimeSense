@@ -102,11 +102,13 @@ public class ContactFragment extends Fragment {
 			private void textChange(Object s) {
 				ArrayList<Contact> newList = new ArrayList<Contact>();
 				if ("".equals(s.toString()))
-					newList.addAll(contacts);
+					newList.addAll(backup);
 				
-				for (Contact contact :  backup) {
-					if (contact.getDisplayName().toLowerCase().startsWith(s.toString().toLowerCase())) {
-						newList.add(contact);
+				if (newList.size() == 0) {
+					for (Contact contact :  backup) {
+						if (contact.getDisplayName().toLowerCase().contains(s.toString().toLowerCase())) {
+							newList.add(contact);
+						}
 					}
 				}
 				contactListViewAdapter.clear();

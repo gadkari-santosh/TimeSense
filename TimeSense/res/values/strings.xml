@@ -14,13 +14,23 @@
     <string name="default_pref_interrupt_call">true</string>
     <string name="default_pref_status">Available</string>
     
-    <string name="time_sense_rest_ws">http://192.169.227.84:2784/TimeSenseServer</string>
+    <string name="time_sense_rest_ws">http://192.169.227.84:2784/TimeSenseServer</string>    
+	<!-- <string name="time_sense_rest_ws">http://192.168.0.5:8080/TimeSenseServer</string> -->
     
     <string name="gcm_code">969393679073</string>
     
     <string name="contact_us_email">timesense@gmail.com</string>
     <string name="contact_us_email_subject">feedback</string>
+
+    <string name="help"></string>
+    <string name="about_us_our_story">Are you annoyed with someone calling you at wee hours or are you keep adding numbers when calling someone overseas? Many would answer “yes” and when we come across same problem at workplace TimeSense born.
+ \n\t\tTimeSense provides advanced contact view with current time against each number, well designed dial pad let you see time just after you put dial code, Planner help to find common time for global meetings. 
+Whats more, TimeSense make your friends aware of your travel and stop them calling you during sleeping time.
+    </string>
     
-    <string name="about_us_birds_eye">Time sense is all about recognizing time in every way.</string>
-    <string name="about_us_our_story">Santosh, kuch to story bana :)</string>
+    <string name="CREATE_CALL_LOG">create table if not exists CALL_LOG (_id INTEGER PRIMARY KEY AUTOINCREMENT, name text, number text, home_country text, home_timezone text, home_date text, home_time text, recp_country text, recp_timezone text, recp_date text, recp_time text, duration text, call_type integer)</string>
+    <string name="DROP_CALL_LOG">DROP TABLE CALL_LOG</string>
+    
+    <string name="CREATE_USER">CREATE TABLE IF NOT EXISTS USER (number text, timezone text, time text)</string>
+    <string name="DROP_USER">DROP TABLE USER</string>
 </resources>

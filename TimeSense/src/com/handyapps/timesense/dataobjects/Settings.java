@@ -1,9 +1,7 @@
 package com.handyapps.timesense.dataobjects;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.content.Context;
 
@@ -24,19 +22,15 @@ public class Settings {
 	private List<TimeCode> timePlanerTimeCodes = new ArrayList<TimeCode>();
 	private List<TimeCode> worldClockTimeCodes = new ArrayList<TimeCode>();
 	
-	private List<String> timeSenseConstants = new ArrayList<String>();
-	
-	private Map<String, String> timeZoneUpdates = new HashMap<String, String>(); 
-	
 	private int timePlannerRangeFrom = 8;
 	
 	private int timePlannerRangeTo = 20;
 	
-	private String callSenseFrom = "0800";
+	private int callSenseFrom = 9;
 	
-	private String callSenseTo = "2000";
+	private int callSenseTo = 20;
 	
-	private boolean enableCallSense = false;
+	private boolean enableCallSense = true;
 	
 	private String gcm;
 	
@@ -45,6 +39,10 @@ public class Settings {
 	private String email;
 	
 	private boolean signOnSuccess;
+	 
+	private boolean callLogLoaded = false;
+	
+	private String homeCountry = "";
 	
 	private Settings() {}
 	
@@ -61,12 +59,20 @@ public class Settings {
 		interceptCall = ResourceUtils.getBool(conext, R.string.default_pref_interrupt_call);
 	}
 	
-	public Map<String, String> getTimeZoneUpdates() {
-		return timeZoneUpdates;
+	public String getHomeCountry() {
+		return homeCountry;
 	}
 
-	public void setTimeZoneUpdates(Map<String, String> timeZoneUpdates) {
-		this.timeZoneUpdates = timeZoneUpdates;
+	public void setHomeCountry(String homeCountry) {
+		this.homeCountry = homeCountry;
+	}
+
+	public boolean isCallLogLoaded() {
+		return callLogLoaded;
+	}
+
+	public void setCallLogLoaded(boolean callLogLoaded) {
+		this.callLogLoaded = callLogLoaded;
 	}
 
 	public boolean isSignOnSuccess() {
@@ -101,27 +107,19 @@ public class Settings {
 		this.userId = userId;
 	}
 
-	public List<String> getTimeSenseConstants() {
-		return timeSenseConstants;
-	}
-
-	public void setTimeSenseConstants(List<String> timeSenseConstants) {
-		this.timeSenseConstants = timeSenseConstants;
-	}
-
-	public String getCallSenseFrom() {
+	public int getCallSenseFrom() {
 		return callSenseFrom;
 	}
 
-	public void setCallSenseFrom(String callSenseFrom) {
+	public void setCallSenseFrom(int callSenseFrom) {
 		this.callSenseFrom = callSenseFrom;
 	}
 
-	public String getCallSenseTo() {
+	public int getCallSenseTo() {
 		return callSenseTo;
 	}
 
-	public void setCallSenseTo(String callSenseTo) {
+	public void setCallSenseTo(int callSenseTo) {
 		this.callSenseTo = callSenseTo;
 	}
 
@@ -182,6 +180,8 @@ public class Settings {
 	}
 
 	public List<CallPrefix> getCallPrefixs() {
+		setDefaultCallPrefix();
+		
 		return callPrefixs;
 	}
 
@@ -222,5 +222,28 @@ public class Settings {
 		}
 		
 		return true;
+	}
+	
+	private void setDefaultCallPrefix() {
+		CallPrefix doubleZeroCallPrefix = new CallPrefix();
+		doubleZeroCallPrefix.setComment("Universal Standard");
+		doubleZeroCallPrefix.setPrefix("00");
+		
+		if (this.callPrefixs != null && !this.callPrefixs.contains(doubleZeroCallPrefix)) {
+			
+			this.callPrefixs.add(doubleZeroCallPrefix);
+		}
+	}
+	
+	public boolean isCallAllowed(int hour) {
+		boolean ok = false;
+		
+		if (hour == 0) hour = 24;
+		
+		if ( hour >= callSenseFrom && hour <= callSenseTo) {
+			ok = true;
+		}
+		
+		return ok;
 	}
 }

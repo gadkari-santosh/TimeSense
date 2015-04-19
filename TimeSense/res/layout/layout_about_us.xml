@@ -14,18 +14,18 @@
            android:layout_height="match_parent"
            android:textColor="@color/DeepSkyBlue"
            android:layout_margin="10dp"
-           android:textStyle="bold"
            android:textSize="16dp"
-           android:text="Bird's eye" />
-        
-         <TextView
+           android:textStyle="bold"
+           android:text="Our story" />
+       
+        <TextView
            android:layout_width="wrap_content"
            android:layout_height="match_parent"
            android:textColor="@color/White"
            android:layout_margin="10dp"
-           android:text="@string/about_us_birds_eye" />
-         
-       <TextView
+           android:text="@string/about_us_our_story" />
+
+        <TextView
            android:layout_width="wrap_content"
            android:layout_height="match_parent"
            android:textColor="@color/DeepSkyBlue"
@@ -39,7 +39,7 @@
            android:layout_height="match_parent"
            android:textColor="@color/White"
            android:layout_marginLeft="10dp"
-           android:text="Concept : Satish Rachamalla" />
+           android:text="Innovator: Satish, Santosh, Ajay &amp; Manju" />
        
         <TextView
            android:layout_width="wrap_content"
@@ -55,22 +55,6 @@
            android:layout_marginLeft="10dp"
            android:layout_marginBottom="10dp"
            android:text="Marketed By : Ajay &amp; Manjunath" />
-       
-        <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="match_parent"
-           android:textColor="@color/DeepSkyBlue"
-           android:layout_margin="10dp"
-           android:textSize="16dp"
-           android:textStyle="bold"
-           android:text="Our story" />
-       
-        <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="match_parent"
-           android:textColor="@color/White"
-           android:layout_margin="10dp"
-           android:text="@string/about_us_our_story" />
         
     </LinearLayout>
 

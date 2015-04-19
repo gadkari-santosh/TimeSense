@@ -9,8 +9,6 @@
         android:background="@color/Black"
         android:orientation="vertical" >
 
-      
-       
         <TextView
             android:id="@+id/title"
             android:layout_width="fill_parent"
@@ -71,7 +69,7 @@
                     android:background="@color/Black"
                     android:gravity="left"
                     android:paddingLeft="10dp"
-                    android:text="Interrupt every outgoing call and show callee&apos;s time details"
+                    android:text="Interrupt outgoing call based on call sense time range and show callee&apos;s time details"
                     android:textColor="@color/Gray" />
             </LinearLayout>
 
@@ -136,15 +134,15 @@
                     android:background="@color/Black"
                     android:gravity="left"
                     android:paddingLeft="10dp"
-                    android:text="Provide time range to interupt outgoing call."
+                    android:text="Provide allowable call time range without any interupt."
                     android:textColor="@color/Gray" />
             </LinearLayout>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_gravity="right"
+                android:layout_marginLeft="10dp"
                 android:src="@drawable/ic_action_next_item" />
         </LinearLayout>
 
@@ -215,8 +213,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="right"
                 android:layout_marginLeft="10dp"
-                 android:layout_gravity="right"
                 android:src="@drawable/ic_action_next_item" />
         </LinearLayout>
 
@@ -238,13 +236,15 @@
             android:textColor="@color/White"
             android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+         <LinearLayout
+            android:id="@+id/butTimeZoneUpdate"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
             android:background="@color/Black"
             android:gravity="left|center"
             android:orientation="horizontal" >
-
+            
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -254,6 +254,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.13"
                 android:background="@color/Black"
                 android:gravity="left|center"
                 android:orientation="vertical" >
@@ -265,7 +266,7 @@
                     android:background="@color/Black"
                     android:gravity="left"
                     android:paddingLeft="10dp"
-                    android:text="Local Time Zone"
+                    android:text="Notify Time Zone Update"
                     android:textColor="@color/DeepSkyBlue"
                     android:textSize="16dp"
                     android:textStyle="bold" />
@@ -277,9 +278,15 @@
                     android:background="@color/Black"
                     android:gravity="left"
                     android:paddingLeft="10dp"
-                    android:text="Don't Know"
+                    android:text="Don&apos;t Know"
                     android:textColor="@color/Gray" />
             </LinearLayout>
+             <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/ic_action_next_item" />
         </LinearLayout>
 
         <View
@@ -330,7 +337,7 @@
                     android:background="@color/Black"
                     android:gravity="left"
                     android:paddingLeft="10dp"
-                    android:text="Don't Know"
+                    android:text="Don&apos;t Know"
                     android:textColor="@color/Gray" />
             </LinearLayout>
         </LinearLayout>
@@ -383,9 +390,8 @@
                     android:background="@color/Black"
                     android:gravity="left"
                     android:paddingLeft="10dp"
-                    android:text="Don't know"
+                    android:text="Don&apos;t know"
                     android:textColor="@color/Gray" />
-                
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

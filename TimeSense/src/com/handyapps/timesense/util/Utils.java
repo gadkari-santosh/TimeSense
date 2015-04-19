@@ -4,6 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Calendar;
+import java.util.Date;
 
 import android.content.Context;
 import android.telephony.TelephonyManager;
@@ -70,6 +72,34 @@ public class Utils {
 		str = str.replaceAll("-", "");
 		
 		return str.trim();
+	}
+	
+	public static Date removeTime(Date date) {
 		
+		Calendar calendar = Calendar.getInstance();
+		calendar.clear();
+		
+		calendar.setTime( new Date(date.getTime()) );
+		calendar.set(Calendar.HOUR, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		
+		return calendar.getTime();
+		
+	}
+	
+	public static boolean isToday(Date date) {
+	     return removeTime(date).equals( removeTime(new Date()));
+	     
+	}
+	
+	public static boolean isYesterday(Date date) {
+		Date today = removeTime(new Date());
+		
+		today = new Date ( today.getTime() - 86400000 );
+		
+	    return removeTime(date).equals(today);
 	}
 }

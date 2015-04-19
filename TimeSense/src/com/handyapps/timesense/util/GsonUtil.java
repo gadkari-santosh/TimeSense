@@ -1,5 +1,7 @@
 package com.handyapps.timesense.util;
 
+import java.lang.reflect.Type;
+
 import android.content.Context;
 
 import com.google.gson.Gson;
@@ -11,7 +13,21 @@ public class GsonUtil {
 		return gson.toJson(object, cls);
 	}
 	
+	public static String getJSon(Object object, Type cls) {
+		Gson gson = new Gson();
+		return gson.toJson(object, cls);
+	}
+	
 	public static <T> T getObject(String json, Class<T> cls) {
+		try {
+			Gson gson = new Gson();
+			return gson.fromJson(json, cls);
+		} catch (Exception exp) {
+			return null;
+		}
+	}
+	
+	public static <T> T getObject(String json, Type cls) {
 		try {
 			Gson gson = new Gson();
 			return gson.fromJson(json, cls);

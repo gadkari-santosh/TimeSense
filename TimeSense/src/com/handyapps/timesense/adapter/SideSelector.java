@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
@@ -24,9 +25,13 @@ public class SideSelector extends View {
     private Paint paint;
     private String[] sections = {};
 
+    private Context context;
+    
     public SideSelector(Context context) {
         super(context);
         init();
+        
+        this.context = context;
     }
 
     public SideSelector(Context context, AttributeSet attrs) {
@@ -44,7 +49,7 @@ public class SideSelector extends View {
         setBackgroundColor(ResourceUtils.getColor(getContext(), R.color.White));
         paint = new Paint();
         paint.setColor(ResourceUtils.getColor(getContext(), R.color.Gray));
-        paint.setTextSize(20);
+        paint.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getContext().getResources().getDisplayMetrics()));
         paint.setTextAlign(Paint.Align.CENTER);
     }
 
@@ -93,7 +98,7 @@ public class SideSelector extends View {
     }
 
     private int getPaddedHeight() {
-        return getHeight() - BOTTOM_PADDING;
+        return (int) (getHeight() - TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, BOTTOM_PADDING, getContext().getResources().getDisplayMetrics()));
     }
 }
 

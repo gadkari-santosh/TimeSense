@@ -1,5 +1,7 @@
 package com.handyapps.timesense.adapter;
 
+import static com.handyapps.timesense.constant.AppContant.SHARED_CALL_INFO;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -13,14 +15,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.handyapps.timesense.R;
 import com.handyapps.timesense.dataobjects.CallInfo;
-import com.handyapps.timesense.dataobjects.TimeCode;
-import com.handyapps.timesense.service.TimeService;
+import com.handyapps.timesense.fragment.CallDetailsFragment;
+import com.handyapps.timesense.util.Utils;
 
 public class CallLogsListViewAdapter extends ArrayAdapter<CallInfo> {
 	
@@ -29,7 +34,7 @@ public class CallLogsListViewAdapter extends ArrayAdapter<CallInfo> {
 	private Context context = null;
 	
 	private SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
-	private SimpleDateFormat dayFormat = new SimpleDateFormat("MMM dd''yy");
+	private SimpleDateFormat dayFormat = new SimpleDateFormat("d MMM yyyy");
 	
 	
 	public CallLogsListViewAdapter(Context context, List<CallInfo> callInfos) {
@@ -49,15 +54,22 @@ public class CallLogsListViewAdapter extends ArrayAdapter<CallInfo> {
 		
 		try {
 			TextView displayName = (TextView) view.findViewById(R.id.contact);
-			ImageView globImage = (ImageView) view.findViewById(R.id.globPic);
+			final LinearLayout layoutCallInfo = (LinearLayout) view.findViewById(R.id.layoutCallInfo);
+			ImageButton imgButCallInfo = (ImageButton) view.findViewById(R.id.imgButCallInfo);
+			
+//			ImageView globImage = (ImageView) view.findViewById(R.id.globPic);
 			TextView phNumber = (TextView) view.findViewById(R.id.number);
-			TextView localTime = (TextView) view.findViewById(R.id.localTime);
-			TextView localDate = (TextView) view.findViewById(R.id.localDate);
-			TextView duration = (TextView) view.findViewById(R.id.duration);
-			TextView remoteTime = (TextView) view.findViewById(R.id.remoteTime);
-			TextView remoteDate = (TextView) view.findViewById(R.id.remoteDate);
+			TextView txtViewCallTime = (TextView) view.findViewById(R.id.txtViewCallTime);
+			
+//			TextView localTime = (TextView) view.findViewById(R.id.localTime);
+//			TextView localDate = (TextView) view.findViewById(R.id.localDate);
+//			TextView duration = (TextView) view.findViewById(R.id.duration);
+//			TextView remoteTime = (TextView) view.findViewById(R.id.remoteTime);
+//			TextView remoteDate = (TextView) view.findViewById(R.id.remoteDate);
 			
 			ImageView pic = (ImageView) view.findViewById(R.id.pic);
+			
+			final CallInfo callInfo = callInfos.get(position);
 			
 			View findViewById = view.findViewById(R.id.callLogRow);
 			findViewById.setOnClickListener(new OnClickListener() {
@@ -72,35 +84,68 @@ public class CallLogsListViewAdapter extends ArrayAdapter<CallInfo> {
 				}
 			});
 			
-			CallInfo callInfo = callInfos.get(position);
+			imgButCallInfo.setOnClickListener( new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					layoutCallInfo.callOnClick();
+				}
+			});
 			
-			displayName.setText(callInfo.getName());
+			layoutCallInfo.setOnClickListener( new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					
+					Gson gson = new Gson ();
+					
+					Intent intent = new Intent(context, CallDetailsFragment.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intent.putExtra(SHARED_CALL_INFO, gson.toJson(callInfo));
+					context.startActivity(intent);
+					
+					CallLogsListViewAdapter.this.notifyDataSetChanged();
+				}
+			});
+			
+			if ("".equalsIgnoreCase(callInfo.getName()))
+				displayName.setText("Unknown");
+			else 
+				displayName.setText(callInfo.getName());
 			phNumber.setText(callInfo.getPhoneNumber());
 			
-			localTime.setText(timeFormat.format(callInfo.getLocalTime()));
-			localDate.setText(dayFormat.format(callInfo.getLocalTime()));
-			duration.setText(callInfo.getDuration());
+			Date localTime = callInfo.getLocalDateTime();
 			
-			TimeService tService = TimeService.getInstance();
-			
-			TimeCode timeCode = tService.getTimeCodeByPhoneNumber(callInfo.getPhoneNumber());
-			
-			if (timeCode != null) {
-				String country = timeCode.getCountry();
-				
-				if (country != null && !"".equals(country.trim())) {
-					phNumber.setText(callInfo.getPhoneNumber()+","+country);
-				}
-				
-				globImage.setVisibility(ImageView.VISIBLE);
-				
-				remoteDate.setText(tService.getDate(timeCode, callInfo.getLocalTime()));
-				remoteTime.setText(tService.getTime(timeCode, callInfo.getLocalTime()));
+			if (Utils.isToday(localTime)) {
+				txtViewCallTime.setText("Today");
+			} else if (Utils.isYesterday(localTime)) {
+				txtViewCallTime.setText("Yesterday");
 			} else {
-				remoteDate.setText("");
-				remoteTime.setText("");
-				globImage.setVisibility(ImageView.INVISIBLE);
+				String callTime = dayFormat.format(localTime);
+				txtViewCallTime.setText(callTime);
 			}
+			
+			
+//			if (callInfo.getLocalTime() != null) {
+//				localTime.setText(timeFormat.format(callInfo.getLocalTime()));
+//				localDate.setText(dayFormat.format(callInfo.getLocalTime()));
+//			}
+//			duration.setText(callInfo.getDuration());
+//			
+//			if (callInfo.getRemoteTime() != null) {
+//				globImage.setVisibility(ImageView.VISIBLE);
+//				
+//				String time = timeFormat.format(callInfo.getRemoteTime());
+//				String date = dayFormat.format(callInfo.getRemoteTime());
+//				
+//				remoteTime.setText(time);
+//				remoteDate.setText(date);
+//				
+//				phNumber.setText( callInfo.getPhoneNumber() + "," + callInfo.getCountry() );
+//				
+//			} else {
+//				globImage.setVisibility(ImageView.INVISIBLE);
+//			}
 			
 			switch ( callInfo.getCallType() ) {
 				

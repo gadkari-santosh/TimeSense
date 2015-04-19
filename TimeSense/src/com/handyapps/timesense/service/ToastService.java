@@ -1,7 +1,18 @@
 package com.handyapps.timesense.service;
 
+import static com.handyapps.timesense.constant.AppContant.SHARED_PREF_NAME;
+
+import java.util.Date;
+import java.util.Map;
+import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -10,11 +21,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.handyapps.timesense.R;
+import com.handyapps.timesense.dataobjects.CallInfo;
 import com.handyapps.timesense.dataobjects.TimeCode;
+import com.handyapps.timesense.db.CallLogDAO;
 
 public class ToastService {
 
+	public static AtomicBoolean isCallEnded = new AtomicBoolean(false);
+	
 	@SuppressLint("NewApi")
 	public static void showOutCall(Context context, String phoneNumber) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -81,6 +97,8 @@ public class ToastService {
 	
 	@SuppressLint("NewApi")
 	public static void showInCall(Context context, String phoneNumber) {
+		Gson gson = new Gson();
+		
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		View layout = inflater.inflate(R.layout.layout_toast_incoming_call, null);
@@ -92,9 +110,23 @@ public class ToastService {
 		
 		ImageView kaal =(ImageView) layout.findViewById(R.id.imgViewKaal);
 		
-		TimeService timeService = TimeService.getInstance();
+		TimeSenseUsersService service = TimeSenseUsersService.getInstance();
+		service.init(context);
 		
-		TimeCode timeCode = timeService.getTimeCodeByPhoneNumber(phoneNumber);
+		CallLogDAO dao = new CallLogDAO(context);
+		
+		Map<String, String> timeSenseUserTimeZones = service.getTimeSenseUserTimeZones();
+		
+		TimeService timeService = TimeService.getInstance();
+		TimeCode timeCode = null;
+		
+		if (timeSenseUserTimeZones != null && timeSenseUserTimeZones.get(phoneNumber) != null) {
+			timeCode = timeService.getTimeCodeByTimeZone(timeSenseUserTimeZones.get(phoneNumber));
+		}
+		
+		if (timeCode == null)
+			timeCode = timeService.getTimeCodeByPhoneNumber(phoneNumber);
+		
 		String code = timeCode.getCountry();
 		
 		if (code != null && !"".equals(code.trim())) {
@@ -113,7 +145,35 @@ public class ToastService {
 				DisplayMetrics metrics = context.getResources().getDisplayMetrics();
 				int height = metrics.heightPixels;
 				
-				for (int i=0; i<5; i++) {
+				CallInfo callInfo = new CallInfo();
+				
+				callInfo.setRecipientCountry(timeCode.getCountry());
+				callInfo.setRemoteTime( TimeService.getInstance().getTime(timeCode) );
+				callInfo.setRemoteDate( TimeService.getInstance().getDate(timeCode) );
+				callInfo.setRecipientTimeZone( timeCode.getTimeZone() );
+				
+				callInfo.setHomeTimeZone( TimeZone.getDefault().getDisplayName() );
+				callInfo.setHomeCountry( SettingsService.getInstance().getSettings().getHomeCountry() ) ;
+				
+				Date today = new Date();
+				
+				callInfo.setLocalTime( TimeService.getInstance().getTime(today)  );
+				callInfo.setLocalDate( TimeService.getInstance().getDate(today)  );
+				
+				callInfo.setPhoneNumber(phoneNumber);
+				
+				String json = gson.toJson(callInfo);
+				
+				SharedPreferences sp=context.getSharedPreferences(SHARED_PREF_NAME, 1);
+				Editor edit = sp.edit();
+				edit.putString("CallInfo", json);
+				edit.commit();
+
+				for (int i=0; i<3; i++) {
+					
+					if (isCallEnded.get())
+						break;
+					
 					Toast toast = new Toast(context);
 					toast.setDuration(Toast.LENGTH_LONG);
 					toast.setGravity(Gravity.FILL_HORIZONTAL, 0, (int) (height-height*0.1));
@@ -121,6 +181,11 @@ public class ToastService {
 					toast.setView(layout);
 					toast.show();
 					
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

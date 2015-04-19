@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
@@ -12,6 +13,7 @@ import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.widget.Toast;
 
+import com.handyapps.timesense.R;
 import com.handyapps.timesense.constant.Contact;
 import com.handyapps.timesense.dataobjects.Settings;
 import com.handyapps.timesense.util.Utils;
@@ -37,13 +39,15 @@ public class ContactService {
 		contacts.clear();
 		
 		Settings settings = SettingsService.getInstance().getSettings();
-		timeSense = settings.getTimeSenseConstants();
+		timeSense = TimeSenseUsersService.getInstance().getTimeSenseNumbers();
+		Map<String, String> timeSenseUserTimeZones = TimeSenseUsersService.getInstance().getTimeSenseUserTimeZones();
 		
 		Cursor contactCursor = context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
 				 				null, null, null);
 		 
 		String contactName = null;
-		String phNumber = null;
+		String phNumber    = null;
+		String contactType = null;
 		
 		
 		int unknownCount = 1;
@@ -53,7 +57,8 @@ public class ContactService {
 		   		 
 		            contactName = contactCursor.getString(contactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
 		            phNumber = contactCursor.getString(contactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-		             
+		            contactType = contactCursor.getString(contactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+		            
 		            if (phNumber == null || "".equals(phNumber))
 		             	continue;
 		             	
@@ -62,7 +67,20 @@ public class ContactService {
 		            
 		            contact.setDisplayName(contactName);
 		            contact.setPhoneNumber( Utils.removeSpaces(phNumber) );
+		            
+		            try {
+		            	contact.setContactType(getContactType(Integer.parseInt(contactType)));
+		            } catch (Throwable e) {}
 		             
+		            if (timeSense.contains( contact.getPhoneNumber() )) {
+		            	String timeZone = timeSenseUserTimeZones.get(contact.getPhoneNumber());
+		            	
+		            	if (timeZone != null && !"".equals(timeZone)) {
+		            		contact.setParkTimeZone(timeZone);
+		            	}
+			    		contact.setTimeSense(true);
+			    	}
+		            
 		            TimeService.getInstance().populateTimeInformation(contact);
 		             
 		            contacts.add(contact);
@@ -78,15 +96,8 @@ public class ContactService {
     	}
         
         Collections.sort(contacts);
-        
-        for (Contact contact : contacts) {
-	    	
-	    	if (timeSense.contains( contact.getPhoneNumber() )) {
-	    		contact.setTimeSense(true);
-	    	}
-	    }
- 		
- 		int size = contacts.size();
+
+        int size = contacts.size();
 
  		for (int x = 0; x < size; x++) {
  			String s = contacts.get(x).getDisplayName();
@@ -133,22 +144,33 @@ public class ContactService {
 		
 		return contacts;
 	}
+
+	private int getContactType (int type) {
+		switch (type) {
+		
+			case ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE:
+				return R.drawable.ic_contact_mobile;
+				
+			case ContactsContract.CommonDataKinds.Phone.TYPE_HOME:
+				return R.drawable.ic_contact_home;
+				
+			case ContactsContract.CommonDataKinds.Phone.TYPE_WORK:
+				return R.drawable.ic_contact_work;
+				
+			case ContactsContract.CommonDataKinds.Phone.TYPE_FAX_WORK:
+			case ContactsContract.CommonDataKinds.Phone.TYPE_FAX_HOME:
+				return R.drawable.ic_contact_fax;
+
+			default:
+				return R.drawable.ic_contact_other;
+		}
+	}
 	
-	public void setTimeSenseNumber(List<String> numbers) {
-		if (numbers != null) {
-			Settings settings = SettingsService.getInstance().getSettings();
-			List<String> timeSenseConstants = settings.getTimeSenseConstants();
-			
-			if (timeSenseConstants == null)
-				timeSenseConstants = new ArrayList<String>();
-			
-			timeSenseConstants.addAll(numbers);
-			
-			settings.setTimeSenseConstants(timeSenseConstants);
-			
-			SettingsService.getInstance().saveSettings();
-			
-			this.timeSense.addAll(numbers);
+	public void updateTimeZone(String id, String timeZone) {
+		for (Contact contact : contacts) {
+			if (id.equalsIgnoreCase(contact.getPhoneNumber())) {
+				contact.setTimeZone(timeZone);
+			}
 		}
 	}
 }

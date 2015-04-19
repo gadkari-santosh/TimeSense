@@ -1,9 +1,9 @@
 package com.handyapps.timesense.util;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.text.Html;
 
 public class Dialog {
 
@@ -16,7 +16,7 @@ public class Dialog {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
 
 		// set title
-		alertDialogBuilder.setTitle(title);
+		alertDialogBuilder.setTitle(Html.fromHtml("<font color='#33B5E5'>"+title+"</font>"));
 
 		// set dialog message
 		alertDialogBuilder
@@ -51,7 +51,7 @@ public class Dialog {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
 		
 		// set title
-		alertDialogBuilder.setTitle(title);
+		alertDialogBuilder.setTitle(Html.fromHtml("<font color='#33B5E5'>"+title+"</font>"));
 		
 		// set dialog message
 		alertDialogBuilder
@@ -83,7 +83,7 @@ public class Dialog {
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 			
 			// set title
-			alertDialogBuilder.setTitle(title);
+			alertDialogBuilder.setTitle(Html.fromHtml("<font color='#33B5E5'>"+title+"</font>"));
 			
 			// set dialog message
 			alertDialogBuilder

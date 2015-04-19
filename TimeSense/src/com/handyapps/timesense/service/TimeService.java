@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 import android.content.Context;
 import android.widget.ImageView;
 
@@ -29,15 +32,14 @@ public class TimeService {
 
 	private static final TimeService INSTANCE = new TimeService();
 	
-	private SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
-	private SimpleDateFormat dayFormat = new SimpleDateFormat("MMM dd''yy");
+	public static final String DATE_TIME_FORMAT = "d MMM yyyy hh:mm a";
+	
+	private SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
+	private SimpleDateFormat dayFormat = new SimpleDateFormat("d MMM yyyy");
 	
 	private static Map<String, List<TimeCode>> TIME_CACHE = new LinkedHashMap<String, List<TimeCode>>();
 	
-	Context context = null;
-	
-	SettingsService service = SettingsService.getInstance();
-	Settings settings = service.getSettings();
+	private Context context = null;
 	
 	private TimeService() {}
 	
@@ -95,24 +97,7 @@ public class TimeService {
 		
 		contact.setKaal(Kaal.NA);
 		
-		Map<String, String> timeZoneUpdates = settings.getTimeZoneUpdates();
-		
-//		Map<String, String> timeZoneUpdates = settings.getTimeZoneUpdates();
-//		
-//		if (timeZoneUpdates != null && timeCode != null) {
-//			if (timeZoneUpdates.containsKey( phoneNumber ) ) {
-//				timeCode.setParkTimeZone( timeCode.getTimeZone() );
-//				
-//				timeCode.setTimeZone( timeZoneUpdates.get( phoneNumber) );
-//				
-//				if (! timeCode.isAwayFromHome()) {
-//					//timeZoneUpdates.remove( phoneNumber );
-//					
-//					service.saveSettings();
-//				}
-//			}
-//		}
-		
+		Map<String, String> timeZoneUpdates = TimeSenseUsersService.getInstance().getTimeSenseUserTimeZones();
 		
 		if (phoneNumber.trim().startsWith("+")) {
 			
@@ -130,38 +115,36 @@ public class TimeService {
 						
 						contact.setTimeZone( timeZoneUpdates.get( phoneNumber) );
 						
-//						if (! contact.isAwayFromHome()) {
-//							timeZoneUpdates.remove( phoneNumber );
-//							
-//							service.saveSettings();
-//						}
 					} else {
 						contact.setTimeZone(timeCode.getTimeZone());
 					}
 				} else {
 					contact.setTimeZone(timeCode.getTimeZone());
 				}
-					
-				
-//				if (timeZoneUpdates.containsKey(phoneNumber)) {
-//					timeZone = timeZoneUpdates.get( phoneNumber );
-//					
-//					contact.setTimeZone(timeZone);
-//					contact.setParkTimeZone( timeCode.getTimeZone() );
-//				} else {
-//					contact.setTimeZone(timeCode.getTimeZone());
-//				}
 				
 				Calendar.getInstance().clear();
-				timeZone = contact.getTimeZone();
+				
+				if (contact.getParkTimeZone() != null && contact.isAwayFromHome()) {
+					timeZone = contact.getParkTimeZone();
+				} else {
+					timeZone = contact.getTimeZone();
+				}
 				
 				Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timeZone));
 				calendar.setTimeZone(TimeZone.getTimeZone(timeZone));
-				format.setTimeZone(TimeZone.getTimeZone(timeZone));
+				timeFormat.setTimeZone(TimeZone.getTimeZone(timeZone));
 				
-				contact.setTime(format.format(calendar.getTime()));
+				contact.setTime(timeFormat.format(calendar.getTime()));
 				contact.setDate(dayFormat.format(calendar.getTime()));
 				contact.setKaal(getKaal(calendar.get(Calendar.HOUR_OF_DAY)));
+				
+				int hour = calendar.get(Calendar.HOUR_OF_DAY);
+				
+				if (SettingsService.getInstance().getSettings().isCallAllowed(hour)) {
+					contact.setStatus("Available");
+				} else {
+					contact.setStatus("Avoid Calling.");
+				}
 			}
 		} else {
 		
@@ -186,14 +169,22 @@ public class TimeService {
 								Calendar.getInstance().clear();
 								Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timeCode.getTimeZone()));
 								calendar.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
-								format.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
+								timeFormat.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
 								
 								contact.setCountry(timeCode.getCountry());
-								contact.setTime(format.format(calendar.getTime()));
+								contact.setTime(timeFormat.format(calendar.getTime()));
 								contact.setTimeZone(timeCode.getTimeZone());
 								contact.setDate(dayFormat.format(calendar.getTime()));
 								
 								contact.setKaal(getKaal(calendar.get(Calendar.HOUR_OF_DAY)));
+								
+								int hour = calendar.get(Calendar.HOUR_OF_DAY);
+								
+								if (SettingsService.getInstance().getSettings().isCallAllowed(hour)) {
+									contact.setStatus("Available");
+								} else {
+									contact.setStatus("Avoid Calling.");
+								}
 							}
 						}
 					}
@@ -209,7 +200,6 @@ public class TimeService {
 		List<CallPrefix> callPrefixs = SettingsService.getInstance().getSettings().getCallPrefixs();
 		
 		if (callPrefixs == null) {
-			Settings.getInstance().init(context);
 			callPrefixs = SettingsService.getInstance().getSettings().getCallPrefixs();
 		}
 		
@@ -238,6 +228,19 @@ public class TimeService {
 		
 		return code;
 	}
+	
+	public TimeCode getTimeCodeByTimeZone(String timeZone) {
+		
+		for (List<TimeCode> codes : TIME_CACHE.values()) {
+			for (TimeCode code : codes) {
+				if (code.getTimeZone().equalsIgnoreCase(timeZone)) {
+					return code;
+				}
+			}
+		}
+		return null;
+	}
+	
 	
 	private TimeCode getTimeCode(String phoneNumber) {
 		
@@ -312,12 +315,77 @@ public class TimeService {
 			Calendar.getInstance().clear();
 			Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timeCode.getTimeZone()));
 			calendar.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
-			format.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
+			timeFormat.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
 			
-			return format.format(calendar.getTime());
+			return timeFormat.format(calendar.getTime());
 		}
 		
 		return null;
+	}
+	
+	public Date getDateByTimeCode(TimeCode timeCode) {
+		
+		SimpleDateFormat dateTimeFormat = new SimpleDateFormat("MMM dd yyyy hh:mm a Z");
+		
+		if (timeCode != null) {
+			Calendar.getInstance().clear();
+			Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timeCode.getTimeZone()));
+			calendar.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
+			dateTimeFormat.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
+			
+			String format2 = dateTimeFormat.format(calendar.getTime());
+			
+			try {
+				DateTime dateTime = new DateTime(calendar.getTime().getTime(), DateTimeZone.forID(timeCode.getTimeZone()));
+				return dateTime.toDate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return null;
+	}
+	
+	public String getTime(Date date, TimeCode timeCode) {
+		
+		if (timeCode != null) {
+		Calendar.getInstance().clear();
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timeCode.getTimeZone()));
+		calendar.setTime(date);
+		calendar.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
+		timeFormat.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
+		
+		return timeFormat.format(calendar.getTime());
+		}
+		return null;
+	}
+	
+	public String getDate(Date date, TimeCode timeCode) {
+		
+		if (timeCode != null) {
+		Calendar.getInstance().clear();
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timeCode.getTimeZone()));
+		calendar.setTime(date);
+		calendar.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
+		dayFormat.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
+		
+		return dayFormat.format(calendar.getTime());
+		}
+		return null;
+	}
+	
+	public int getHour(TimeCode timeCode) {
+		
+		if (timeCode != null) {
+			Calendar.getInstance().clear();
+			Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timeCode.getTimeZone()));
+			calendar.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
+			timeFormat.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
+			
+			return calendar.get(Calendar.HOUR_OF_DAY);
+		}
+		
+		return 0;
 	}
 	
 	public Kaal getKaal(TimeCode timeCode) {
@@ -333,6 +401,20 @@ public class TimeService {
 		return null;
 	}
 	
+	public Kaal getKaal(Date date, TimeCode timeCode) {
+		
+		if (timeCode != null) {
+			Calendar.getInstance().clear();
+			Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timeCode.getTimeZone()));
+			calendar.setTime(date);
+			calendar.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
+			
+			return getKaal(calendar.get(Calendar.HOUR_OF_DAY));
+		}
+		
+		return null;
+	}
+	
 	public String getTime(TimeCode timeCode, Date date) {
 		
 		if (timeCode != null) {
@@ -340,9 +422,9 @@ public class TimeService {
 			Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timeCode.getTimeZone()));
 			calendar.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
 			calendar.setTime(date);
-			format.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
+			timeFormat.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
 			
-			return format.format(calendar.getTime());
+			return timeFormat.format(calendar.getTime());
 		} else {
 			return null;
 		}
@@ -372,6 +454,26 @@ public class TimeService {
 			dayFormat.setTimeZone(TimeZone.getTimeZone(timeCode.getTimeZone()));
 			
 			return dayFormat.format(calendar.getTime());
+		} else {
+			return null;
+		}
+	}
+	
+	public String getDate(Date timeCode) {
+		SimpleDateFormat dayFormat = new SimpleDateFormat("d MMM yyyy");
+		
+		if (timeCode != null) {
+			return dayFormat.format(timeCode);
+		} else {
+			return null;
+		}
+	}
+	
+	public String getTime(Date timeCode) {
+		SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
+		
+		if (timeCode != null) {
+			return timeFormat.format(timeCode);
 		} else {
 			return null;
 		}
@@ -428,5 +530,27 @@ public class TimeService {
 	
 	public Map<String, List<TimeCode>> getAllTimeZoneInfo() {
 		return TIME_CACHE;
+	}
+	
+	public String getLocalDialCode() {
+		String timeZone = TimeZone.getDefault().getID();
+		
+		for (List<TimeCode> codes : TIME_CACHE.values()) {
+			for (TimeCode code : codes) {
+				if (timeZone.equalsIgnoreCase(code.getTimeZone())) {
+					return code.getDialCode();
+				}
+			}
+		}
+ 		
+		return "00";
+	}
+	
+	public boolean isLoaded() {
+		if (TIME_CACHE != null && TIME_CACHE.size() > 50) {
+			return true;
+		}
+		
+		return false;
 	}
 }

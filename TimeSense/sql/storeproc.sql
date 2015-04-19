@@ -1,40 +1,31 @@
 DELIMITER $$
-CREATE PROCEDURE create_user(
+CREATE PROCEDURE `create_user`(
 p_in_user_id varchar(1000),
-p_in_email varchar(1000),
-p_in_gcm_hash varchar(4000),
-out p_out_id integer 
+p_id_gcm_code varchar(4000),
+p_in_session_id varchar(4000),
+p_in_time_zone varchar(4000)
 )
 BEGIN
 
-DECLARE CONTINUE HANDLER FOR 1062
-select id into p_out_id from master_user
+DECLARE p_out_id INT DEFAULT 0;
+
+select id into p_out_id from user
 where user_id=p_in_user_id;
 
-insert into master_user (user_id,email,gcm_code) values (p_in_user_id,p_in_email,p_in_gcm_hash);
+if p_out_id <> 0 then
+	
+	update user set session_id=p_in_session_id, gcm_code=p_id_gcm_code, time_zone=p_in_time_zone
+	where user_id=p_in_user_id;
+	
+else
+  	insert into user (user_id,session_id,gcm_code,time_zone) 
+  	values (p_in_user_id, p_in_session_id, p_id_gcm_code,p_in_time_zone);
+  
+end if;
 
-select id into p_out_id from master_user
-where user_id=p_in_user_id;
-
-INSERT INTO authentication 
-	(auth_string, status, attempt_ts)
-VALUES (p_in_user_id, 'Success', sysdate()); 
+UPDATE auth_log 
+	set status='SUCCESS'
+WHERE session_id=p_in_session_id;
 
 END$$
 
--- Second
-
-DELIMITER $$
-CREATE PROCEDURE create_authentication(
-p_in_phone varchar(100),
-p_in_pin varchar(100),
-p_in_status varchar(100)
-)
-BEGIN
-
-INSERT INTO authentication 
-	(auth_string, pin, status, start_ts)
-VALUES (p_in_phone, p_in_pin, p_in_status, sysdate());    
-
-
-END$$

@@ -9,8 +9,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.text.Editable;
+import android.text.Html;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,12 +26,13 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.handyapps.timesense.R;
 import com.handyapps.timesense.dataobjects.Settings;
-import com.handyapps.timesense.dataobjects.Status;
-import com.handyapps.timesense.dataobjects.StatusCode;
+import com.handyapps.timesense.dataobjects.TimeCode;
 import com.handyapps.timesense.dataobjects.User;
+import com.handyapps.timesense.dataobjects.response.Status;
+import com.handyapps.timesense.dataobjects.response.StatusCode;
 import com.handyapps.timesense.service.SettingsService;
 import com.handyapps.timesense.service.TimeSenseRestClient;
-import com.handyapps.timesense.task.AsyncContact;
+import com.handyapps.timesense.service.TimeService;
 import com.handyapps.timesense.util.Dialog;
 import com.handyapps.timesense.util.ResourceUtils;
 
@@ -42,6 +47,27 @@ public class RegisterActivity extends Activity {
 	    
 	    final ProgressDialog progress = new ProgressDialog(this);
 	    
+	    final TimeService timeService = TimeService.getInstance();
+	    
+	    final User user = new User();
+	    
+	    final Button buttonSignIn = (Button) findViewById(R.id.buttonSignIn);
+	    
+	    final EditText phoneNumber = (EditText) findViewById(R.id.editTextPhoneNumber);
+	    final EditText editTxtCode = (EditText) findViewById(R.id.editTxtCode);
+	    
+	    final EditText editTxtPin = (EditText) findViewById(R.id.editTxtPin);
+//	    final EditText code2 = (EditText) findViewById(R.id.code2);
+//	    final EditText code3 = (EditText) findViewById(R.id.code3);
+//	    final EditText code4 = (EditText) findViewById(R.id.code4);
+//	    final EditText code5 = (EditText) findViewById(R.id.code5);
+//	    final EditText code6 = (EditText) findViewById(R.id.code6);
+	    
+	    final TextView txtViewCountry = (TextView) findViewById(R.id.txtViewCountry);
+	    final TextView txtViewTZ = (TextView) findViewById(R.id.txtViewTZ);
+	    
+//	    final EditText[] codes = {code1, code2, code3, code4, code5, code6};
+	    
 	    Button skip = (Button) findViewById(R.id.buttonSkip);
 		skip.setOnClickListener( new OnClickListener() {
 			
@@ -52,7 +78,6 @@ public class RegisterActivity extends Activity {
                 finish();
 			}
 		});
-		
 	    
 	    if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -63,37 +88,64 @@ public class RegisterActivity extends Activity {
 	    	Toast.makeText(RegisterActivity.this, "Cannot proceed. Please login Google play", Toast.LENGTH_LONG).show();
 	    	return;
 	    }
-
-	    final Button buttonSignIn = (Button) findViewById(R.id.buttonSignIn);
 	    
-	    final EditText phoneNumber = (EditText) findViewById(R.id.editTextPhoneNumber);
-	    final TextView txtViewEmail = (TextView) findViewById(R.id.txtViewEmail);
-	    
-	    final EditText code1 = (EditText) findViewById(R.id.code1);
-	    final EditText code2 = (EditText) findViewById(R.id.code2);
-	    final EditText code3 = (EditText) findViewById(R.id.code3);
-	    final EditText code4 = (EditText) findViewById(R.id.code4);
-	    final EditText code5 = (EditText) findViewById(R.id.code5);
-	    final EditText code6 = (EditText) findViewById(R.id.code6);
-	    
-	    final EditText[] codes = {code1, code2, code3, code4, code5, code6};
-	    
-	    for (EditText code : codes) {
-			code.setEnabled(false);
-			code.setVisibility(EditText.INVISIBLE);
-		}
+    	editTxtPin.setEnabled(false);
+		editTxtPin.setVisibility(EditText.INVISIBLE);
 	    
 	    String webservice = ResourceUtils.getString(this, R.string.time_sense_rest_ws);
+	    
+	    phoneNumber.requestFocus();
+	    getWindow().setSoftInputMode (WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+	    
 	    final TimeSenseRestClient client = new TimeSenseRestClient(webservice);
+	    
+	    String localDialCode = timeService.getLocalDialCode();
+	    if (!localDialCode.startsWith("+"))
+	    	localDialCode = "+" + localDialCode;
+	    
+	    TimeCode localTimeCode = timeService.getTimeCodeByPhoneNumber(localDialCode);
+	    
+	    if (localTimeCode != null) {
+	    	txtViewCountry.setText(localTimeCode.getCountry());
+	    	txtViewTZ.setText(localTimeCode.getTimeZone());
+	    }
+	    
+	    editTxtCode.setText("+"+TimeService.getInstance().getLocalDialCode());
+	    
+	    editTxtCode.addTextChangedListener( new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				//NOP
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				//NOP
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				
+				txtViewCountry.setText("");
+				txtViewTZ.setText("");
+				
+				if (!s.toString().startsWith("+")) {
+					Toast.makeText(getApplicationContext(), "The Code should start with +", Toast.LENGTH_LONG).show();
+					return;
+				}
+				
+				TimeCode timeCode = timeService.getTimeCodeByPhoneNumber(s.toString());
+				if (timeCode != null) {
+					txtViewCountry.setText(timeCode.getCountry());
+			    	txtViewTZ.setText(timeCode.getTimeZone());
+				}
+			}
+		});
 	    
 	    buttonSignIn.setOnClickListener( new OnClickListener() {
 			
-//	    	public static final String API_KEY = "5fc27787";
-//	        public static final String API_SECRET = "bcd28320";
-//
-//	        public static final String SMS_FROM = "12345";
-//	        public static final String SMS_TEXT = "Your six digit one time pin is %s. Please enter this to proceed with time sense.";
-	        
 			@Override
 			public void onClick(View v) {
 				
@@ -102,30 +154,34 @@ public class RegisterActivity extends Activity {
 					return;
 				}
 				
+				String number = editTxtCode.getText().toString() + phoneNumber.getText().toString();
+				
 				 // Check device for Play Services APK.
 			    if (checkPlayServices()) {
 			    	
+			    	if (!ResourceUtils.isNetworkAvailable(RegisterActivity.this)) {
+			    		Dialog.show(RegisterActivity.this, "No network available", "Error");
+			    		return;
+			    	}
+			    	
 			    	if ("Verify".equalsIgnoreCase(buttonSignIn.getText().toString())) {
 			    	      
-			    		buttonSignIn.setEnabled(false);
+			    		buttonSignIn.setEnabled(true);
+			    		buttonSignIn.setVisibility(EditText.VISIBLE);
 			    		
-			    		CallRest rest = new CallRest(RegisterActivity.this, buttonSignIn, phoneNumber,codes);
-			    		rest.execute(phoneNumber.getText().toString());
+			    		CallRest rest = new CallRest(RegisterActivity.this, buttonSignIn, editTxtPin, user);
+			    		rest.execute(number);
 			    		
 			    		return;
 			    	} 
 			    	
 			    	if ("Sign In".equalsIgnoreCase(buttonSignIn.getText().toString())) {
 			    		
-			    		StringBuffer userCode = new StringBuffer();
-			    		for (EditText code : codes) {
-			    			userCode.append( code.getText().toString() );
-			    		}
+//			    		user.setEmail(txtViewEmail.getText().toString());
+			    		user.setPin(editTxtPin.getText().toString());
+			    		user.setUserId(number);
 			    		
-			    		User user = new User();
-			    		user.setEmail(txtViewEmail.getText().toString());
-			    		user.setPin(userCode.toString());
-			    		user.setUserId(phoneNumber.getText().toString());
+			    		user.setTimeZone(txtViewTZ.getText().toString());
 			    		
 			    		 final Task task = new Task(RegisterActivity.this, user, progress);
 			    		 task.execute();
@@ -136,8 +192,6 @@ public class RegisterActivity extends Activity {
 			    }
 			}
 		});
-	    
-	   
 	}
 
 	// You need to do the Play Services APK check here too.
@@ -174,32 +228,37 @@ public class RegisterActivity extends Activity {
 
 class CallRest extends AsyncTask<String, String, Status> {
 
-	private String url;
 	private ProgressDialog dialog = null;
-	private Context ctx;
-	Button progress; EditText text;
-	EditText[] codes;
 	
-	CallRest(Context ctx, Button progress, EditText text,EditText[] codes) {
+	private Context ctx;
+	
+	private User user;
+	
+	private Button progress; 
+	
+	private String url;
+	
+	private EditText codes;
+	
+	CallRest(Context ctx, Button progress, EditText codes,User user) {
 		this.ctx = ctx;
 		this.progress = progress;
-		this.text = text;
 		this.codes = codes;
-		
+		this.user = user;
 	}
 	
 	 @Override
 	    protected void onPreExecute() {
 	      super.onPreExecute();
 	      dialog = new ProgressDialog(ctx);
-			dialog.setMessage("Working ...");
+			dialog.setMessage(Html.fromHtml("<font color='#33B5E5'>Working ...</font>"));
 			dialog.setIndeterminate(false);
 			dialog.setCancelable(false);
 			dialog.show();
 	    }
 	
 	@Override
-	protected com.handyapps.timesense.dataobjects.Status doInBackground(String... params) {
+	protected com.handyapps.timesense.dataobjects.response.Status doInBackground(String... params) {
 		
 		String webservice = ResourceUtils.getString(ctx, R.string.time_sense_rest_ws);
 		    final TimeSenseRestClient client = new TimeSenseRestClient(webservice);
@@ -208,21 +267,18 @@ class CallRest extends AsyncTask<String, String, Status> {
 	}
 	
 	@Override
-	protected void onPostExecute(com.handyapps.timesense.dataobjects.Status status) {
+	protected void onPostExecute(com.handyapps.timesense.dataobjects.response.Status status) {
 		
 		if (status != null && status.getStatusCode() == StatusCode.SUCCESS) {
 			
 			Toast.makeText(ctx, status.getStatusDescription(), Toast.LENGTH_LONG).show();
 			
-			text.setEnabled(false);
+			user.setSessionId( status.getSessionId() );
+			
 			progress.setText("Sign In");
 			
-			for (EditText code : codes) {
-				code.setEnabled(true);
-				code.setVisibility(EditText.VISIBLE);
-			}
-			
-//			return;
+			codes.setEnabled(true);
+			codes.setVisibility(EditText.VISIBLE);
 		} else {
 			Dialog.show(ctx, status.getStatusDescription(), "Error");
 		}
@@ -239,6 +295,8 @@ class Task extends AsyncTask<Void, String, String> {
 	private User user;
 	private String gcmHash;
 	
+	private String exception;
+	
 	private ProgressDialog dialog = null;
 	
 	Task(Context ctx, User user, ProgressDialog progress) {
@@ -246,7 +304,7 @@ class Task extends AsyncTask<Void, String, String> {
 		this.user = user;
 		
 		dialog = new ProgressDialog(ctx);
-		dialog.setMessage("Working ...");
+		dialog.setMessage(Html.fromHtml("<font color='#33B5E5'>Working ...</font>"));
 		dialog.setIndeterminate(false);
 		dialog.setCancelable(false);
 		dialog.show();
@@ -258,7 +316,13 @@ class Task extends AsyncTask<Void, String, String> {
 		String webservice = ResourceUtils.getString(ctx, R.string.time_sense_rest_ws);
 		final TimeSenseRestClient client = new TimeSenseRestClient(webservice);
 		
-		com.handyapps.timesense.dataobjects.Status status = client.authenticate(user);
+		if (user == null) {
+			Dialog.show(ctx, "Unable to communicate. Please check you internet connection and try again", "Error");
+			dialog.dismiss();
+			return;
+		}
+			
+		com.handyapps.timesense.dataobjects.response.Status status = client.authenticate(user);
 		
 		if (status.getStatusCode() == StatusCode.Error) {
 			Dialog.show(ctx, status.getStatusDescription(), "Error");
@@ -267,14 +331,18 @@ class Task extends AsyncTask<Void, String, String> {
 			SettingsService service = SettingsService.getInstance();
 			Settings settings = service.getSettings();
 			
+			if (user.getGcmHash() == null) {
+				Dialog.show(ctx, "Unable to create google messaging id. Ensure you have logged in to google play or please try again." , "Error");
+				dialog.dismiss();
+				return;
+			}
+			
 			settings.setGcm( user.getGcmHash() );
 			settings.setUserId( user.getUserId() );
 			settings.setEmail( user.getEmail() );
 			settings.setSignOnSuccess(true);
 			
 			service.saveSettings();
-			
-			new AsyncContact(ctx).execute();
 			
 			Intent intent = new Intent(ctx, SplashScreenActivity.class);
 			ctx.startActivity(intent);	
@@ -296,23 +364,10 @@ class Task extends AsyncTask<Void, String, String> {
 			
 			user.setGcmHash(gcmHash);
 			
-			System.out.println("Id : " + gcmHash);
-			
-			// create default HTTP Client
-//            DefaultHttpClient httpClient = new DefaultHttpClient();
-// 
-//            // Create new getRequest with below mentioned URL
-//            HttpPost getRequest = new HttpPost("http://192.168.0.2:7001/RwebService/register/123/"+register);
-//            getRequest.setEntity(new StringEntity(register));
-// 
-//            // Execute your request and catch response
-//            HttpResponse response = httpClient.execute(getRequest);
-			
-            
-			System.out.println("GCM Hash Id : " + gcmHash);
 		} catch (IOException e) {
-			Dialog.show(ctx, "Unable to create GCM Id. Err#"+e.toString(), "Error");
+			e.printStackTrace();
 		}
+		
 		return null;
 	}
 }

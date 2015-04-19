@@ -94,10 +94,14 @@
         </LinearLayout>
     </LinearLayout>
 
+    <ScrollView android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/Black"
+        android:layout_gravity="start">
+        
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
         android:background="@color/Black"
         android:orientation="vertical" >
 
@@ -126,7 +130,7 @@
             android:layout_height="0.5dp"
             android:background="@color/Gray" />
 
-        <Button
+        <!-- <Button
             android:id="@+id/butHelp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -144,7 +148,7 @@
             android:layout_width="fill_parent"
             android:layout_height="0.5dp"
             android:background="@color/Gray" />
-
+ -->
         <Button
             android:id="@+id/butAboutUs"
             android:layout_width="wrap_content"
@@ -176,6 +180,26 @@
             android:textColor="@color/DeepSkyBlue"
             android:textSize="15dp"
             android:textStyle="bold" />
+        
+        <View
+            android:id="@+id/primerdivisor"
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/Gray" />
+        
+         <Button
+            android:id="@+id/butSignOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/Black"
+            android:drawableLeft="@drawable/ic_action_sign_out"
+            android:fontFamily="normal"
+            android:padding="5dp"
+            android:text="    Sign Out"
+            android:textColor="@color/DeepSkyBlue"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+        
 
         <View
             android:id="@+id/primerdivisor"
@@ -266,6 +290,7 @@
             android:textSize="15dp"
             android:textStyle="bold" />
     </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -314,7 +339,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:background="@color/Slate"
-                android:text="   Add Clock"
+                android:text="   Edit Clock"
                 android:drawableLeft="@drawable/ic_action_add"
                 android:gravity="left|center"
                 android:textColor="@color/White"

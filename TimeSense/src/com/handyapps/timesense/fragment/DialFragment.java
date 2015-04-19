@@ -11,8 +11,10 @@ import android.provider.Contacts;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -54,17 +56,35 @@ public class DialFragment  extends Fragment {
 		imgViewKaal.setVisibility(ImageView.INVISIBLE);
 		
 		final ImageButton imageButtonCall = (ImageButton) view.findViewById(R.id.imgViewCall);
-		final ImageButton buttonSaveContact = (ImageButton) view.findViewById(R.id.buttonSaveContact);
+		final ImageButton buttonSaveContact = null;//(ImageButton) view.findViewById(R.id.buttonSaveContact);
+		final ImageButton imgButtonBackspace = null;//(ImageButton) view.findViewById(R.id.imgButtonDelete);
 		
-		buttonSaveContact.setOnClickListener( new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent addContactIntent = new Intent(Contacts.Intents.Insert.ACTION, Contacts.People.CONTENT_URI);
-				addContactIntent.putExtra(Contacts.Intents.Insert.PHONE, txtViewPhoneNumber.getText()); // an example, there is other data available
-				startActivity(addContactIntent);
-			}
-		});
+//		imgButtonBackspace.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				DialFragment.this.delOneDigitOfDialNumber(v);
+//			}
+//		});
+//		
+//		imgButtonBackspace.setOnTouchListener(new OnTouchListener() {
+//			
+//			@Override
+//			public boolean onTouch(View v, MotionEvent event) {
+//				DialFragment.this.delOneDigitOfDialNumber(v);
+//				return true;
+//			}
+//		});
+//		
+//		buttonSaveContact.setOnClickListener( new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				Intent addContactIntent = new Intent(Contacts.Intents.Insert.ACTION, Contacts.People.CONTENT_URI);
+//				addContactIntent.putExtra(Contacts.Intents.Insert.PHONE, txtViewPhoneNumber.getText()); // an example, there is other data available
+//				startActivity(addContactIntent);
+//			}
+//		});
 		
 		imageButtonCall.setOnClickListener( new OnClickListener() {
 			

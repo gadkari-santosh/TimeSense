@@ -1,171 +1,301 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:background="@color/DeepSkyBlue"
-    android:keepScreenOn="true"
-    android:gravity="center|center"
-    android:orientation="vertical" >
-
-    <ImageView
-        android:id="@+id/imgViewLogo"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:src="@drawable/img_cloud" />
-
-    <TextView
-        android:id="@+id/txtViewEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_action_email"
-        android:fontFamily="sans-serif-condensed"
-        android:gravity="center|center"
-        android:text=" gadkari.santosh@gmail.com"
-        android:textColor="@color/White"
-        android:visibility="invisible"
-        android:textSize="15dp" />
-
-    <EditText
-        android:id="@+id/editTextPhoneNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_action_call"
-        android:fontFamily="sans-serif-condensed"
-        android:hint="Your Number"
-        android:textColorHint="@color/WhiteSmoke"
-        android:inputType="phone"
-        android:text=""
-        android:textColor="@color/White"
-        android:textSize="30dp" />
+    android:layout_height="match_parent" >
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@color/DeepSkyBlue"
         android:gravity="center|center"
-        android:orientation="horizontal" >
+        android:keepScreenOn="true"
+        android:orientation="vertical"
+        android:textColor="@color/DeepSkyBlue"
+        android:textColorHint="@color/DeepSkyBlue" >
 
-        <EditText
-            android:id="@+id/code1"
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/imgViewLogo"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:hint="-"
-            android:inputType="number"
-            android:text=""
-            android:maxLength="1"
-            android:visibility="invisible"
-            android:enabled="false"
-            android:textColor="@color/White"
-            android:textColorHint="@color/WhiteSmoke"
-            android:imeOptions="actionNext"
-            android:nextFocusDown="@+id/code2"
-            android:textSize="25dp" />
+            android:layout_margin="20dp"
+            android:src="@drawable/img_cloud" />
 
-        <EditText
-            android:id="@+id/code2"
+        <LinearLayout
+            android:id="@+id/layoutDialCodeDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:hint="-"
-             android:maxLength="1"
-            android:enabled="false"
-            android:inputType="number"
-            android:text=""
-            android:visibility="invisible"
-            android:textColor="@color/White"
-            android:textColorHint="@color/WhiteSmoke"
-            android:imeOptions="actionNext"
-            android:nextFocusForward="@+id/code3"
-            android:textSize="25dp" />
+            android:layout_gravity="center|center"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:textColor="@color/DeepSkyBlue" >
 
-        <EditText
-            android:id="@+id/code3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:hint="-"
-             android:maxLength="1"
-            android:enabled="false"
-            android:inputType="number"
-            android:text=""
-            android:visibility="invisible"
-            android:textColor="@color/White"
-            android:imeOptions="actionNext"
-            android:textColorHint="@color/WhiteSmoke"
-            android:nextFocusForward="@+id/code4"
-            android:textSize="25dp" />
+            <!--
+                 <ImageView
+                android:id="@+id/imgViewKaal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:background="@color/White"
+                android:gravity="center|center"
+                android:src="@drawable/ic_default_contactpic"
+                android:text=""
+                android:textColor="@color/Black" />
+            -->
 
-        <EditText
-            android:id="@+id/code4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:hint="-"
-             android:maxLength="1"
-            android:enabled="false"
-            android:inputType="number"
-            android:text=""
-            android:visibility="invisible"
-            android:textColor="@color/White"
-            android:textColorHint="@color/WhiteSmoke"
-            android:imeOptions="actionNext"
-            android:nextFocusForward="@+id/code5"
-            android:textSize="25dp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|center"
+                android:background="@color/DeepSkyBlue"
+                android:orientation="vertical"
+                android:paddingBottom="10dp" >
 
-        <EditText
-            android:id="@+id/code5"
+                <TextView
+                    android:id="@+id/txtViewCountry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/DeepSkyBlue"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/White"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtViewTZ"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/DeepSkyBlue"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/SkyBlue"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+                <!--
+                     <TextView
+                    android:id="@+id/txtViewTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/DeepSkyBlue"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="left"
+                    android:text=""
+                    android:textColor="@color/Tomato"
+                    android:textSize="20dp"/>
+                -->
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/DeepSkyBlue"
+            android:gravity="center|center"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/txtViewCode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_weight="0.3"
+                android:background="@color/DeepSkyBlue"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="left"
+                android:padding="5dp"
+                android:text="Country+Area"
+                android:textColor="@color/White"
+                android:textColorHint="@color/DeepSkyBlue"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/txtViewPhNum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_weight="0.7"
+                android:background="@color/DeepSkyBlue"
+                android:fontFamily="sans-serif-condensed"
+                android:padding="5dp"
+                android:text="Phone Number"
+                android:textColor="@color/White"
+                android:textColorHint="@color/DeepSkyBlue"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/DeepSkyBlue"
+            android:gravity="center|center"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/editTxtCode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_weight="0.3"
+                android:background="@color/White"
+                android:fontFamily="sans-serif-condensed"
+                android:inputType="phone"
+                android:padding="10dp"
+                android:text="+"
+                android:textColor="@color/DeepSkyBlue"
+                android:textColorHint="@color/DeepSkyBlue"
+                android:textSize="30dp" />
+
+            <EditText
+                android:id="@+id/editTextPhoneNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:background="@color/White"
+                android:focusable="true"
+                android:fontFamily="sans-serif-condensed"
+                android:inputType="phone"
+                android:padding="10dp"
+                android:text=""
+                android:textColor="@color/DeepSkyBlue"
+                android:textColorHint="@color/DeepSkyBlue"
+                android:textSize="30dp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:hint="-"
-             android:maxLength="1"
-            android:enabled="false"
-            android:visibility="invisible"
-            android:inputType="number"
-            android:text=""
-            android:textColor="@color/White"
-            android:textColorHint="@color/WhiteSmoke"
-            android:imeOptions="actionNext"
-            android:nextFocusForward="@+id/code6"
-            android:textSize="25dp" />
-        
-         <EditText
-            android:id="@+id/code6"
-            android:layout_width="wrap_content"
+            android:background="@color/DeepSkyBlue"
+            android:gravity="center|center"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/editTxtPin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:fontFamily="sans-serif-condensed"
+                android:hint="- - - - - -"
+                android:inputType="number"
+                android:maxLength="6"
+                android:text=""
+                android:textColor="@color/White"
+                android:textColorHint="@color/White"
+                android:textSize="25dp"
+                android:visibility="invisible" />
+
+           <!--  <EditText
+                android:id="@+id/code2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:fontFamily="sans-serif-condensed"
+                android:hint="-"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="1"
+                android:nextFocusForward="@+id/code3"
+                android:text=""
+                android:textColor="@color/White"
+                android:textColorHint="@color/WhiteSmoke"
+                android:textSize="25dp"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/code3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:fontFamily="sans-serif-condensed"
+                android:hint="-"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="1"
+                android:nextFocusForward="@+id/code4"
+                android:text=""
+                android:textColor="@color/White"
+                android:textColorHint="@color/WhiteSmoke"
+                android:textSize="25dp"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/code4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:fontFamily="sans-serif-condensed"
+                android:hint="-"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="1"
+                android:nextFocusForward="@+id/code5"
+                android:text=""
+                android:textColor="@color/White"
+                android:textColorHint="@color/WhiteSmoke"
+                android:textSize="25dp"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/code5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:fontFamily="sans-serif-condensed"
+                android:hint="-"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="1"
+                android:nextFocusForward="@+id/code6"
+                android:text=""
+                android:textColor="@color/White"
+                android:textColorHint="@color/WhiteSmoke"
+                android:textSize="25dp"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/code6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:fontFamily="sans-serif-condensed"
+                android:hint="-"
+                android:inputType="number"
+                android:maxLength="1"
+                android:onClick="addCode"
+                android:text=""
+                android:textColor="@color/White"
+                android:textColorHint="@color/WhiteSmoke"
+                android:textSize="25dp"
+                android:visibility="invisible" />
+ -->        </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonSignIn"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:hint="-"
-             android:maxLength="1"
-            android:enabled="false"
-            android:visibility="invisible"
-            android:inputType="number"
-            android:text=""
-            android:textColor="@color/White"
-            android:textColorHint="@color/WhiteSmoke"
-            android:onClick="addCode"
-            android:textSize="25dp" />
-         
+            android:layout_margin="20dp"
+            android:background="@color/WhiteSmoke"
+            android:focusable="true"
+            android:text="Verify"
+            android:textColor="@color/DeepSkyBlue" />
+
+        <Button
+            android:id="@+id/buttonSkip"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/DeepSkyBlue"
+            android:text="Skip"
+            android:textColor="@color/White" />
     </LinearLayout>
-    
-     <Button
-        android:id="@+id/buttonSignIn"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:background="@color/WhiteSmoke"
-        android:text="Verify"
-        android:focusable="true"
-        android:textColor="@color/DeepSkyBlue" />
-     
-      <Button
-        android:id="@+id/buttonSkip"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:background="@color/DeepSkyBlue"
-        android:textColor="@color/White"
-        android:text="Skip" />
-    
-</LinearLayout>
+
+</ScrollView>
