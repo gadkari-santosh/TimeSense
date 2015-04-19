@@ -4,6 +4,7 @@
 	<property name="web.inf.dir" value="${basedir}/WEB-INF"/>
 	<property name="classes.dir" value="${build.dir}/WEB-INF/classes"/>
 	<property name="lib.dir" value="${basedir}/lib"/>
+	<property name="config.dir" value="${basedir}/config/"/>
 	<property name="app" value="${basedir}/TimeSenseServer.war"/>
 	
 	<target name="init">
@@ -30,6 +31,11 @@
 		
 		<copydir dest="${build.dir}/WEB-INF" src="${basedir}/WEB-INF"/>
 				
+		<copy todir="${classes.dir}">
+			<fileset dir="${config.dir}">
+			</fileset>
+		</copy>
+		
 		<war destfile="${app}">
 			<fileset dir="${build.dir}" id="id">
 			</fileset>

@@ -8,8 +8,8 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.google.gson.Gson;
-import com.handyapps.tss.rest.DataInfo;
-import com.service.UserService;
+import com.handyapps.timesense.dataobjects.User;
+import com.handyapps.timesense.service.UserService;
 
 public class TestUserService {
 
@@ -22,18 +22,10 @@ public class TestUserService {
 		numbers.add("+447404015266");
 		numbers.add("+65898293892");
 		
-		List<String> timeSense = service.findTimeSenseUsers("", numbers);
+		List<User> timeSense = service.findTimeSenseUsers("", numbers);
 		
 		Assert.assertEquals("+447404015266", timeSense.get(0));
 		
 		Gson gson = new Gson();
-		
-		DataInfo info = new DataInfo();
-		
-		String str = info.getTimeSenseInfo( gson.toJson(numbers) );
-		
-		timeSense = gson.fromJson(str, ArrayList.class);
-		
-		Assert.assertEquals("+447404015266", timeSense.get(0));
 	}
 }

@@ -7,11 +7,12 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.dao.DAO;
-import com.dataobjects.Authentication;
-import com.dataobjects.Status;
-import com.dataobjects.StatusCode;
-import com.dataobjects.User;
+import com.handyapps.timesense.authenticate.NexmoAuthenticator;
+import com.handyapps.timesense.dao.DAO;
+import com.handyapps.timesense.dataobjects.Authentication;
+import com.handyapps.timesense.dataobjects.User;
+import com.handyapps.timesense.dataobjects.response.Status;
+import com.handyapps.timesense.dataobjects.response.StatusCode;
 
 public class TestAuthenticate {
 
@@ -43,7 +44,7 @@ public class TestAuthenticate {
 		Assert.assertEquals("status code","Success: SMS Sent to "+ phone, status);
 		
 		DAO dao = new DAO();
-		Authentication authentication = dao.getAuthenticationByPhone(user.getUserId());
+		Authentication authentication = dao.getAuthenticationByPhone(user);
 		
 		user = new User();
 		user.setUserId(phone);
@@ -73,7 +74,7 @@ public class TestAuthenticate {
 		Assert.assertEquals("status code","Success: SMS Sent to "+ phone, status);
 		
 		DAO dao = new DAO();
-		Authentication authentication = dao.getAuthenticationByPhone(user.getUserId());
+		Authentication authentication = dao.getAuthenticationByPhone(user);
 		
 		user = new User();
 		user.setUserId(phone);
