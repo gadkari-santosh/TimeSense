@@ -9,6 +9,7 @@ package com.handyapps.timesense;
 
 public final class Manifest {
     public static final class permission {
-        public static final String C2D_MESSAGE="com.androidhive.pushnotifications.permission.C2D_MESSAGE";
+        public static final String C2D_MESSAGE="com.handyapps.timesense.permission.C2D_MESSAGE";
+        public static final String INTERNET="android.permission.INTERNET";
     }
 }
